@@ -118,25 +118,26 @@ Note
 - The synonyms approach: Default matching is **exact** (lowercased). Fuzzy or partial matches require custom logic.
 
 
-@version: 1.30
+@version: 1.37
 @project: SFPPy - SafeFoodPackaging Portal in Python initiative
 @author: INRAE\\olivier.vitrac@agroparistech.fr
 @licence: MIT
 @Date: 2024-03-10
-@rev: 2025-03-06
+@rev: 2025-03-20
 
 Version History
 ---------------
 - 1.0: Initial version, supporting local caching, synonyms index, and direct PubChem lookup.
 - 1.2: Production
 - 1.21: PubChem cap rate enforced (urgent request)
+- 1.32: migrant Toxtree
+- 1.37: Colab compliance
 
 """
 
 
 import os,io
 import subprocess
-import requests
 import json
 import re
 import glob
@@ -144,6 +145,39 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 import time
+
+
+# use requests if available, and fall back to a custom requests-like shim using pyfetch when in JupyterLite.
+try:
+    import requests
+except ImportError:
+    from pyodide.http import pyfetch
+
+    class Response:
+        def __init__(self, status, content, headers):
+            self.status_code = status
+            self.content = content
+            self.headers = headers
+
+        def json(self):
+            import json
+            return json.loads(self.content.decode())
+
+        @property
+        def text(self):
+            return self.content.decode()
+
+        @property
+        def ok(self):
+            return 200 <= self.status_code < 300
+
+    class requests:
+        @staticmethod
+        async def get(url, timeout=2, **kwargs):
+            response = await pyfetch(url, method="GET", **kwargs)
+            content = await response.bytes()
+            return Response(response.status, content, response.headers)
+    sys.modules["requests"] = requests
 
 try:
     from PIL import Image, ImageChops
@@ -167,7 +201,7 @@ __credits__ = ["Olivier Vitrac"]
 __license__ = "MIT"
 __maintainer__ = "Olivier Vitrac"
 __email__ = "olivier.vitrac@agroparistech.fr"
-__version__ = "1.32"
+__version__ = "1.37"
 
 
 # %% SFFy.Comply databases version 2025
