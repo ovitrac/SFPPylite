@@ -12,6 +12,14 @@
 SFPPy-Lite is a **lightweight, browser-based preview** of the full SFPPy framework.
 It’s built on [**JupyterLite**](https://jupyterlite.readthedocs.io/), which runs Python entirely in WebAssembly — so you can try the tools **instantly**, right in your browser.
 
+
+
+**Access the full SFPPy framework for production**:
+
+<a href="https://github.com/ovitrac/SFPPy" target="_blank" title="SFPPy – Python Framework for Food Contact Compliance">
+  <img src="https://img.shields.io/badge/SFPPy-%F0%9F%8D%8F%E2%8F%A9%F0%9F%8D%8E_PARENT PROJECT-4CAF50?style=for-the-badge&logo=python" alt="SFPPy 🍏⏩🍎">
+</a>
+
 ---
 
 ### ⚠️ Status: Early Preview
