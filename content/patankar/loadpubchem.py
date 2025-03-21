@@ -136,7 +136,7 @@ Version History
 """
 
 
-import os,io
+import os,io, sys
 import subprocess
 import json
 import re
@@ -148,9 +148,11 @@ import time
 
 
 # use requests if available, and fall back to a custom requests-like shim using pyfetch when in JupyterLite.
+_LITE_ = "pyodide" in sys.modules:
 try:
-    import requests
+    import requests  # use native if available
 except ImportError:
+    import asyncio
     from pyodide.http import pyfetch
 
     class Response:
@@ -171,13 +173,26 @@ except ImportError:
         def ok(self):
             return 200 <= self.status_code < 300
 
-    class requests:
-        @staticmethod
-        async def get(url, timeout=2, **kwargs):
+    def _get_sync(url, timeout=2, **kwargs):
+        async def _get_async():
             response = await pyfetch(url, method="GET", **kwargs)
             content = await response.bytes()
             return Response(response.status, content, response.headers)
-    sys.modules["requests"] = requests
+
+        # JupyterLite already runs in an event loop — use this trick:
+        if "pyodide" in sys.modules:
+            return asyncio.ensure_future(_get_async())  # returns coroutine, must be awaited
+        else:
+            return asyncio.run(_get_async())  # standard Python
+
+    class requests:
+        @staticmethod
+        def get(url, timeout=2, **kwargs):
+            return _get_sync(url, timeout=timeout, **kwargs)
+
+    sys.modules["requests"] = requests  # optional: let others import it transparently
+
+
 
 try:
     from PIL import Image, ImageChops
@@ -1651,7 +1666,10 @@ class migrant:
         os.makedirs(self._cache_SDF_dir, exist_ok=True)
         if self.structure_file and (not os.path.isfile(self.structure_file) or self.no_cache):
             sdf_url = f"{self.PUBCHEM_ROOT_URL}/CID/{self.cid}/SDF"
-            response = requests.get(sdf_url, timeout=2)
+            if _LITE_:
+                response = await requests.get(sdf_url, timeout=2)
+            else:
+                response = requests.get(sdf_url, timeout=2)
             if response.status_code == 200:
                 with open(self.structure_file, 'wb') as f:
                     f.write(response.content)
@@ -1663,7 +1681,10 @@ class migrant:
         os.makedirs(self._cache_PNG_dir, exist_ok=True)
         if self.image_file and (not os.path.isfile(self.image_file) or self.no_cache):
             png_url = f"{self.PUBCHEM_ROOT_URL}/CID/{self.cid}/PNG?image_size={self.IMAGE_SIZE[0]}x{self.IMAGE_SIZE[1]}"
-            response = requests.get(png_url, timeout=1)
+            if _LITE_:
+                response = await requests.get(sdf_url, timeout=2)
+            else:
+                response = requests.get(png_url, timeout=1)
             if response.status_code == 200:
                 with open(self.image_file, 'wb') as f:
                     f.write(response.content)
