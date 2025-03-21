@@ -3,7 +3,7 @@
 
 r"""
 ===============================================================================
-SFPPy Module: LoadPubChem
+SFPPy Module: LoadPubChem  | LITE VERSION !!! (not for production)
 ===============================================================================
 Retrieves and caches molecular properties from PubChem for use in migration modeling.
 Stores both detailed (`full.json`) and lightweight (`simple.json`) records.
@@ -147,52 +147,12 @@ from datetime import datetime
 import time
 
 
-# use requests if available, and fall back to a custom requests-like shim using pyfetch when in JupyterLite.
-_LITE_ = "pyodide" in sys.modules:
-try:
-    import requests  # use native if available
-except ImportError:
-    import asyncio
-    from pyodide.http import pyfetch
-
-    class Response:
-        def __init__(self, status, content, headers):
-            self.status_code = status
-            self.content = content
-            self.headers = headers
-
-        def json(self):
-            import json
-            return json.loads(self.content.decode())
-
-        @property
-        def text(self):
-            return self.content.decode()
-
-        @property
-        def ok(self):
-            return 200 <= self.status_code < 300
-
-    def _get_sync(url, timeout=2, **kwargs):
-        async def _get_async():
-            response = await pyfetch(url, method="GET", **kwargs)
-            content = await response.bytes()
-            return Response(response.status, content, response.headers)
-
-        # JupyterLite already runs in an event loop — use this trick:
-        if "pyodide" in sys.modules:
-            return asyncio.ensure_future(_get_async())  # returns coroutine, must be awaited
-        else:
-            return asyncio.run(_get_async())  # standard Python
-
-    class requests:
-        @staticmethod
-        def get(url, timeout=2, **kwargs):
-            return _get_sync(url, timeout=timeout, **kwargs)
-
-    sys.modules["requests"] = requests  # optional: let others import it transparently
-
-
+# Use requests if available, fall back to open_url in JupyterLite
+_LITE_ = sys.platform == 'emscripten' or "pyodide" in sys.modules
+if not _LITE_:
+    import requests
+else:
+    from pyodide.http import open_url
 
 try:
     from PIL import Image, ImageChops
@@ -229,7 +189,10 @@ else:
 # %% Private functions and constants (used by estimators)
 
 # full path of patankar/ used cache.PubChem, cache.Toxtree, private/toxtree/
-_PATANKAR_FOLDER = os.path.dirname(__file__)
+if _LITE_:
+    _PATANKAR_FOLDER = "/drive/patankar"
+else:
+    _PATANKAR_FOLDER = os.path.dirname(__file__)
 
 # Enforcing rate limiting cap: https://www.ncbi.nlm.nih.gov/books/NBK25497/
 PubChem_MIN_DELAY = 1 / 3.0  # 1/3 second (333ms)
@@ -307,7 +270,7 @@ def polarity_index(logP=None, V=None, name=None,
         if name is None:
             #raise ValueError("Provide either (logP, V) pair or a valid solvent name.")
             return None
-        from patankar.loadpubchem import migrant
+        #from patankar.loadpubchem import migrant
         tmp = migrant(name)
         logP, V = tmp.logP, tmp.molarvolumeMiller
 
@@ -1099,13 +1062,19 @@ class CompoundIndex:
 # %% Configuration of migrant class: cache, available Dmodel and kmodel
 
 # Main compound database
-dbdefault = CompoundIndex(cache_dir="cache.PubChem", index_file="pubchem_index.json")
+dbdefault = None # we prevent a call to CompoundIndex, if the class if not instantiated
+# Delay creation of dbdefault until needed
+def get_default_index():
+    global dbdefault
+    if dbdefault is None:
+        dbdefault = CompoundIndex(cache_dir="cache.PubChem", index_file="pubchem_index.json")
+    return dbdefault
 
 # Model extensions to be tested with PropertyModelSelector()
 """
 # ==============================================================================================
-#  Use this emplate to validate the validation of alternative models by PropertyModelSelector()
-#    The syntax is sophisticated and accept multiple paradims and criteria.
+#  Use this template to validate the validation of alternative models by PropertyModelSelector()
+#    The syntax is sophisticated and accepts multiple paradims and criteria.
 #
 #    see patankar.property.PropertyModelSelector documentation for more details
 # ==============================================================================================
@@ -1327,7 +1296,7 @@ class migrant:
                               "porosity":0       # of amorphous phase (1-crystallinity)(1-porosity)
                               }, # do not use None
 
-                 db=dbdefault, # cache.PubChem database
+                 db = None, # cache.PubChem database
 
                  raiseerror=True, # raise an error if the susbtance is not found
 
@@ -1391,8 +1360,11 @@ class migrant:
         """
 
         # local import
-        # import implicity property migration models (e.g., Dpiringer)
+        # import implicitly property migration models (e.g., Dpiringer)
         from patankar.property import MigrationPropertyModels, MigrationPropertyModel_validator
+
+        if db is None: # we use the deferred mechanism (the database is read once for all instances)
+            db = get_default_index() # cache.PubChem database
 
         self.compound = None   # str
         self.name = None       # str or list
@@ -1666,13 +1638,16 @@ class migrant:
         os.makedirs(self._cache_SDF_dir, exist_ok=True)
         if self.structure_file and (not os.path.isfile(self.structure_file) or self.no_cache):
             sdf_url = f"{self.PUBCHEM_ROOT_URL}/CID/{self.cid}/SDF"
-            if _LITE_:
-                response = await requests.get(sdf_url, timeout=2)
+            if _LITE_:  # Running in Pyodide/JupyterLite – use browser API
+                file_obj = open_url(sdf_url)  # browser api
+                data = file_obj.read()        # read text content from StringIO
+                data = data.encode()          # ensure bytes for writing
             else:
                 response = requests.get(sdf_url, timeout=2)
-            if response.status_code == 200:
+                data = response.content if response.status_code == 200 else None
+            if data is not None:
                 with open(self.structure_file, 'wb') as f:
-                    f.write(response.content)
+                    f.write(data)
             else:
                 raise ValueError(f"Failed to download SDF file for CID {self.cid}.")
 
@@ -1682,13 +1657,18 @@ class migrant:
         if self.image_file and (not os.path.isfile(self.image_file) or self.no_cache):
             png_url = f"{self.PUBCHEM_ROOT_URL}/CID/{self.cid}/PNG?image_size={self.IMAGE_SIZE[0]}x{self.IMAGE_SIZE[1]}"
             if _LITE_:
-                response = await requests.get(sdf_url, timeout=2)
+                file_obj = open_url(png_url, mode="rb")  # ensure binary read
+                data = file_obj.read()                   # already in bytes
             else:
                 response = requests.get(png_url, timeout=1)
-            if response.status_code == 200:
+                data = response.content if response.status_code == 200 else None
+
+            if data is not None:
                 with open(self.image_file, 'wb') as f:
-                    f.write(response.content)
+                    f.write(data)
                 self._crop_image()
+            else:
+                raise ValueError(f"Failed to download PNG for CID {self.cid}.")
 
     def _crop_image(self):
         """Crops white background from the PNG image."""
@@ -2571,53 +2551,4 @@ class migrantToxtree(migrant):
 # Usage example:
 # ==========================
 if __name__ == "__main__":
-    # debug
-    m = migrant("ethane")
-    migrantToxtree("acetone")
-    m = migrant("di(2-ethylhexyl) phthalate")
-    repr(m)
-    m=migrant("bisphenol A")
-    m.count_rings
-    m.volume_3d
-    m=migrant("water")
-    m.polarityindex
-    # examples
-    db = CompoundIndex()
-    df_simple = db.find("limonene", output_format="simple")
-    df_simple = db.find("aspirin", output_format="simple")
-    df_simple = db.find("irganox 1076", output_format="simple")
-    df_simple = db.find("anisole", output_format="simple")
-    print("Simple result:\n", df_simple)
-
-    df_full = db.find("anisole", output_format="full")
-    print("Full result:\n", df_full)
-
-    # for migration modeling
-    m = migrant(name='anisole')
-    print(m)
-    m = migrant(name='limonene')
-    print(m)
-    m = migrant(name='irganox 1076')
-    print(m)
-    m = migrant(name='irgafos 168')
-    print(m)
-    m = migrant() # toluene
-    print(m)
-    # Piringer D value (several models can be implemented in module property.py)
-    Dval = m.Deval(polymer="PET",T=20)
-    print(Dval)
-
-    # MigranToxtree tests
-    substance = migrantToxtree("irganox 1010")
-    c = substance.cramer
-    c2 = substance.cramer2
-    c3 = substance.cramer3
-    print("Cramer Class:", c)
-    print("Cramer2 Class:", c2)
-    print("Cramer3 Class:", c3)
-
-    # suggest an alternative D model
-    from patankar.layer import gPET, LDPE, PP, rigidPVC
-    material = gPET()+LDPE()+PP()+rigidPVC()
-    m.suggest_alt_Dmodel(material,3)
-    m.suggest_alt_Dmodel(material,1)
+    pass
