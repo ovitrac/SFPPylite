@@ -1,7 +1,7 @@
-# **🐍 SFPPy-Lite 💫**
+# **🐍 SFPPy-Lite 🌐**
 
-> **SFPPy: A Python Framework for Food Contact Compliance & Risk Assessment**
-> 🍏⏩🍎 SFPPy-Lite runs **directly in your browser** — no server, no install!
+> **SFPPy**: A Python Framework for Food Contact Compliance & Risk Assessment  
+> 🍏⏩🍎 **SFPPy-Lite** runs **entirely in your browser** — no server, no install, fully operational!
 
 [![🧪 Try it online!](https://img.shields.io/badge/launch-demo-blueviolet?logo=jupyter&style=for-the-badge)](https://ovitrac.github.io/SFPPylite/)
 
@@ -9,12 +9,15 @@
 
 ### 🚀 What is SFPPy-Lite?
 
-SFPPy-Lite is a **lightweight, browser-based preview** of the full SFPPy framework.
-It’s built on [**JupyterLite**](https://jupyterlite.readthedocs.io/), which runs Python entirely in WebAssembly — so you can try the tools **instantly**, right in your browser.
+🌐**SFPPy-Lite** is a **lightweight, browser-based preview** of the full SFPPy framework.  
+Built on [**JupyterLite**](https://jupyterlite.readthedocs.io/), it runs Python via WebAssembly using [**Pyodide**](https://pyodide.org/).  
+This means you can explore the **SFPPy’s core functionalities** **instantly**, directly from your browser — **no installation required**.
 
+![SFPPylite](https://github.com/ovitrac/SFPPylite/raw/refs/heads/main/extra/videos/SFPPylite.gif)
 
+---
 
-**Access the full SFPPy framework for production**:
+### 🍏⏩🍎 Access the Full SFPPy Framework
 
 <a href="https://github.com/ovitrac/SFPPy" target="_blank" title="SFPPy – Python Framework for Food Contact Compliance">
   <img src="https://img.shields.io/badge/SFPPy-%F0%9F%8D%8F%E2%8F%A9%F0%9F%8D%8E_PARENT PROJECT-4CAF50?style=for-the-badge&logo=python" alt="SFPPy 🍏⏩🍎">
@@ -22,22 +25,27 @@ It’s built on [**JupyterLite**](https://jupyterlite.readthedocs.io/), which ru
 
 ---
 
-### ⚠️ Status: Early Preview
+### 🚧 Status: Fully Functional Demo
 
-> [!WARNING]
-> This is a **very early version** of the project.
-> It is not suitable for production use.
+> [!WARNING]  
+> 💡 Open the notebook `demo.ipynb` to begin (see the [video](https://github.com/ovitrac/SFPPy/blob/main/extra/demo.html)).  
+> The first-time import triggers **live Python code compilation** of 🌐**SFPPyLite** in your browser — ⏱️ this may take **3–5 minutes**.  
+>
+> ✅ Subsequent operations (simulation, plotting, exporting to PDF/XLSX) are almost instantaneous.  
+> ✅ SFPPy **Widgets** are fully supported and run natively in-browser.  
+> 🪧🌐SFPPylite is shipped with the full 🇪🇺 Annex 1 of Regulation (EU) 10/2011. The automatic retrieval of substances on PubChem is partially available.
+> ❌ **ToxTree** is not supported.
 
 ---
 
-### 🌐 Requirements
+### 💫 Requirements
 
-SFPPy-Lite has been tested on:
+🌐**SFPPy-Lite** has been tested successfully on:
 
 - ✅ Firefox 90+
-- ✅ Chromium / Chrome 89+
-- ✅ Safari Tech Preview (partial)
-- ❌ Mobile devices: not fully supported yet
+- ✅ Chrome / Chromium 89+
+- ✅ Safari Tech Preview (partial support)
+- ❌ Mobile browsers: not fully supported yet
 
 ---
 
@@ -45,12 +53,12 @@ SFPPy-Lite has been tested on:
 
 - [JupyterLite](https://jupyterlite.readthedocs.io/)
 - [Pyodide](https://pyodide.org/)
-- [SFPPy](https://github.com/ovitrac/SFPPy) – full Python framework
+- [SFPPy](https://github.com/ovitrac/SFPPy) – Full Python framework
 
 ---
 
 ### 📬 Feedback?
 
-Feel free to [open an issue](https://github.com/ovitrac/SFPPy/issues) or email me.
+💬 Found a bug or have suggestions? [Open an issue](https://github.com/ovitrac/SFPPy/issues) or reach out via email — feedback is welcome!
 
 ---
