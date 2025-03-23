@@ -28,7 +28,7 @@ This means you can explore the **SFPPy’s core functionalities** **instantly**,
 ### 🚧 Status: Fully Functional Demo
 
 > [!WARNING]  
-> 💡 Open the notebook `demo.ipynb` to begin (see the [video](https://github.com/ovitrac/SFPPy/blob/main/extra/demo.html)).  
+> 💡 Open the notebook `demo.ipynb` to begin (see the [video](https://ovitrac.github.io/SFPPy/SFPPylite_demo.html).  
 > The first-time import triggers **live Python code compilation** of 🌐**SFPPyLite** in your browser — ⏱️ this may take **3–5 minutes**.  
 >
 > ✅ Subsequent operations (simulation, plotting, exporting to PDF/XLSX) are almost instantaneous.  
