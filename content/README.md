@@ -11,9 +11,9 @@
 
 🌐**SFPPy-Lite** is a **lightweight, browser-based preview** of the full SFPPy framework.  
 Built on [**JupyterLite**](https://jupyterlite.readthedocs.io/), it runs Python via WebAssembly using [**Pyodide**](https://pyodide.org/).  
-This means you can explore the core functionalities of SFPPy **instantly**, directly from your browser — **no installation required**.
+This means you can explore the **SFPPy’s core functionalities** **instantly**, directly from your browser — **no installation required**.
 
-![SFPPylite](https://github.com/ovitrac/SFPPy/blob/main/extra/videos/SFPPylite.gif)
+![SFPPylite](https://github.com/ovitrac/SFPPylite/raw/refs/heads/main/extra/videos/SFPPylite.gif)
 
 ---
 
@@ -28,7 +28,7 @@ This means you can explore the core functionalities of SFPPy **instantly**, dire
 ### 🚧 Status: Fully Functional Demo
 
 > [!WARNING]  
-> 💡 Open the notebook `demo.ipynb` to begin (see the [video]((https://github.com/ovitrac/SFPPy/blob/main/extra/videos/SFPPylite.mp4))).  
+> 💡 Open the notebook `demo.ipynb` to begin (see the [video](https://github.com/ovitrac/SFPPy/blob/main/extra/demo.html)).  
 > The first-time import triggers **live Python code compilation** of 🌐**SFPPyLite** in your browser — ⏱️ this may take **3–5 minutes**.  
 >
 > ✅ Subsequent operations (simulation, plotting, exporting to PDF/XLSX) are almost instantaneous.  
