@@ -1458,27 +1458,4 @@ class Packaging3D:
 # USAGE EXAMPLES
 # ----------------------------------------------------------------------------
 if __name__ == "__main__":
-
-    # 1) A "bottle" composed of two cylinders
-    bottle_pkg = Packaging3D(
-        "bottle",
-        body_radius=(50, "mm"), # 0.05 m
-        body_height=(0.2, "m"), # 0.20 m
-        neck_radius=(2, "cm"),  # 0.02 m
-        neck_height=0.05        # 0.05 m
-    )
-    b_vol, b_area = bottle_pkg.get_volume_and_area()
-    print("Bottle Volume (m**3):", b_vol)
-    print("Bottle Surface (m**2):", b_area)
-
-    # 2) A single shape: "can" is just a cylinder
-    can_pkg = Packaging3D("can", radius=(4,"cm"), height=(12,"cm"))
-    c_vol, c_area = can_pkg.get_volume_and_area()
-    print("Can Volume (m**3):", c_vol)
-    print("Can Surface (m**2):", c_area)
-
-    # 3) A "cube" with side=10 cm
-    cube_pkg = Packaging3D("cube", side=(10,"cm"))
-    cu_vol, cu_area = cube_pkg.get_volume_and_area()
-    print("Cube Volume (m**3):", cu_vol)
-    print("Cube Surface (m**2):", cu_area)
+    pass

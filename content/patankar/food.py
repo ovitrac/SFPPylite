@@ -1875,22 +1875,4 @@ class yogurt(realfood, semisolid, ethanol50):
 # Example usage (for debugging)
 # -------------------------------------------------------------------
 if __name__ == '__main__':
-    food_tree_widget = create_food_tree_widget()
-    F = foodlayer()
-    E95 = ethanol()
-    Y = yogurt()
-    YF = yogurt(name="danone", volume=(150,"mL"))
-    YF.description = "yogurt with fruits"  # You can still update the description on the instance if needed
-
-    print("\n",repr(F),"\n"*2)
-    print("\n",repr(E95),"\n"*2)
-    print("\n",repr(Y),"\n"*2)
-    print("\n",repr(YF),"\n"*2)
-
-    # How to define a new food easily:
-    class sandwich(realfood, solid, fat):
-        name = "sandwich"
-    S = sandwich()
-    print("\n", repr(S))
-
-    help_food()
+    pass

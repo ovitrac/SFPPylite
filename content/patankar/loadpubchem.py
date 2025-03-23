@@ -3,7 +3,7 @@
 
 r"""
 ===============================================================================
-SFPPy Module: LoadPubChem  | LITE VERSION !!! (not for production)
+SFPPy Module: LoadPubChem
 ===============================================================================
 Retrieves and caches molecular properties from PubChem for use in migration modeling.
 Stores both detailed (`full.json`) and lightweight (`simple.json`) records.
@@ -131,7 +131,7 @@ Version History
 - 1.2: Production
 - 1.21: PubChem cap rate enforced (urgent request)
 - 1.32: migrant Toxtree
-- 1.37: Colab compliance
+- 1.37: Colab compliance, lite
 
 """
 
@@ -147,13 +147,14 @@ from datetime import datetime
 import time
 
 
-# Use requests if available, fall back to open_url in JupyterLite
+# Detection if is SFPPY (lite) running in a browser via Jupyterlite
 _LITE_ = sys.platform == 'emscripten' or "pyodide" in sys.modules
 if not _LITE_:
-    import requests
+    import requests # not available in Jupyterlite
 else:
-    from pyodide.http import open_url
+    from pyodide.http import open_url, pyfetch # native javascript instead
 
+# Test whether PIL is available
 try:
     from PIL import Image, ImageChops
     PIL_AVAILABLE = True
@@ -169,7 +170,7 @@ import patankar.private.EUFCMannex1 as complyEU # Annex 1 (we import all the mod
 
 __all__ = ['CompoundIndex', 'create_substance_widget', 'dbannex1', 'dbdefault', 'floatNone', 'get_compounds', 'migrant', 'migrantToxtree', 'parse_molblock', 'parse_sdf', 'polarity_index']
 
-__project__ = "SFPPy"
+__project__ = "SFPPylite"
 __author__ = "Olivier Vitrac"
 __copyright__ = "Copyright 2022"
 __credits__ = ["Olivier Vitrac"]
@@ -739,6 +740,7 @@ class CompoundIndex:
         :param index_file: local JSON file holding synonyms → [cids] index
         """
         self.cache_dir = os.path.join(_PATANKAR_FOLDER,cache_dir)
+        
         os.makedirs(self.cache_dir, exist_ok=True)
 
         self.index_file = os.path.join(self.cache_dir, index_file)
@@ -1635,10 +1637,12 @@ class migrant:
 
     def _download_SDF(self):
         """Downloads and caches the SDF structure file from PubChem."""
+        if self.structure_file and os.path.isfile(self.structure_file) and not self.no_cache:
+            return
         os.makedirs(self._cache_SDF_dir, exist_ok=True)
-        if self.structure_file and (not os.path.isfile(self.structure_file) or self.no_cache):
+        if self.structure_file:
             sdf_url = f"{self.PUBCHEM_ROOT_URL}/CID/{self.cid}/SDF"
-            if _LITE_:  # Running in Pyodide/JupyterLite – use browser API
+            if _LITE_:  # Running in Pyodide/JupyterLite – use browser API                
                 file_obj = open_url(sdf_url)  # browser api
                 data = file_obj.read()        # read text content from StringIO
                 data = data.encode()          # ensure bytes for writing
@@ -1653,22 +1657,37 @@ class migrant:
 
     def _download_PNG(self):
         """Downloads and caches the PNG thumb file from PubChem."""
+        if self.image_file and os.path.isfile(self.image_file) and not self.no_cache:
+            return
         os.makedirs(self._cache_PNG_dir, exist_ok=True)
-        if self.image_file and (not os.path.isfile(self.image_file) or self.no_cache):
-            png_url = f"{self.PUBCHEM_ROOT_URL}/CID/{self.cid}/PNG?image_size={self.IMAGE_SIZE[0]}x{self.IMAGE_SIZE[1]}"
+        if self.image_file:
             if _LITE_:
-                file_obj = open_url(png_url, mode="rb")  # ensure binary read
-                data = file_obj.read()                   # already in bytes
+                import asyncio
+                loop = asyncio.get_event_loop()
+                loop.run_until_complete(self._download_PNG_async())
             else:
+                png_url = f"{self.PUBCHEM_ROOT_URL}/CID/{self.cid}/PNG?image_size={self.IMAGE_SIZE[0]}x{self.IMAGE_SIZE[1]}"
                 response = requests.get(png_url, timeout=1)
-                data = response.content if response.status_code == 200 else None
+                if response.status_code == 200:
+                    with open(self.image_file, 'wb') as f:
+                        f.write(response.content)
+                    self._crop_image()
+                else:
+                    raise ValueError(f"Failed to download PNG for CID {self.cid}.")
 
-            if data is not None:
-                with open(self.image_file, 'wb') as f:
-                    f.write(data)
-                self._crop_image()
-            else:
-                raise ValueError(f"Failed to download PNG for CID {self.cid}.")
+
+    async def _download_PNG_async(self):
+        """LITE version (async) of _download_PNG using async pyfetch."""
+        png_url = f"{self.PUBCHEM_ROOT_URL}/CID/{self.cid}/PNG?image_size={self.IMAGE_SIZE[0]}x{self.IMAGE_SIZE[1]}"
+        response = await pyfetch(png_url)
+        if response.status == 200:
+            data = await response.bytes()  # obtain raw bytes
+            with open(self.image_file, 'wb') as f:
+                f.write(data)
+            self._crop_image()
+        else:
+            raise ValueError(f"Failed to download PNG for CID {self.cid}.")
+
 
     def _crop_image(self):
         """Crops white background from the PNG image."""
@@ -1707,16 +1726,28 @@ class migrant:
         """Returns the rasterized image of the migrant"""
         if self.image_file:
             self._download_PNG() # download PNG if not cached
-            return Image.open(self.image_file)
+            if os.path.isfile(self.image_file):
+                return Image.open(self.image_file)
+            else:
+                if _LITE_:
+                    print(f"the raster image of {self.compound} is not available yet")
+                else:
+                    print(f"the expected file {self.image_file} does not exist")
 
     # rawimage property
     @property
     def _rawimage(self):
         """returns the raw (binary) image of the migrant"""
         if self.image_file:
-            with open(self.image_file, "rb") as f:
-                image_bytes = f.read()
-            return image_bytes
+            if os.path.isfile(self.image_file):
+                with open(self.image_file, "rb") as f:
+                    image_bytes = f.read()
+                return image_bytes
+            else:
+                if _LITE_:
+                    print(f"the raster image of {self.compound} is not available yet")
+                else:
+                    print(f"the expected file {self.image_file} does not exist")
 
     # structure
     @property
@@ -1724,7 +1755,10 @@ class migrant:
         """Returns the metadata associated with the migrant"""
         if self.structure_file:
             self._download_SDF() # download SDF if not cached
-            return parse_sdf(self.structure_file)
+            if os.path.isfile(self.structure_file):
+                return parse_sdf(self.structure_file)
+            else:
+                print(f"the expected file {self.structure_file} does not exist")
 
     # low-level model validator and property assignment
     def _validate_and_set_model(self, prop, model, template, update_params,PropertyModel,PropertyModelValidator):

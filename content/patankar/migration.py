@@ -175,7 +175,8 @@ def is_valid_figure(fig):
     Returns:
     - bool: True if `fig` is a valid, open Matplotlib figure.
     """
-    return isinstance(fig, Figure) and plt.fignum_exists(fig.number)
+    return isinstance(fig, Figure) and hasattr(fig, 'canvas') and fig.canvas is not None
+
 
 def _generate_figname(fig, extension):
     """
@@ -450,7 +451,7 @@ _LaTeXavailable = is_latex_available()
 
 # Clean tex
 def cleantex(text,islatexavailable=_LaTeXavailable):
-    """
+    r"""
     Process a LaTeX string to guess the plain text by performing substitutions
     and removing formatting characters, while preserving inner content as much as possible.
 
@@ -907,10 +908,10 @@ def create_plotmigration_widget():
          description="t_max:"
     )
     num_values_slider = widgets.IntSlider(
-         value=5,
-         min=3,
-         max=500,
-         step=1,
+         value=300,
+         min=10,
+         max=1000,
+         step=10,
          description="n_vals:",
          continuous_update=False,
          layout=widgets.Layout(width="250px")
@@ -3539,74 +3540,4 @@ def compute_fc_profile_PBC(C, t, de, dw, he, hw, k, D, xmesh, xreltol=0):
 # Example usage (for debugging / standalone tests)
 # -------------------------------------------------------------------
 if __name__ == '__main__':
-    from patankar.loadpubchem import migrant
-    from patankar.food import nofood
-    from patankar.layer import material
-    from patankar.geometry import Packaging3D
-    m = migrant("benzophenone")
-    B =Packaging3D("bottle",body_radius=(20, "mm"),body_height=(15.5, "cm"),neck_radius=(1.2, "cm"),neck_height=(2,"cm"))
-    HDPE = material('HDPE')(l=(1,'mm'),C0=0) # we assume 0 concentration in the bottle
-    PVC = material('PVC cling film')(l=(150,'um'),C0=1000) # empirical concentral of 1000 ppm in the material
-    P = HDPE+PVC
-    storage = nofood(contacttime=(3,"months"),contacttemperature=(30,'degC'))
-    S = m % storage << B >> P >> storage
-
-
-    from patankar.food import ethanol, setoff, nofood
-    from patankar.layer import PP
-
-    medium = ethanol()
-    medium.CF0 = 100 # works
-    medium.update(CF0=100) # works also
-    A = layer(layername="layer A",k=2,C0=0,D=1e-16)
-    B = layer(layername="layer B")
-    multilayer = A + B
-    sol1 = senspatankar(multilayer, medium,t=(25,"days"))
-    sol1.plotCF(t=np.array([3,10,14])*24*3600)
-    sol1.plotCx()
-    r=sol1.restart
-    repr(r)
-
-    # extend the solution for 40 days
-    sol2 = sol1.resume((40,"days"))
-    sol2.plotCF()
-    sol2.plotCx()
-
-    # extend the solution for 60 days from sol2
-    sol3 = sol2.resume((60,"days"))
-    sol3.update(name="sol3")
-    sol3.plotCF()
-    sol3.plotCx()
-
-    # merge the previous solutions 1+2
-    # extend the solution for 60 days from sol12=sol1+sol2
-    sol12 = sol1+sol2
-    sol123a = sol12.resume((60,"days"))
-    sol123a.update(name="sol123a")
-    sol123a.plotCF()
-    sol123a.plotCx()
-
-    # concat
-    sol123a_ = sol12 + sol123a
-    sol123a_.update(name="sol123a_ (full): sol12 + sol123a")
-    sol123a_.plotCF()
-
-    # compare with sol1+sol2+sol3
-    sol123_ = sol1+sol2+sol3
-    sol123_.update(name="sol123_ (full): sol1+sol2+sol3")
-    sol123_.plotCF()
-    sol123_.plotCx()
-
-    # simulation of setoff
-    packstorage = setoff(contacttime=(100,"days"))
-    A = PP(l=(500,"um"),C0=0)
-    B = PP(l=(300,"um"),C0=5000)
-    AB = A+B
-    print(medium)
-    solAB = senspatankar(AB,packstorage)
-    solAB.plotCx()
-
-    # we extend the previous solution by putting medium in contact
-    solABext = solAB.resume(medium=medium)
-    solABext.plotCF()
-    solABext.plotCx()
+    pass
