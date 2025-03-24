@@ -16,7 +16,11 @@
 > **SFPPy**: A Python Framework for Food Contact Compliance & Risk Assessment  
 > 🍏⏩🍎 **SFPPy-Lite** runs **entirely in your browser** — no server, no install, fully operational!
 
+
+
 [![🧪 Try it online!](https://img.shields.io/badge/launch-demo-blueviolet?logo=jupyter&style=for-the-badge)](https://ovitrac.github.io/SFPPylite/) and Open the notebook `demo.ipynb` to begin in the left panel.
+
+
 
 
 <video width="100%" controls  autoplay loop muted playsinline">
@@ -35,7 +39,7 @@
 >
 > ✅ Subsequent operations (simulation, plotting, exporting to PDF/XLSX) are almost instantaneous.  
 > ✅ SFPPy **Widgets** are fully supported and run natively in-browser.  
-> 🪧🌐SFPPylite is shipped with the full 🇪🇺 Annex 1 of Regulation (EU) 10/2011. The automatic retrieval of substances on PubChem is partially available.
+> 🪧🌐SFPPylite is shipped with the full 🇪🇺 Annex 1 of Regulation (EU) 10/2011. The automatic retrieval of substances fron **PubChem** is partially available.  
 > ❌ **ToxTree** is not supported.
 >
 > 

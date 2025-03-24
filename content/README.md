@@ -33,7 +33,7 @@ This means you can explore the **SFPPy’s core functionalities** **instantly**,
 >
 > ✅ Subsequent operations (simulation, plotting, exporting to PDF/XLSX) are almost instantaneous.  
 > ✅ SFPPy **Widgets** are fully supported and run natively in-browser.  
-> 🪧🌐SFPPylite is shipped with the full 🇪🇺 Annex 1 of Regulation (EU) 10/2011. The automatic retrieval of substances on PubChem is partially available.
+> 🪧🌐SFPPylite is shipped with the full 🇪🇺 Annex 1 of Regulation (EU) 10/2011. The automatic retrieval of substances fron **PubChem** is partially available.  
 > ❌ **ToxTree** is not supported.
 
 ---
