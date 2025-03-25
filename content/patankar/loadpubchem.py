@@ -200,6 +200,21 @@ else:
     _PATANKAR_FOLDER = os.path.dirname(__file__)
     
 
+# Safe CacheCheck for _LITE_
+def PubChemCacheCheck(cache_dir):
+    """Cache Check Optimized for LITE"""
+    if os.path.exists(cache_dir):
+        if os.path.isdir(cache_dir):
+            return  # Already a directory — OK
+        elif os.path.isfile(cache_dir):
+            if _LITE_:
+                os.remove(cache_dir)  # Remove file to create directory
+            else:
+                raise FileExistsError(f"{cache_dir} exists as a file. Fix it.")
+        else:
+            raise OSError(f"Path exists but is not a file or directory: {path}")
+    os.makedirs(cache_dir, exist_ok=True)
+
 # Enforcing rate limiting cap: https://www.ncbi.nlm.nih.gov/books/NBK25497/
 PubChem_MIN_DELAY = 1 / 3.0  # 1/3 second (333ms)
 PubChem_lastQueryTime = 0 # global variable
@@ -745,8 +760,8 @@ class CompoundIndex:
         :param index_file: local JSON file holding synonyms → [cids] index
         """
         self.cache_dir = os.path.join(_PATANKAR_FOLDER,cache_dir)
-        
-        os.makedirs(self.cache_dir, exist_ok=True)
+
+        PubChemCacheCheck(self.cache_dir)
 
         self.index_file = os.path.join(self.cache_dir, index_file)
         # Regex to identify CAS-like strings, e.g. "1234-56-7"
