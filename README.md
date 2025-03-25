@@ -3,7 +3,7 @@
 > **SFPPy**: A Python Framework for Food Contact Compliance & Risk Assessment  
 > 🍏⏩🍎 **SFPPy-Lite** runs **entirely in your browser** — no server, no install, fully operational!
 
-[![🧪 Try it online!](https://img.shields.io/badge/launch-demo-blueviolet?logo=jupyter&style=for-the-badge)](https://ovitrac.github.io/SFPPylite/)
+[![🧪 Try it online!](https://img.shields.io/badge/launch-demo-blueviolet?logo=jupyter&style=for-the-badge)](https://ovitrac.github.io/SFPPylite/lab/index.html?path=demo.ipynb)
 
 ---
 
