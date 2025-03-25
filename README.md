@@ -28,13 +28,17 @@ This means you can explore the **SFPPy’s core functionalities** **instantly**,
 ### 🚧 Status: Fully Functional Demo
 
 > [!WARNING]  
-> 💡 Open the notebook `demo.ipynb` to begin (see the [video](https://ovitrac.github.io/SFPPy/SFPPylite_demo.html)).  
-> The first-time import triggers **live Python code compilation** of 🌐**SFPPyLite** in your browser — ⏱️ this may take **3–5 minutes**.  
 >
-> ✅ Subsequent operations (simulation, plotting, exporting to PDF/XLSX) are almost instantaneous.  
-> ✅ SFPPy **Widgets** are fully supported and run natively in-browser.  
-> 🪧🌐SFPPylite is shipped with the full 🇪🇺 Annex 1 of Regulation (EU) 10/2011. The automatic retrieval of substances fron **PubChem** is partially available.  
-> ❌ **ToxTree** is not supported.
+> 💡 **Start Here**: Open the notebook `demo.ipynb` to begin (see the [video walkthrough](https://ovitrac.github.io/SFPPy/SFPPylite_demo.html)).  
+> ⚠️ **First-time load** triggers **live Python code compilation** of 🌐**SFPPyLite** directly in your browser — ⏱️ expect a delay of **3–5 minutes**. ‼️ 
+> ✅ Once compiled, operations such as **simulation**, **plotting**, and **exporting to PDF/XLSX** are nearly instantaneous.  
+> ✅ All **SFPPy Widgets** are fully supported and run **natively in-browser**.  
+> 🆕 All notebooks in 📂**Notebooks/** are functional, including the **GUI notebook**, which provides a complete graphical interface.  
+> ⚠️ The **Compliance notebook** is also functional, except for the **merging of concentration profiles**, which relies on a 13 MB matrix that browsers currently block.  
+> 🪧🌐 **SFPPyLite** includes the full 🇪🇺 **Annex I of Regulation (EU) 10/2011**.  
+> 🚩 Automatic retrieval of substances from **PubChem** is **partially functional**. The module `private.pubchemspy` has been adapted, but **write operations may fail** due to incompatibilities between **Pyodide** (WebAssembly Python kernel) and **IndexedDB** (browser file system).  
+> ❌ **ToxTree** is not supported, as it cannot currently be compiled into **WebAssembly**.  
+> 🗃️ Files (notebooks, scripts, data, etc.) are **persistently stored** across sessions in your browser. **Your data is safe**, unless you're working in **incognito/private mode**. You can also **drop your own files** into the left panel or **download existing ones**.  
 
 ---
 
