@@ -145,12 +145,11 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 import time
-
+from PIL import Image, ImageChops
+PIL_AVAILABLE = True # True on LITE
 
 # Detection if is SFPPY (lite) running in a browser via Jupyterlite
 _LITE_ = sys.platform == 'emscripten' or "pyodide" in sys.modules
-
-from patankar.private.lite_urlopen import urlopen # universal urlopen for Pyodide single-thread environment
 
 if not _LITE_:
     import requests # not available in Jupyterlite
@@ -158,12 +157,8 @@ else:
     from pyodide.http import open_url # for SDF (GET method)
     from urllib.error import HTTPError
 
-# Test whether PIL is available
-try:
-    from PIL import Image, ImageChops
-    PIL_AVAILABLE = True
-except ImportError:
-    PIL_AVAILABLE = False
+# urlopen working in LITE
+from patankar.private.lite_urlopen import urlopen # universal urlopen for Pyodide single-thread environment
 
 # private version of pubchempy
 from patankar.private.pubchempy import get_compounds
@@ -812,16 +807,28 @@ class CompoundIndex:
             # Possibly regenerate the *.simple.json
             simple_dict = self._generate_simple_dict(full_data, synonyms_set)
             simple_path = os.path.join(self.cache_dir, f"cid{cid}.simple.json")
-            with open(simple_path, "w", encoding="utf-8") as fw:
-                json.dump(simple_dict, fw, indent=2)
+            if _LITE_:
+                PubChemCacheCheck(self.cache_dir)
+                datatowrite = json.dump(simple_dict)
+                with open(simple_path, "w", encoding="utf-8") as fw:
+                    fw.write(datatowrite)
+            else:            
+                with open(simple_path, "w", encoding="utf-8") as fw:
+                    json.dump(simple_dict, fw, indent=2)
 
             # Add synonyms to the index
             for syn in simple_dict.get("synonyms", []):
                 self._add_synonym_to_index(syn, cid)
 
         # Save updated index
-        with open(self.index_file, "w", encoding="utf-8") as f:
-            json.dump(self.index, f, indent=2)
+        if _LITE_:
+            PubChemCacheCheck(self.cache_dir)
+            datatowrite = json.dump(self.index)
+            with open(self.index_file, "w", encoding="utf-8") as f:
+                f.write(datatowrite)
+        else:
+            with open(self.index_file, "w", encoding="utf-8") as f:
+                json.dump(self.index, f, indent=2)
 
     def _add_synonym_to_index(self, synonym, cid):
         """
@@ -1031,8 +1038,14 @@ class CompoundIndex:
             # Save the "full" record
             full_name = f"cid{cid}.full.json"
             full_path = os.path.join(self.cache_dir, full_name)
-            with open(full_path, "w", encoding="utf-8") as fw:
-                json.dump(best_dict, fw, indent=2)
+            if _LITE_:
+                PubChemCacheCheck(self.cache_dir)
+                datatowrite = json.dumps(best_dict)  # or indent=2 if needed
+                with open(full_path, "w", encoding="utf-8") as fw:
+                    fw.write(datatowrite)
+            else:            
+                with open(full_path, "w", encoding="utf-8") as fw:
+                    json.dump(best_dict, fw, indent=2)
 
             # Now prepare the synonyms set from that new record
             synonyms_set = self._gather_synonyms(best_dict)
@@ -1042,8 +1055,14 @@ class CompoundIndex:
             # Save the "simple" record
             simple_name = f"cid{cid}.simple.json"
             simple_path = os.path.join(self.cache_dir, simple_name)
-            with open(simple_path, "w", encoding="utf-8") as fw:
-                json.dump(simple_dict, fw, indent=2)
+            if _LITE_:
+                PubChemCacheCheck(self.cache_dir)
+                datatowrite = json.dumps(simple_dict)  # or indent=2 if needed
+                with open(full_path, "w", encoding="utf-8") as fw:
+                    fw.write(datatowrite)
+            else:
+                with open(simple_path, "w", encoding="utf-8") as fw:
+                    json.dump(simple_dict, fw, indent=2)
 
             # Update the index with synonyms
             for syn in simple_dict.get("synonyms", []):
@@ -1051,8 +1070,14 @@ class CompoundIndex:
             # Also index the raw query itself
             self._add_synonym_to_index(query, cid)
 
-            with open(self.index_file, "w", encoding="utf-8") as f:
-                json.dump(self.index, f, indent=2)
+            if _LITE_:
+                PubChemCacheCheck(self.cache_dir)
+                datatowrite = json.dumps(self.index)  # or indent=2 if needed
+                with open(self.index, "w", encoding="utf-8") as fw:
+                    fw.write(datatowrite)
+            else:
+                with open(self.index_file, "w", encoding="utf-8") as f:
+                    json.dump(self.index, f, indent=2)
 
             # Return a single-row DataFrame
             if output_format == "full":
@@ -1741,9 +1766,9 @@ class migrant:
                 return Image.open(self.image_file)
             else:
                 if _LITE_:
-                    print(f"the raster image of {self.compound} is not available yet")
+                    print(f"The raster image of {self.compound} is not available yet")
                 else:
-                    print(f"the expected file {self.image_file} does not exist")
+                    print(f"The expected file {self.image_file} does not exist")
 
     # rawimage property
     @property
@@ -1756,9 +1781,9 @@ class migrant:
                 return image_bytes
             else:
                 if _LITE_:
-                    print(f"the raster image of {self.compound} is not available yet")
+                    print(f"The raster image of {self.compound} is not available yet")
                 else:
-                    print(f"the expected file {self.image_file} does not exist")
+                    print(f"The expected file {self.image_file} does not exist")
 
     # structure
     @property
@@ -2521,8 +2546,14 @@ class migrantToxtree(migrant):
 
         df = pd.read_csv(csv_file)
         cleaned_data = self._clean_field_names(df.to_dict(orient='records')[0]) if not df.empty else {}
-        with open(json_file, 'w') as f:
-            json.dump(cleaned_data, f, indent=4)
+        if _LITE_:
+            PubChemCacheCheck(self.cache_dir)
+            datatowrite = json.dump(cleaned_data)
+            with open(json_file, 'w') as f:
+                f.write(datatowrite)
+        else:
+            with open(json_file, 'w') as f:
+                json.dump(cleaned_data, f, indent=4)
         return cleaned_data
 
 
