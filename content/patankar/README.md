@@ -1,6 +1,6 @@
-# SFPPy Core Library  🍏⏩🍎
+# SFPPy Lite Core Library  🍏⏩🍎
 
-This directory contains the core Python modules for the SFPPy framework.
+This directory contains the core Python modules for the SFPPy framework adapted for Pyodide (in particular `loadpubchem.py`).
 These modules provide foundational functionalities for building, running, and analyzing migration simulations.
 
 ## 📁 Files and Subdirectories (Overview, Not Exhaustive)

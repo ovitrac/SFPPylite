@@ -1,4 +1,4 @@
-# Private Modules for SFPPy 🍏⏩🍎
+# Private Modules for SFPPy Lite 🍏⏩🍎
 
 This directory contains internal modules that are used internally by the SFPPy library. These modules provide additional utilities and extended functionalities but are not intended for direct interaction by the user.
 

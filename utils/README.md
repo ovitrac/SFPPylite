@@ -1,7 +1,31 @@
-# SFPPy Notebooks  🍏⏩🍎
+### SFPPylite Utilities  🍏⏩🍎
 
-This directory contains the **Jupyter Notebooks** built upon the SFPPy framework. From this directory, they require a valid `SFPPy` installation.
+---
 
+# Utilities for Backup, Maintenance, and Synchronization + deployment via notebooks
+
+---
+
+## 🗃️ Notebook utilities
+
+- **Import** `utils.nbutils`
+
+- **Purpose**: Various utilities to deploy SFPPy notebooks
+
+  
+
+
+### 🔄 Backup Utilities
+
+- **Run:** `./backupme.sh -y`  
+  **Purpose:** Backup all important code and documentation.  
+  **Output:**
+  - `history/backupme.README.html`, `backupme.README.md` – Reports with links
+  - `history/utils_backup_user@host_YYYY_MM_DD__HH-SS.zip` – Compressed backup
+
+---
+
+---
 
 <div style="border: 2px solid #4CAF50; border-radius: 8px; padding: 10px; background: linear-gradient(to right, #4CAF50, #FF4D4D); color: white; text-align: center; font-weight: bold;">
   <span style="font-size: 20px;">🍏⏩🍎 <strong>SFPPy for Food Contact Compliance and Risk Assessment</strong></span><br>

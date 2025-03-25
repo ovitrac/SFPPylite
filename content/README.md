@@ -1,4 +1,6 @@
-# **🐍 SFPPy-Lite 🌐**
+# **🐍 SFPPy-Lite 🌐 |main folder 📂**
+
+**(mounted as `/Drive` in the virtual file system)**
 
 > **SFPPy**: A Python Framework for Food Contact Compliance & Risk Assessment  
 > 🍏⏩🍎 **SFPPy-Lite** runs **entirely in your browser** — no server, no install, fully operational!

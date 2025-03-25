@@ -178,6 +178,10 @@ __maintainer__ = "Olivier Vitrac"
 __email__ = "olivier.vitrac@agroparistech.fr"
 __version__ = "1.37"
 
+# DEBUG MODE
+# Issues with JupyterLite Pyodide FS layer (specifically IDBFS)
+_DEBUG_ = False
+
 
 # %% SFFy.Comply databases version 2025
 if complyEU.EuFCMannex1.isindexinitialized(): # <EuFCMannex1: 1194 records (Annex 1 of 10/2011/EC)>
@@ -807,6 +811,7 @@ class CompoundIndex:
             # Possibly regenerate the *.simple.json
             simple_dict = self._generate_simple_dict(full_data, synonyms_set)
             simple_path = os.path.join(self.cache_dir, f"cid{cid}.simple.json")
+            if _DEBUG_: input("Ready to regenerate the input")
             if _LITE_:
                 PubChemCacheCheck(self.cache_dir)
                 datatowrite = json.dump(simple_dict)
@@ -815,12 +820,14 @@ class CompoundIndex:
             else:            
                 with open(simple_path, "w", encoding="utf-8") as fw:
                     json.dump(simple_dict, fw, indent=2)
-
+            if _DEBUG_: input("Input regenerated")
+            
             # Add synonyms to the index
             for syn in simple_dict.get("synonyms", []):
                 self._add_synonym_to_index(syn, cid)
 
         # Save updated index
+        if _DEBUG_: input("Ready to save the updated index")
         if _LITE_:
             PubChemCacheCheck(self.cache_dir)
             datatowrite = json.dump(self.index)
@@ -829,7 +836,8 @@ class CompoundIndex:
         else:
             with open(self.index_file, "w", encoding="utf-8") as f:
                 json.dump(self.index, f, indent=2)
-
+        if _DEBUG_: input("Updated index Saved")
+                
     def _add_synonym_to_index(self, synonym, cid):
         """
         Helper to map a single synonym→cid in self.index.
@@ -1038,15 +1046,20 @@ class CompoundIndex:
             # Save the "full" record
             full_name = f"cid{cid}.full.json"
             full_path = os.path.join(self.cache_dir, full_name)
+            if _DEBUG_: input("1A")
             if _LITE_:
                 PubChemCacheCheck(self.cache_dir)
                 datatowrite = json.dumps(best_dict)  # or indent=2 if needed
+                if _DEBUG_:
+                    print("DEBUG: Writing to", full_path)
+                    print("DEBUG: Is directory?", os.path.isdir(self.cache_dir))
+                    print("DEBUG: Listing parent:", os.listdir(os.path.dirname(self.cache_dir)))
                 with open(full_path, "w", encoding="utf-8") as fw:
                     fw.write(datatowrite)
             else:            
                 with open(full_path, "w", encoding="utf-8") as fw:
                     json.dump(best_dict, fw, indent=2)
-
+            if _DEBUG_: input("1B")
             # Now prepare the synonyms set from that new record
             synonyms_set = self._gather_synonyms(best_dict)
             # Generate the "simple" record
@@ -1055,6 +1068,7 @@ class CompoundIndex:
             # Save the "simple" record
             simple_name = f"cid{cid}.simple.json"
             simple_path = os.path.join(self.cache_dir, simple_name)
+            if _DEBUG_: input("2A")
             if _LITE_:
                 PubChemCacheCheck(self.cache_dir)
                 datatowrite = json.dumps(simple_dict)  # or indent=2 if needed
@@ -1063,13 +1077,15 @@ class CompoundIndex:
             else:
                 with open(simple_path, "w", encoding="utf-8") as fw:
                     json.dump(simple_dict, fw, indent=2)
-
+            if _DEBUG_: input("2B")
+            
             # Update the index with synonyms
             for syn in simple_dict.get("synonyms", []):
                 self._add_synonym_to_index(syn, cid)
             # Also index the raw query itself
             self._add_synonym_to_index(query, cid)
 
+            if _DEBUG_: input("3A")
             if _LITE_:
                 PubChemCacheCheck(self.cache_dir)
                 datatowrite = json.dumps(self.index)  # or indent=2 if needed
@@ -1078,7 +1094,8 @@ class CompoundIndex:
             else:
                 with open(self.index_file, "w", encoding="utf-8") as f:
                     json.dump(self.index, f, indent=2)
-
+            if _DEBUG_: input("3B")
+                
             # Return a single-row DataFrame
             if output_format == "full":
                 return pd.DataFrame([best_dict])
@@ -2546,6 +2563,7 @@ class migrantToxtree(migrant):
 
         df = pd.read_csv(csv_file)
         cleaned_data = self._clean_field_names(df.to_dict(orient='records')[0]) if not df.empty else {}
+        if _DEBUG_: input("Ready to clean cache data")
         if _LITE_:
             PubChemCacheCheck(self.cache_dir)
             datatowrite = json.dump(cleaned_data)
@@ -2555,7 +2573,8 @@ class migrantToxtree(migrant):
             with open(json_file, 'w') as f:
                 json.dump(cleaned_data, f, indent=4)
         return cleaned_data
-
+        if _DEBUG_: input("Cache data cleaned")
+        
 
     def class_roman_to_int(self,text):
         """Converts 'Class X' (where X is I, II, III, IV, V) into an integer (1-5), case insensitive."""
