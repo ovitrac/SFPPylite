@@ -7,47 +7,29 @@ Python interface for the PubChem PUG REST service.
 https://github.com/mcs07/PubChemPy
 """
 
-from __future__ import print_function
-from __future__ import unicode_literals
-from __future__ import division
-
+import os, sys, time, json, js, io, logging, warnings
 import functools
-import json
-import logging
-import os
-import sys
-import time
-import warnings
 #import binascii # not used fixed by Olivier Vitrac
 
-try:
-    from urllib.error import HTTPError
-    from urllib.parse import quote, urlencode
-    from urllib.request import urlopen
-except ImportError:
-    from urllib import urlencode
-    from urllib2 import quote, urlopen, HTTPError
-
-try:
-    from itertools import zip_longest
-except ImportError:
-    from itertools import izip_longest as zip_longest
-
+from urllib.parse import quote, urlencode
+from urllib.error import HTTPError
+from itertools import zip_longest
+from patankar.private.lite_urlopen import urlopen # universal urlopen for Pyodide single-thread environment
 
 
 __all__ = ['Assay', 'Atom', 'BadRequestError', 'Bond', 'BondType', 'Compound', 'CompoundIdType', 'CoordinateType', 'MethodNotAllowedError', 'NotFoundError', 'ProjectCategory', 'PubChemHTTPError', 'PubChemPyDeprecationWarning', 'PubChemPyError', 'ResponseParseError', 'ServerError', 'Substance', 'TimeoutError', 'UnimplementedError', 'compounds_to_frame', 'deprecated', 'download', 'get', 'get_aids', 'get_all_sources', 'get_assays', 'get_cids', 'get_compounds', 'get_json', 'get_properties', 'get_sdf', 'get_sids', 'get_substances', 'get_synonyms', 'memoized_property', 'request', 'substances_to_frame']
 
 
-__author__ = 'Matt Swain (small fixes: Olivier Vitrac)'
+__author__ = 'Matt Swain (fixes and SFPPy port: Olivier Vitrac)'
 __email__ = 'm.swain@me.com, olivier.vitrac@agroparistech.fr'
 __version__ = '1.0.4'
 __license__ = 'MIT'
+
 
 API_BASE = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug'
 
 log = logging.getLogger('pubchempy')
 log.addHandler(logging.NullHandler())
-
 
 if sys.version_info[0] == 3:
     text_types = str, bytes

@@ -136,7 +136,7 @@ Version History
 """
 
 
-import os,io, sys
+import os, io, sys
 import subprocess
 import json
 import re
@@ -149,10 +149,14 @@ import time
 
 # Detection if is SFPPY (lite) running in a browser via Jupyterlite
 _LITE_ = sys.platform == 'emscripten' or "pyodide" in sys.modules
+
+from patankar.private.lite_urlopen import urlopen # universal urlopen for Pyodide single-thread environment
+
 if not _LITE_:
     import requests # not available in Jupyterlite
 else:
-    from pyodide.http import open_url, pyfetch # native javascript instead
+    from pyodide.http import open_url # for SDF (GET method)
+    from urllib.error import HTTPError
 
 # Test whether PIL is available
 try:
@@ -194,6 +198,7 @@ if _LITE_:
     _PATANKAR_FOLDER = "/drive/patankar"
 else:
     _PATANKAR_FOLDER = os.path.dirname(__file__)
+    
 
 # Enforcing rate limiting cap: https://www.ncbi.nlm.nih.gov/books/NBK25497/
 PubChem_MIN_DELAY = 1 / 3.0  # 1/3 second (333ms)
@@ -1661,12 +1666,17 @@ class migrant:
             return
         os.makedirs(self._cache_PNG_dir, exist_ok=True)
         if self.image_file:
+            png_url = f"{self.PUBCHEM_ROOT_URL}/CID/{self.cid}/PNG?image_size={self.IMAGE_SIZE[0]}x{self.IMAGE_SIZE[1]}"
             if _LITE_:
-                import asyncio
-                loop = asyncio.get_event_loop()
-                loop.run_until_complete(self._download_PNG_async())
+                try:
+                    response = urlopen(png_url)  # works in both CPython and JupyterLite
+                    content = response.read()
+                    with open(self.image_file, "wb") as f:
+                        f.write(content)
+                    self._crop_image()
+                except HTTPError as e:
+                    raise ValueError(f"Failed to download PNG for CID {self.cid}. HTTP status: {e.code}")
             else:
-                png_url = f"{self.PUBCHEM_ROOT_URL}/CID/{self.cid}/PNG?image_size={self.IMAGE_SIZE[0]}x{self.IMAGE_SIZE[1]}"
                 response = requests.get(png_url, timeout=1)
                 if response.status_code == 200:
                     with open(self.image_file, 'wb') as f:
@@ -1674,20 +1684,6 @@ class migrant:
                     self._crop_image()
                 else:
                     raise ValueError(f"Failed to download PNG for CID {self.cid}.")
-
-
-    async def _download_PNG_async(self):
-        """LITE version (async) of _download_PNG using async pyfetch."""
-        png_url = f"{self.PUBCHEM_ROOT_URL}/CID/{self.cid}/PNG?image_size={self.IMAGE_SIZE[0]}x{self.IMAGE_SIZE[1]}"
-        response = await pyfetch(png_url)
-        if response.status == 200:
-            data = await response.bytes()  # obtain raw bytes
-            with open(self.image_file, 'wb') as f:
-                f.write(data)
-            self._crop_image()
-        else:
-            raise ValueError(f"Failed to download PNG for CID {self.cid}.")
-
 
     def _crop_image(self):
         """Crops white background from the PNG image."""
