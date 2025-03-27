@@ -21,7 +21,9 @@
 >  📦 Works directly in-browser—no installation required  
 >  🔄 Always up to date with the latest sources
 
-[![🧪 Try it online!](https://img.shields.io/badge/launch-SFPPylite in your browser-blueviolet?logo=jupyter&style=for-the-badge)](https://ovitrac.github.io/SFPPylite/lab/index.html?path=demo.ipynb)
+<a href="https://ovitrac.github.io/SFPPylite/lab/index.html?path=demo.ipynb" target="_blank">
+  <img src="https://img.shields.io/badge/launch-SFPPylite%20in%20your%20browser-blueviolet?logo=jupyter&style=for-the-badge" alt="🧪 Try it online!">
+</a>
 
 ---
 
