@@ -22,8 +22,12 @@
 >  🔄 Always up to date with the latest sources
 
 <a href="https://ovitrac.github.io/SFPPylite/lab/index.html?path=demo.ipynb" target="_blank">
-  <img src="https://img.shields.io/badge/launch-SFPPylite%20in%20your%20browser-blueviolet?logo=jupyter&style=for-the-badge" alt="🧪 Try it online!">
+  <img src="https://img.shields.io/badge/SFPPylite-LAUNCH%20in%20your%20browser-blueviolet?logo=jupyter&style=for-the-badge" alt="🧪 Try it online!">
+</a><a href="https://htmlpreview.github.io/?https://github.com/ovitrac/SFPPylite/blob/main/SFPPylite.html" target="_blank">
+  <img src="https://img.shields.io/badge/SFPPylite-Pick%20in%20a%20Notebook-violet?logo=jupyter&style=for-the-badge" alt="🧪 Pick a Notebook!">
 </a>
+
+
 
 ---
 
