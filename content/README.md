@@ -83,7 +83,7 @@ You can explore and use **SFPPy’s core functionalities** **instantly** — wit
 |                   **Export formats (PDF, XLSX, CSV)** | ✅ Full support                                    | ✅ Full support                                     | ✅ Full support                           |
 |                 **Annex I (Regulation (EU) 10/2011)** | ✅ Integrated and queryable                        | ✅ Integrated and queryable                         | ✅ Available (with correct files)         |
 |                       **PubChem substance retrieval** | ✅ Fully functional                                | ⚠️ Partial (read-only, limited write support)       | ✅ Full access                            |
-|                               **ToxTree integration** | ✅ Supported                                       | ❌ Not supported (WebAssembly incompatible)         | ✅ Possible with installation             |
+|                               **ToxTree integration** | ✅ Supported                                       | ❌ Not supported (WebAssembly incompatible)         | ✅ Supported                              |
 |       **Self-archiving and reporting (PDF + .ipynb)** | ✅ Automatic or manual                             | ❌ Not supported                                    | ✅ Manual (download/export)               |
 |           **Session persistence / multi-tab support** | Depends on setup                                  | ✅ Fully supported (via IndexedDB)                  | ❌ Not persistent between sessions        |
 |                                     **Offline usage** | ✅ Once installed                                  | ✅ After initial load (cached in browser)           | ❌ Requires internet                      |
