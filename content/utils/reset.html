@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SFPPyLite Reset Instructions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: sans-serif; margin: 0; background-color: #f9f9f9;">
+
+<!-- HEADER -->
+<div style="border-radius: 8px; padding: 12px; background: linear-gradient(to right, #4CAF50, #FF4D4D);
+            color: white; font-size: 28px; font-weight: bold; display: flex; align-items: center; justify-content: center; position: relative;">
+  SFPPyLite Cache Reset Tool
+  <a href="https://github.com/ovitrac/SFPPy" target="_blank"
+    style="position: absolute; right: 12px; top: 10%; transform: translateY(-10%);">
+    <img src="https://img.shields.io/badge/GitHub-SFPPy-4CAF50?style=for-the-badge&logo=github"
+         alt="GitHub SFPPy" style="border-radius: 8px;">
+  </a>
+  <div style="position: absolute; right: 48px; top: 82%; transform: translateY(-82%); font-size: 14px; font-weight: bold;">
+    <span style="color: white;">v&gt;1.3</span>
+    <a href="mailto:olivier.vitrac@gmail.com" title="E-mail the author" style="margin-left: 8px;">📩</a>
+  </div>
+</div>
+
+<!-- SEPARATOR -->
+<hr style="height: 4px; background-color: #4CAF50; box-shadow: 2px 2px 4px gray; border: none;">
+
+<!-- MAIN CONTENT -->
+<div style="padding: 20px; max-width: 800px; margin: auto; background-color: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+  <h2>🧹 Having trouble seeing updates in SFPPyLite?</h2>
+  <p>
+    If you're still seeing an outdated version of <strong>SFPPyLite</strong> after an update, it's likely due to your browser's cache and service worker keeping old files (JavaScript, WASM, etc.).
+  </p>
+  <p>
+    Follow these steps to fully reset and reload the latest version:
+  </p>
+  <ol>
+    <li><strong>Click the button below</strong> to unregister the service worker.</li>
+    <li>The page will reload automatically with the latest version.</li>
+    <li>If that fails, manually clear your browser's cache or use private mode.</li>
+  </ol>
+
+  <div style="text-align: center; margin-top: 30px;">
+    <button onclick="clearSW()" style="
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+    ">
+      🔄 Force Update SFPPyLite
+    </button>
+  </div>
+
+  <p style="margin-top: 30px; font-size: 0.9em; color: #555;">
+    If you're still experiencing issues, contact <a href="mailto:olivier.vitrac@gmail.com">Olivier Vitrac</a> or open the developer tools (F12) to manually unregister the service worker and clear IndexedDB.
+  </p>
+
+  <!-- NEW SECTION: Inspect Browser Storage -->
+  <hr style="margin: 40px 0; border: none; border-top: 2px dashed #ccc;">
+
+  <h2>📁 How to Inspect and Manage SFPPyLite Storage in Your Browser</h2>
+
+  <p>SFPPyLite uses your browser’s local storage (IndexedDB) to persist notebooks, scripts, and output files between sessions.</p>
+
+  <h4>🧭 Open Developer Tools</h4>
+  <ul>
+    <li><strong>Chrome / Edge / Brave / Chromium:</strong> Press <kbd>F12</kbd> or <kbd>Ctrl+Shift+I</kbd> (<kbd>Cmd+Opt+I</kbd> on macOS)</li>
+    <li><strong>Firefox:</strong> Press <kbd>F12</kbd> or <kbd>Ctrl+Shift+I</kbd></li>
+    <li>Or right-click on the page → <strong>"Inspect"</strong> → go to the <strong>Application</strong> tab</li>
+  </ul>
+
+  <h4>🔍 View and Delete Stored Files</h4>
+  <ol>
+    <li>In the left sidebar, expand <strong>IndexedDB</strong></li>
+    <li>Look for the <code>jupyterlite</code> (or similar) database</li>
+    <li>Click on the <code>files</code> store to see user notebooks and scripts</li>
+    <li>Right-click to delete any file that is blocking updates</li>
+  </ol>
+
+  <div style="background-color: #ffefc5; border-left: 4px solid #f39c12; padding: 10px; margin-top: 20px;">
+    <strong>Important:</strong> If a file (like <code>demo.ipynb</code>) has been modified or created by the user, it is stored in IndexedDB and will <strong>not</strong> be automatically updated by SFPPyLite. To get the latest version, you must manually delete the file before refreshing.
+  </div>
+</div>
+
+<!-- SEPARATOR -->
+<hr style="height: 4px; background-color: #4CAF50; box-shadow: 2px 2px 4px gray; border: none;">
+
+<!-- FOOTER -->
+<div style="border: 2px solid #4CAF50; border-radius: 8px; padding: 10px;
+            background: linear-gradient(to right, #4CAF50, #FF4D4D);
+            color: white; text-align: center; font-weight: bold;">
+  <span style="font-size: 20px;">🍏⏩🍎 <strong>SFPPy for Food Contact Compliance and Risk Assessment</strong></span><br>
+  Contact <a href="mailto:olivier.vitrac@gmail.com" style="color: #fff; text-decoration: underline;">Olivier Vitrac</a> for questions |
+  <a href="https://github.com/ovitrac/SFPPy" style="color: #fff; text-decoration: underline;">Website</a> |
+  <a href="https://ovitrac.github.io/SFPPy/" style="color: #fff; text-decoration: underline;">Documentation</a>
+</div>
+
+<!-- JS SCRIPT -->
+<script>
+  function clearSW() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        for (let reg of registrations) {
+          reg.unregister();
+        }
+        alert("Service Worker unregistered. Reloading...");
+        location.reload(true);
+      });
+    } else {
+      alert("Service Worker not supported in this browser.");
+    }
+  }
+</script>
+
+</body>
+</html>
