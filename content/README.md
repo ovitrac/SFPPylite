@@ -1,15 +1,9 @@
 # **🐍 SFPPy-Lite 🌐**
 
-<div aligb="center">
-
-| ![Generative Simulation](extra/assets/logo.png) | This project is part of the <br />[Generative Simulation](https://github.com/ovitrac/generativeSimulation) demonstrators | Say it.<br />Simulate it wit AI. |
-| ---------------------------------------------------------- | ------------------------------------------------------------ | -------------------------------- |
-
-</div>
-
----
 
 > 🍏⏩🍎 **SFPPy**: A Python Framework for Food Contact Compliance & Risk Assessment  
+
+
 
 ### 🚀 SFPPyLite is Now Ready for Production!
 
@@ -124,14 +118,4 @@ You can explore and use **SFPPy’s core functionalities** **instantly** — wit
 💬 Found a bug or have suggestions? [Open an issue](https://github.com/ovitrac/SFPPy/issues) or reach out via email — feedback is welcome!
 
 ---
-
----
-
-### 🍏⏩🍎 `SFPPy` and `SFPPylite`: Built for AI. Ready for Simulation.
-
-🤖 +⚖️ *Can robots like **GPT** really evaluate food contact compliance using **SFPPy** or **SFPPylite***?* *Check out the intriguing answers from two GPT-powered experts [here](https://github.com/ovitrac/SFPPy/wiki/🤖-Ask-GPT-to-demonstrate-compliance-with-SFPPy)!*.
-
-| [<img src="extra/assets/page1.png" alt="page1" style="zoom:50%;" />](https://github.com/ovitrac/generativeSimulation)<small>☝🏻Click on the image to learn more.</small> | 🔮**Explore the future.**  Coding is a language—and with generative AI, we can bridge real-world problems to simulation-ready computer code. Python is the medium of choice, as it remains the most fluent language for AI systems.<br /><br />╰┈➤***Prompts accelerate simulation prototyping** and the design of complex case scenarios. Thanks to the abstract nature of this interface, there are no constraints on the level of complexity: it operates independently of the underlying mathematical or numerical methods.*<br /> |
-| :----------------------------------------------------------- | :----------------------------------------------------------- |
-| <small>Credits: [Olivier Vitrac](mailto:olivier.vitrac@gmail.com)</small> | 🤔**With respect to regulatory compliance**, AI assists you by generating informed scenarios and interpretations—but **you remain the decision-maker**.<br /> |
 
