@@ -1337,30 +1337,4 @@ class ServerError(PubChemHTTPError):
 
 
 if __name__ == '__main__':
-    print(__version__)
-
-    #from private.pubchempy import get_compounds
-    import re
-
-    # Simple example
-
-    cas_pattern = re.compile(r'^\d{1,7}-\d{2}-\d$')
-    matches = get_compounds('anisole', 'name')
-    nmatches = len(matches)
-    if nmatches>0:
-        synonyms = matches[0].synonyms
-        cas_list = [syn.strip() for syn in synonyms if cas_pattern.match(syn.strip())]
-        record = {
-         'CID': matches[0].cid,
-        'name': matches[0].iupac_name,
-    'synonyms': synonyms,
-         'CAS': cas_list,
-           'M': matches[0].molecular_weight,
-     'formula': matches[0].molecular_formula,
-      'SMILES': matches[0].canonical_smiles,
-       'InChi': matches[0].inchi,
-    'InChiKey': matches[0].inchikey,
-        'logP': matches[0].xlogp,
-       # 'raw' : matches[0], # we store all info as raw
-       'date' : "add here the date of the record"
-       }
+    pass

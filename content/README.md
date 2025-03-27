@@ -1,19 +1,37 @@
-# **🐍 SFPPy-Lite 🌐 |main folder 📂**
+# **🐍 SFPPy-Lite 🌐**
 
-**(mounted as `/Drive` in the virtual file system)**
+<div aligb="center">
 
-> **SFPPy**: A Python Framework for Food Contact Compliance & Risk Assessment  
-> 🍏⏩🍎 **SFPPy-Lite** runs **entirely in your browser** — no server, no install, fully operational!
+| ![Generative Simulation](extra/assets/logo.png) | This project is part of the <br />[Generative Simulation](https://github.com/ovitrac/generativeSimulation) demonstrators | Say it.<br />Simulate it wit AI. |
+| ---------------------------------------------------------- | ------------------------------------------------------------ | -------------------------------- |
 
-[![🧪 Try it online!](https://img.shields.io/badge/launch-demo-blueviolet?logo=jupyter&style=for-the-badge)](https://ovitrac.github.io/SFPPylite/)
+</div>
+
+---
+
+> 🍏⏩🍎 **SFPPy**: A Python Framework for Food Contact Compliance & Risk Assessment  
+
+### 🚀 SFPPyLite is Now Ready for Production!
+
+**No installation. Runs entirely in your browser. Try it now:**
+
+> 🟢 **Status update**: moved from 🚧 *Demo* to **Ready for Production**  
+>  ✅ Full support for simulation, plotting, curve fitting, PDF/XLSX/CSV export  
+>  🌍 EU Regulation Annex I included  
+>  📦 Works directly in-browser—no installation required  
+>  🔄 Always up to date with the latest sources
+
+[![🧪 Try it online!](https://img.shields.io/badge/launch-SFPPylite in your browser-blueviolet?logo=jupyter&style=for-the-badge)](https://ovitrac.github.io/SFPPylite/lab/index.html?path=demo.ipynb)
 
 ---
 
 ### 🚀 What is SFPPy-Lite?
 
-🌐**SFPPy-Lite** is a **lightweight, browser-based preview** of the full SFPPy framework.  
-Built on [**JupyterLite**](https://jupyterlite.readthedocs.io/), it runs Python via WebAssembly using [**Pyodide**](https://pyodide.org/).  
-This means you can explore the **SFPPy’s core functionalities** **instantly**, directly from your browser — **no installation required**.
+🌐 **SFPPy-Lite** is a **lightweight, browser-based preview** of the full SFPPy framework.
+ It is built on [**JupyterLite**](https://jupyterlite.readthedocs.io/), and runs Python entirely in the browser using [**Pyodide**](https://pyodide.org/) (WebAssembly-based).
+
+You can explore and use **SFPPy’s core functionalities** **instantly** — with **no installation required** and **nothing to configure**.
+ <ins>Current performance is impressively close to that of a native desktop application.</ins>
 
 ![SFPPylite](https://github.com/ovitrac/SFPPylite/raw/refs/heads/main/extra/videos/SFPPylite.gif)
 
@@ -25,18 +43,58 @@ This means you can explore the **SFPPy’s core functionalities** **instantly**,
   <img src="https://img.shields.io/badge/SFPPy-%F0%9F%8D%8F%E2%8F%A9%F0%9F%8D%8E_PARENT PROJECT-4CAF50?style=for-the-badge&logo=python" alt="SFPPy 🍏⏩🍎">
 </a>
 
+
+
 ---
 
-### 🚧 Status: Fully Functional Demo
+### ـــــــــــــــﮩ٨ـStatus: moved from 🚧 *Demo* to 🟢 *Ready for Production*
 
-> [!WARNING]  
-> 💡 Open the notebook `demo.ipynb` to begin (see the [video](https://ovitrac.github.io/SFPPy/SFPPylite_demo.html)).  
-> The first-time import triggers **live Python code compilation** of 🌐**SFPPyLite** in your browser — ⏱️ this may take **3–5 minutes**.  
+> [!WARNING]
+> 💡 **Start Here**: Launch the notebook `demo.ipynb` to begin (or watch the [video walkthrough](https://ovitrac.github.io/SFPPy/SFPPylite_demo.html)).  
 >
-> ✅ Subsequent operations (simulation, plotting, exporting to PDF/XLSX) are almost instantaneous.  
-> ✅ SFPPy **Widgets** are fully supported and run natively in-browser.  
-> 🪧🌐SFPPylite is shipped with the full 🇪🇺 Annex 1 of Regulation (EU) 10/2011. The automatic retrieval of substances fron **PubChem** is partially available.  
-> ❌ **ToxTree** is not supported.
+> ✅ All components are now operational, including notebooks under 📂**Notebooks/**, as well as **graphical interfaces**, **simulation**, **plotting**, **curve fitting**, and **export to PDF/XLSX**.  
+>
+> ⏱️ **SFPPyLite** runs at approximately half the speed 🌗 of the desktop version. However, all notebooks execute in under one minute. This performance is sufficient for practical use, with the caveat that **native in-browser execution** (via Pyodide/WebAssembly) imposes some limitations.  
+>
+> 🪧🌐 The full 🇪🇺 **Annex I of Regulation (EU) 10/2011** is included and searchable.  
+>
+> 🚩 **PubChem substance retrieval** is *partially functional*: the module `private.pubchemspy` has been adapted for JupyterLite, but **write operations may fail** due to incompatibilities between **Pyodide** and **IndexedDB**, the browser’s internal filesystem.  
+>
+> ❌ **ToxTree** is not supported, as it cannot currently be compiled to **WebAssembly**.  
+>
+> 🗃️ Files (notebooks, scripts, datasets, etc.) are **persistently stored** in your browser across sessions. Your data remains safe unless using **private/incognito mode**. You can **drop files** into the interface or **download/export** any file as needed.
+>
+> 
+
+
+
+---
+
+### 🤖💻🌐 Comparison of `SFPPy` Across Platforms: Desktop, Lite, and Google Colab
+
+🧭 **Find the platform that fits best your requirements: ease, confidentiality, archiving, assistance**.
+
+*All usage options are free of charge.*
+
+|                                  Feature / Capability | 💫💻 **SFPPy (Desktop)**                            | 🌐 **SFPPyLite (Browser)**                          | ☁️ **SFPPy in Google Colab**              |
+| ----------------------------------------------------: | ------------------------------------------------- | -------------------------------------------------- | ---------------------------------------- |
+| **AI-powered assistance (*e.g.* for interpretation)** | ❌ Not available or use **Jupyter Lab** extensions | ❌ Not available or use external extensions         | ✅ Available (via Gemini)                 |
+|                             **Installation required** | Yes (Python + dependencies)                       | ❌ No installation (runs in-browser)                | ❌ No installation (via bootstrap script) |
+|                          **Notebook execution speed** | Full native performance                           | ⏱️ ~2× slower (WebAssembly limits)                  | ✅ Fast (depends on Google backend)       |
+|              **Simulation resolution / memory usage** | High (limited by system resources)                | Reduced for complex models (browser memory limits) | High (usually)                           |
+|             **Graphical plotting (SVG, PNG, Retina)** | ✅ Full support                                    | ✅ Full support                                     | ✅ Full support                           |
+|                  **Curve fitting and modeling tools** | ✅ Available                                       | ✅ Available                                        | ✅ Available                              |
+|                   **Export formats (PDF, XLSX, CSV)** | ✅ Full support                                    | ✅ Full support                                     | ✅ Full support                           |
+|                 **Annex I (Regulation (EU) 10/2011)** | ✅ Integrated and queryable                        | ✅ Integrated and queryable                         | ✅ Available (with correct files)         |
+|                       **PubChem substance retrieval** | ✅ Fully functional                                | ⚠️ Partial (read-only, limited write support)       | ✅ Full access                            |
+|                               **ToxTree integration** | ✅ Supported                                       | ❌ Not supported (WebAssembly incompatible)         | ✅ Possible with installation             |
+|       **Self-archiving and reporting (PDF + .ipynb)** | ✅ Automatic or manual                             | ❌ Not supported                                    | ✅ Manual (download/export)               |
+|           **Session persistence / multi-tab support** | Depends on setup                                  | ✅ Fully supported (via IndexedDB)                  | ❌ Not persistent between sessions        |
+|                                     **Offline usage** | ✅ Once installed                                  | ✅ After initial load (cached in browser)           | ❌ Requires internet                      |
+|                       **Custom file upload/download** | ✅ OS-level                                        | ✅ Browser-based (drag & drop or panel)             | ✅ Upload/download via Colab UI           |
+|                              **🛠️ Updating Mechanism** | 🔁 Manual updates via Git or package manager       | 🔄 Always updated to latest sources (on load)       | 🔄 Bootstrapped from latest version       |
+
+
 
 ---
 
@@ -64,3 +122,14 @@ This means you can explore the **SFPPy’s core functionalities** **instantly**,
 💬 Found a bug or have suggestions? [Open an issue](https://github.com/ovitrac/SFPPy/issues) or reach out via email — feedback is welcome!
 
 ---
+
+---
+
+### 🍏⏩🍎 `SFPPy` and `SFPPylite`: Built for AI. Ready for Simulation.
+
+🤖 +⚖️ *Can robots like **GPT** really evaluate food contact compliance using **SFPPy** or **SFPPylite***?* *Check out the intriguing answers from two GPT-powered experts [here](https://github.com/ovitrac/SFPPy/wiki/🤖-Ask-GPT-to-demonstrate-compliance-with-SFPPy)!*.
+
+| [<img src="extra/assets/page1.png" alt="page1" style="zoom:50%;" />](https://github.com/ovitrac/generativeSimulation)<small>☝🏻Click on the image to learn more.</small> | 🔮**Explore the future.**  Coding is a language—and with generative AI, we can bridge real-world problems to simulation-ready computer code. Python is the medium of choice, as it remains the most fluent language for AI systems.<br /><br />╰┈➤***Prompts accelerate simulation prototyping** and the design of complex case scenarios. Thanks to the abstract nature of this interface, there are no constraints on the level of complexity: it operates independently of the underlying mathematical or numerical methods.*<br /> |
+| :----------------------------------------------------------- | :----------------------------------------------------------- |
+| <small>Credits: [Olivier Vitrac](mailto:olivier.vitrac@gmail.com)</small> | 🤔**With respect to regulatory compliance**, AI assists you by generating informed scenarios and interpretations—but **you remain the decision-maker**.<br /> |
+

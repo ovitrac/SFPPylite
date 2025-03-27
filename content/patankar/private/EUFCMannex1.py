@@ -30,12 +30,12 @@ Usage Example:
   >>> if 113194 in db:
   ...     print("PubChem cid 113194 exists.")
 
-@version: 1.37
+@version: 1.40
 @project: SFPPy - SafeFoodPackaging Portal in Python initiative
 @author: INRAE\\olivier.vitrac@agroparistech.fr
 @licence: MIT
 @Date: 2024-01-10
-@rev: 2025-03-19
+@rev: 2025-03-27
 
 """
 
@@ -205,7 +205,11 @@ class annex1record_ext(annex1record):
         # are all equal, they give rids (record indices) for the group matching this FCM
         if db is not None and self.gFCM is not None:
             fcm2rid = db._fcm2rid
-            rids = fcm2rid[self.gFCM[0]]
+            # gFCM keys should be string but they can be cached as int
+            if isinstance(self.gFCM[0],str):
+                rids = fcm2rid[self.gFCM[0]]
+            else:
+                rids = fcm2rid[str(self.gFCM[0])]
             Mlist = [db._load_record(rid,db=False).M for rid in rids]
             CASlist = [db._load_record(rid,db=False).get("CAS") for rid in rids]
             namelist = [db._load_record(rid,db=False).get("name") for rid in rids]
@@ -662,7 +666,40 @@ class EuFCMannex1:
 
     @property
     def SMLT_Groupsubstances(self):
-        """Returns a dictionary G so that G[fcm] = [rid1, rid2]"""
+        """
+            Returns a dictionary G so that G[fcm] = [rid1, rid2] (cached in memory and on disk)
+
+            - **Hidden Field Cache:**
+            The property first checks if `self._SMLT_Groupsubstances` exists and returns it immediately if so.
+
+            - **File Cache:**
+            The cache file path is built by taking `self.index_file`, splitting it into a base and extension, then appending “.group” before the extension.
+            If this cache file exists, the code attempts to load it. Any issues during file reading (e.g., corruption) will fall back to recomputing the groups.
+
+            - **Recomputation and Write-back:**
+            If the cache file does not exist or fails to load, the code computes the groups dictionary, caches it in memory, and writes the result to the cache file.
+
+            This double caching strategy ensures that once the groups are computed, subsequent accesses are fast (both from memory and from disk), while still allowing a persistent cache that survives between sessions.
+        """
+        # If already cached in the hidden field, return it immediately.
+        if hasattr(self, '_SMLT_Groupsubstances'):
+            return self._SMLT_Groupsubstances
+
+        # Build the cache file name using self.index_file:
+        base, ext = os.path.splitext(self.index_file)
+        cache_file = base + ".group" + ext  # e.g., annex1_index.group.json
+
+        # Try to load the cache from the file if it exists.
+        if os.path.exists(cache_file):
+            try:
+                with open(cache_file, "r", encoding="utf-8") as f:
+                    groups = json.load(f)
+                self._SMLT_Groupsubstances = groups
+                return groups
+            except Exception as e:
+                print(f"Warning: Failed to load group cache from {cache_file}: {e}")
+
+        # Compute the groups if not cached.
         groups = {}
         for rid in self.order:
             rec = self._load_record(rid)
@@ -670,7 +707,19 @@ class EuFCMannex1:
             if lst:
                 for fcm in lst:
                     groups.setdefault(fcm, []).append(rec.get("record"))
+
+        # Cache the result in the hidden field.
+        self._SMLT_Groupsubstances = groups
+
+        # Write the computed groups to the cache file.
+        try:
+            with open(cache_file, "w", encoding="utf-8") as f:
+                json.dump(groups, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            print(f"Warning: Failed to write group cache to {cache_file}: {e}")
+
         return groups
+
 
     def __repr__(self):
         csv_filename = os.path.basename(self.csv_file)
@@ -686,36 +735,4 @@ class EuFCMannex1:
 # Example usage (for debugging / standalone tests)
 # -------------------------------------------------------------------
 if __name__ == "__main__":
-    dbannex1 = EuFCMannex1(pubchem=True) # we promote the whole database
-    rec = dbannex1.bycid(6581)
-    repr(rec)
-
-    print(repr(dbannex1))
-    print(str(dbannex1))
-    first_record = dbannex1[1]
-    print(first_record)
-
-    # Search methods examples:
-    rec_by_cas = dbannex1.byCAS("102-39-6")
-    rec_by_name = dbannex1.byname("(1,3-phenylenedioxy)diacetic acid")
-
-    # Search by PubChem cid:
-    rec_by_cid = dbannex1.bycid(113194)  # if valid
-    rec_by_cid_missing = dbannex1.bycid(1023456)  # will warn and return None
-
-    # Search by SML range:
-    sml_records = dbannex1.bySML(0.01, 1.0)
-
-    # Callable access:
-    rec = dbannex1(113194)         # by cid (if exists) or by record number
-    rec_list = dbannex1(1023456, "102-39-6")
-
-    # Iterate over records:
-    for rec in dbannex1:
-        print(rec.get("cid"))
-
-    # Test membership:
-    if 10 in dbannex1:
-        print("Record 10 exists.")
-    if 113194 in dbannex1:
-        print("PubChem cid 113194 exists.")
+    pass

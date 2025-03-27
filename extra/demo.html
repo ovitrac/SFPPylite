@@ -3,7 +3,7 @@
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 
-<style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; --title-bar-height: 20px; }
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; --title-bar-height: 20px; }
 .mac-os-11 { --title-bar-height: 28px; }
 html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
 h1, h2, h3, h4, h5 { white-space: pre-wrap; }
@@ -220,234 +220,55 @@ mjx-container { break-inside: avoid; }
 .md-alert-text-container::after { content: attr(data-text); text-transform: capitalize; pointer-events: none; margin-right: 1ch; }
 
 
-/* 注：感谢：MamoruDS, 这个文件的大部分内容来自 https://github.com/MamoruDS/typora-vue-dark-theme. */
-
-.md-rawblock-control:not(.md-rawblock-tooltip) {
-    background: #555;
-    color: #fff;
+:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
 }
 
-.md-rawblock-on-edit>.md-rawblock-tooltip, .md-rawblock:hover>.md-rawblock-container, .md-rawblock:hover>.md-rawblock-tooltip {
-    background: #555;
-    color: #fff;
-}
+@include-when-export url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
 
-/* code color */
-.cm-s-inner .cm-keyword {
-    color: #bb7fc3
-}
-
-.cm-s-inner .cm-atom, .cm-s-inner.cm-atom {
-    color: #9088cc
-}
-
-.cm-s-inner .cm-number {
-    color: #88b2a1
-}
-
-.cm-s-inner .cm-def {
-    color: #7f7fff
-}
-
-.cm-s-inner .cm-variable {
-    color: #efefef
-}
-
-.cm-s-inner .cm-variable-2 {
-    color: #7faad4
-}
-
-.cm-s-inner .cm-variable-3 {
-    color: #7fc3aa
-}
-
-.cm-s-inner .cm-string {
-    color: #d48888
-}
-
-.cm-s-inner .cm-property {
-    color: #efefef
-}
-
-.cm-s-inner .cm-operator {
-    color: #cb8c8c
-}
-
-.cm-s-inner .cm-comment, .cm-s-inner.cm-comment {
-    color: hsl(0, 0%, 35%)
-}
-
-.cm-s-inner .cm-string-2 {
-    color: #ffaa7f
-}
-
-.cm-s-inner .cm-meta {
-    color: hsl(0, 0%, 33%)
-}
-
-.cm-s-inner .cm-qualifier {
-    color: hsl(0, 0%, 33%)
-}
-
-.cm-s-inner .cm-builtin {
-    color: #997fd4
-}
-
-.cm-s-inner .cm-bracket {
-    color: #ccccbb
-}
-
-.cm-s-inner .cm-tag {
-    color: #88bb7f
-}
-
-.cm-s-inner .cm-attribute {
-    color: #7f7fe5
-}
-
-.cm-s-inner .cm-header, .cm-s-inner.cm-header {
-    color: #7f7fff
-}
-
-.cm-s-inner .cm-quote, .cm-s-inner.cm-quote {
-    color: #7fcc7f
-}
-
-.cm-s-inner .cm-hr, .cm-s-inner.cm-hr {
-    color: hsl(0, 0%, 60%)
-}
-
-.cm-s-inner .cm-link, .cm-s-inner.cm-link {
-    color: #7f7fe5
-}
-
-.cm-negative {
-    color: #eea1a1
-}
-
-.cm-positive {
-    color: #90cc90
-}
-
-.cm-header, .cm-strong {
-    font-weight: 700
-}
-
-.cm-error {
-    color: #ff7f7f
-}
-
-.cm-invalidchar {
-    color: #ff7f7f
-}
-
-.cm-constant {
-    color: #42b983
-}
-
-.cm-defined {
-    color: #dac37f
-}
-
-div.CodeMirror span.CodeMirror-matchingbracket {
-    color: #7fff7f
-}
-
-div.CodeMirror span.CodeMirror-nonmatchingbracket {
-    color: #ff9090
-}:root {
-    --side-bar-bg-color: #343333;
-    /* --side-bar-bg-color: #fff; */
-    --control-text-color: #ffffff;
-    /* --control-text-color: #777; */
-    /* --select-text-bg-color: hsla(153, 47%, 49%, 0.5); */
-    --select-text-bg-color: hsl(153, 47%, 40%);
-    --select-text-font-color: #fff;
-    --bg-color: #1d1d1d;
-    --item-hover-bg-color: #fff;
-}
-
-/* cyrillic-ext */
-/* cyrillic */
-/* greek-ext */
-/* greek */
-/* vietnamese */
-/* latin-ext */
-/* latin */
-/* cyrillic-ext */
-/* cyrillic */
-/* greek-ext */
-/* greek */
-/* vietnamese */
-/* latin-ext */
-/* latin */
-/* cyrillic-ext */
-/* cyrillic */
-/* greek-ext */
-/* greek */
-/* vietnamese */
-/* latin-ext */
-/* latin */
-/* cyrillic-ext */
-/* cyrillic */
-/* greek-ext */
-/* greek */
-/* vietnamese */
-/* latin-ext */
-/* latin */
-html {
+/* open-sans-regular - latin-ext_latin */
+  /* open-sans-italic - latin-ext_latin */
+    /* open-sans-700 - latin-ext_latin */
+    /* open-sans-700italic - latin-ext_latin */
+  html {
     font-size: 16px;
+    -webkit-font-smoothing: antialiased;
 }
 
 body {
-    font-family: Source Sans Pro, Helvetica Neue, Arial, sans-serif !important;
-    color: #ffffff;
-    background-color: #1f1f1f;
-    -webkit-font-smoothing: antialiased;
-    line-height: 1.6rem;
-    letter-spacing: 0;
-    margin: 0;
-    overflow-x: hidden;
+    font-family: "Open Sans","Clear Sans", "Helvetica Neue", Helvetica, Arial, 'Segoe UI Emoji', sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
 }
 
 #write {
     max-width: 860px;
-    margin: 0 auto;
-    padding: 20px 30px 40px 30px;
-    padding-top: 20px;
+  	margin: 0 auto;
+  	padding: 30px;
     padding-bottom: 100px;
 }
 
-#write p {
-    /* text-indent: 2rem; */
-    line-height: 1.6rem;
-    word-spacing: .05rem;
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1024px;
+	}
 }
 
-#write ol li {
-    padding-left: 0.5rem;
+@media only screen and (min-width: 1800px) {
+	#write {
+		max-width: 1200px;
+	}
 }
 
 #write > ul:first-child,
-#write > ol:first-child {
+#write > ol:first-child{
     margin-top: 30px;
 }
 
-body > *:first-child {
-    margin-top: 0 !important;
-}
-
-body > *:last-child {
-    margin-bottom: 0 !important;
-}
-
 a {
-    color: #42b983;
-    font-weight: 600;
-    padding: 0px 2px;
-    text-decoration: none;
+    color: #4183C4;
 }
-
 h1,
 h2,
 h3,
@@ -461,7 +282,6 @@ h6 {
     line-height: 1.4;
     cursor: text;
 }
-
 h1:hover a.anchor,
 h2:hover a.anchor,
 h3:hover a.anchor,
@@ -470,361 +290,252 @@ h5:hover a.anchor,
 h6:hover a.anchor {
     text-decoration: none;
 }
-
 h1 tt,
 h1 code {
     font-size: inherit;
 }
-
 h2 tt,
 h2 code {
     font-size: inherit;
 }
-
 h3 tt,
 h3 code {
     font-size: inherit;
 }
-
 h4 tt,
 h4 code {
     font-size: inherit;
 }
-
 h5 tt,
 h5 code {
     font-size: inherit;
 }
-
 h6 tt,
 h6 code {
     font-size: inherit;
 }
-
 h1 {
-    padding-bottom: .4rem;
-    font-size: 2.2rem;
-    line-height: 1.3;
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
 }
 
-h2 {
-    font-size: 1.75rem;
-    line-height: 1.225;
-    margin: 35px 0px 15px 0px;
-    padding-bottom: 0.5em;
-    border-bottom: 2px solid hsl(0, 0%, 20%);
-}
+/*@media print {
+    .typora-export h1,
+    .typora-export h2 {
+        border-bottom: none;
+        padding-bottom: initial;
+    }
+
+    .typora-export h1::after,
+    .typora-export h2::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-top: -96px;
+        border-top: 1px solid #eee;
+    }
+}*/
 
 h3 {
-    font-size: 1.4rem;
+    font-size: 1.5em;
     line-height: 1.43;
-    margin: 20px 0px 7px 0px;
 }
-
 h4 {
-    font-size: 1.2rem;
+    font-size: 1.25em;
 }
-
 h5 {
-    font-size: 1rem;
+    font-size: 1em;
 }
-
 h6 {
-    font-size: 1rem;
-    color: hsl(0, 0%, 53%);
+   font-size: 1em;
+    color: #777;
 }
-
 p,
 blockquote,
 ul,
 ol,
 dl,
-table {
+table{
     margin: 0.8em 0;
 }
-
-li > ol,
-li > ul {
+li>ol,
+li>ul {
     margin: 0 0;
 }
-
 hr {
     height: 2px;
     padding: 0;
     margin: 16px 0;
-    background-color: hsl(0, 0%, 18%);
+    background-color: #e7e7e7;
     border: 0 none;
     overflow: hidden;
     box-sizing: content-box;
 }
 
-body > h2:first-child {
-    margin-top: 0;
-    padding-top: 0;
-}
-
-body > h1:first-child {
-    margin-top: 0;
-    padding-top: 0;
-}
-
-body > h1:first-child + h2 {
-    margin-top: 0;
-    padding-top: 0;
-}
-
-body > h3:first-child,
-body > h4:first-child,
-body > h5:first-child,
-body > h6:first-child {
-    margin-top: 0;
-    padding-top: 0;
-}
-
-a:first-child h1,
-a:first-child h2,
-a:first-child h3,
-a:first-child h4,
-a:first-child h5,
-a:first-child h6 {
-    margin-top: 0;
-    padding-top: 0;
-}
-
-h1 p,
-h2 p,
-h3 p,
-h4 p,
-h5 p,
-h6 p {
-    margin-top: 0;
-}
-
 li p.first {
     display: inline-block;
 }
-
 ul,
 ol {
     padding-left: 30px;
 }
-
 ul:first-child,
 ol:first-child {
     margin-top: 0;
 }
-
 ul:last-child,
 ol:last-child {
     margin-bottom: 0;
 }
-
 blockquote {
-    border-left: 4px solid #42b983;
-    padding: 10px 0px 10px 15px;
-    color: #fff;
-    background-color: rgba(66, 185, 131, .1);
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
 }
-
+blockquote blockquote {
+    padding-right: 0;
+}
 table {
-    font-family: Menlo, Source Sans Pro, Monaco, courier, monospace !important;
-    font-size: 0.85rem;
     padding: 0;
     word-break: initial;
 }
-
 table tr {
-    border-top: 1px solid hsl(210, 10%, 11%);
+    border: 1px solid #dfe2e5;
     margin: 0;
     padding: 0;
 }
-
 table tr:nth-child(2n),
 thead {
-    /* background-color: hsl(0, 0%, 2%); */
-    background-color: hsl(0, 0%, 10%);
+    background-color: #f8f8f8;
 }
-
-table tr th {
+table th {
     font-weight: bold;
-    /* border: 1px solid hsl(210, 10%, 11%); */
-    border: transparent;
+    border: 1px solid #dfe2e5;
     border-bottom: 0;
-    text-align: left;
     margin: 0;
     padding: 6px 13px;
 }
-
-table tr td {
-    /* border: 2px solid hsl(210, 10%, 11%); */
-    /* border: 2px solid hsl(0, 0%, 4%); */
-    border: 2px solid #1d1d1d;
-    text-align: left;
+table td {
+    border: 1px solid #dfe2e5;
     margin: 0;
     padding: 6px 13px;
 }
-
-table tr th:first-child,
-table tr td:first-child {
+table th:first-child,
+table td:first-child {
     margin-top: 0;
 }
-
-table tr th:last-child,
-table tr td:last-child {
+table th:last-child,
+table td:last-child {
     margin-bottom: 0;
 }
 
-#write strong {
-    padding: 0px 1px 0 1px;
+.CodeMirror-lines {
+    padding-left: 4px;
 }
 
-#write em {
-    padding: 0px 5px 0 2px;
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
 }
 
-#write table thead th {
-    /* background-color: hsl(0, 0%, 5%); */
-    background-color: hsl(0, 0%, 9%);
+.md-fences,
+code,
+tt {
+    border: 1px solid #e7eaed;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0;
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
 }
 
-#write .CodeMirror-gutters {
-    border-right: none;
+code {
+    background-color: #f3f4f4;
+    padding: 0 2px 0 2px;
 }
 
-#write .md-fences {
-    border: 1px solid hsl(0, 0%, 11%);
-    -webkit-font-smoothing: initial;
-    margin: 0.8rem 0 !important;
-    padding: 0.3rem 0rem !important;
-    line-height: 1.43rem;
-    color: hsl(0, 0%, 78%);
-    background-color: hsl(0, 0%, 10%) !important;
-    border-radius: 2px;
-    font-family: Menlo, Source Sans Pro, Monaco, courier, monospace !important;
-    font-weight: bold;
-    font-size: 0.85rem;
-    word-wrap: normal;
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 8px;
+    padding-bottom: 6px;
 }
 
-#write .CodeMirror-wrap .CodeMirror-code pre {
-    padding-left: 12px;
-}
-
-#write code, tt {
-    margin: 0 2px;
-    padding: 2px 4px;
-    border-radius: 2px;
-    font-family: Menlo, Source Sans Pro, Monaco, courier, monospace !important;
-    font-weight: bold;
-    font-size: 0.85rem;
-    color: #f3b37f;
-    background-color: hsla(0, 0%, 0%, 0.2);
-}
-
-#write .md-footnote {
-    background-color: hsla(0, 0%, 0%, 0.2);
-    color: #f3b37f;
-}
-
-/* heighlight. */
-#write mark {
-    background-color: #EBFFEB;
-    border-radius: 2px;
-    padding: 2px 4px;
-    margin: 0 2px;
-    color: #222;
-    font-weight: 500;
-}
-
-#write del {
-    padding: 1px 2px;
-}
-
-.cm-s-inner .cm-link,
-.cm-s-inner.cm-link {
-    color: #22a2c9;
-}
-
-.cm-s-inner .cm-string {
-    color: #22a2c9;
-}
 
 .md-task-list-item > input {
-    margin-left: -1.3em;
-}
-
-@media screen and (min-width: 914px) {
-    /*body {
-        width: 854px;
-        margin: 0 auto;
-    }*/
+  margin-left: -1.3em;
 }
 
 @media print {
     html {
         font-size: 13px;
     }
-
-    table,
     pre {
         page-break-inside: avoid;
-    }
-
-    pre {
         word-wrap: break-word;
     }
 }
 
+.md-fences {
+	background-color: #f8f8f8;
+}
 #write pre.md-meta-block {
-    padding: 1rem;
+	padding: 1rem;
     font-size: 85%;
     line-height: 1.45;
-    background-color: hsl(0, 0%, 3%);
+    background-color: #f7f7f7;
     border: 0;
     border-radius: 3px;
-    color: hsl(0, 0%, 53%);
+    color: #777777;
     margin-top: 0 !important;
 }
 
-.mathjax-block > .code-tooltip {
-    bottom: .375rem;
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
 }
 
-#write > h3.md-focus:before {
-    left: -1.5625rem;
-    top: .375rem;
+.md-mathjax-midline {
+    background: #fafafa;
 }
 
-#write > h4.md-focus:before {
-    left: -1.5625rem;
-    top: .285714286rem;
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
 }
-
-#write > h5.md-focus:before {
-    left: -1.5625rem;
-    top: .285714286rem;
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
 }
-
-#write > h6.md-focus:before {
-    left: -1.5625rem;
-    top: .285714286rem;
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
 }
-
-.md-image > .md-meta {
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    /*border: 1px solid #ddd;*/
     border-radius: 3px;
-    font-family: Consolas, "Liberation Mono", Courier, monospace;
     padding: 2px 0px 0px 4px;
     font-size: 0.9em;
     color: inherit;
 }
 
 .md-tag {
-    color: inherit;
+    color: #a7a7a7;
+    opacity: 1;
 }
 
-.md-toc {
-    margin-top: 20px;
-    padding-bottom: 20px;
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
 }
 
 .sidebar-tabs {
@@ -837,181 +548,66 @@ table tr td:last-child {
 }
 
 #typora-quick-open-item {
-    background-color: hsl(0, 0%, 2%);
-    border-color: hsl(0, 0%, 0%) hsl(0, 0%, 10%) hsl(0, 0%, 10%) hsl(0, 0%, 7%);
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
     border-style: solid;
     border-width: 1px;
 }
 
-#md-notification:before {
-    top: 10px;
-}
-
 /** focus mode */
-
 .on-focus-mode blockquote {
     border-left-color: rgba(85, 85, 85, 0.12);
 }
 
-header,
-.context-menu,
-.megamenu-content,
-footer {
+header, .context-menu, .megamenu-content, footer{
     font-family: "Segoe UI", "Arial", sans-serif;
 }
 
 .file-node-content:hover .file-node-icon,
-.file-node-content:hover .file-node-open-state {
+.file-node-content:hover .file-node-open-state{
     visibility: visible;
 }
 
 .mac-seamless-mode #typora-sidebar {
-    background-color: hsl(0, 0%, 2%);
+    background-color: #fafafa;
     background-color: var(--side-bar-bg-color);
 }
 
+.mac-os #write{
+    caret-color: AccentColor;
+}
+
 .md-lang {
-    color: #42b983;
+    color: #b4654d;
 }
 
-.html-for-mac .context-menu {
-    --item-hover-bg-color: hsl(215, 92%, 5%);
-}
+/*.html-for-mac {
+    --item-hover-bg-color: #E6F0FE;
+}*/
 
-#typora-sidebar {
-    /* font-family: Menlo, Source Sans Pro, Monaco, courier, monospace !important; */
-    font-family: Helvetica, Arial !important;
-    font-weight: bold;
-}
-
-.file-list-item-summary{
-    font-family: Helvetica, Arial !important;
-    font-weight: 400;
-}
-
-.file-list-item {
-    border-bottom: 0.15rem solid hsl(0, 0%, 18%);
-}
-
-.file-list-item.active {
-    background: hsl(0, 0%, 15%) !important;
-}
-
-.file-node-background {
-    height: 29px;
-}
-
-#toc-dropmenu {
-    background: hsl(0, 0%, 18%) !important;
-    /* font-family: Menlo, Source Sans Pro, Monaco, courier, monospace !important; */
-    font-weight: bold;
-}
-
-#toc-content {
-    margin-top: 1.0rem;
-    margin-bottom: 1.0rem;
-}
-
-#toc-content a:hover {
-    text-decoration: none;
-}
-
-.outline-item {
-    /* transition: color 150ms, background-color 150ms; */
-    transition: color 150ms;
-}
-
-.outline-item:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #42b983;
-}
-
-.sidebar-footer {
-    border-top: 2px solid hsl(0, 0%, 15%) !important;
-}
-
-.footer-item:hover, .sidebar-footer-item:hover {
-    background-color: rgba(0, 0, 0, 0.5) !important;
-}
-
-.file-tree-node.active>.file-node-background {
-    background-color: hsl(0, 0%, 15%) !important;
-}
-
-.file-node-content:hover {
-    color: #fff;
-}
-
-html{
-    background: #1f1f1f !important;
-}
-
-.outline-title-wrapper {
-    display: none;
+#md-notification .btn {
+    border: 0;
 }
 
 .dropdown-menu .divider {
-    display: none;
-    height: 2px;
-    background-color: hsl(0, 0%, 13%);
+    border-color: #e5e5e5;
+    opacity: 0.4;
 }
 
-.dropdown-menu>li>a {
-    color: #fff;
+.ty-preferences .window-content {
+    background-color: #fafafa;
 }
 
-.autoComplt-hint {
-    color: #42b983 !important;
-    /* border-color: transparent !important */
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
 }
 
-.auto-suggest-container {
-    color: #42b983 !important;
-    font-family: Menlo, Source Sans Pro, Monaco, courier, monospace !important;
-    font-weight: bold !important;
-    border-color: #42b983 !important;
-    border-radius: 8px !important;
-    border-width: 2px !important;
-    margin-top: 5px;
-    overflow: hidden !important;
-    box-shadow: 0 0 1rem hsla(153, 47%, 49%, 0.3);
+.menu-item-container a.menu-style-btn {
+    background-color: #f5f8fa;
+    background-image: linear-gradient( 180deg , hsla(0, 0%, 100%, 0.8), hsla(0, 0%, 100%, 0)); 
 }
 
-/* .auto-suggest-container li { */
-    /* transition: all 150ms; */
-    /* text-align: center !important; */
-/* } */
-
-.auto-suggest-container li:hover {
-    color: #fff !important;
-    background-color: #42b983 !important;
-    /* text-align: right !important; */
-}
-
-/* windows */
-/* .modal-dialog { */
-    /* color: #000; */
-/* } */
-
-.typora-sourceview-on #toggle-sourceview-btn{
-    background-color: #42b983
-}
-
-/* cursor */
-.CodeMirror.cm-s-typora-default div.CodeMirror-cursor {
-    border-left: 5px solid #42b983;
-}
-
-.CodeMirror div.CodeMirror-cursor {
-    border-left: 5px solid #42b983;
-    z-index: 3;
-}
-
-/* selected text */
-/* .CodeMirror-selecte { */
-    /* background-color: hsla(153, 47%, 49%, 0.5) !important; */
-    /* color: #fff !important; */
-/* } */
 
  .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} h1,h2,h3,h4,h5 {white-space:pre-line}
 </style><title>demo</title>
@@ -1025,15 +621,14 @@ html{
            alt="GitHub SFPPy" style="border-radius: 8px;">
     </a>
     <div style="display: flex; align-items: center; font-size: 14px; font-weight: bold;">
-      <span style="color: white;">v1.37</span>
+      <span style="color: white;">v1.40</span>
       <a href="mailto:olivier.vitrac@gmail.com" title="E-mail the author" style="margin-left: 8px; font-size: 20px;">📩</a>
     </div>
   </div>
-</div><h2 id='🐍-sfppy-lite-🌐'><strong><span>🐍 SFPPy-Lite 🌐</span></strong></h2><blockquote><p><strong><span>SFPPy</span></strong><span>: A Python Framework for Food Contact Compliance &amp; Risk Assessment</span><br/><span>🍏⏩🍎 </span><strong><span>SFPPy-Lite</span></strong><span> runs </span><strong><span>entirely in your browser</span></strong><span> — no server, no install, fully operational!</span></p></blockquote><p><a href='https://ovitrac.github.io/SFPPylite/'><img src="https://img.shields.io/badge/launch-demo-blueviolet?logo=jupyter&amp;style=for-the-badge" referrerpolicy="no-referrer" alt="🧪 Try it online!"></a><span> and Open the notebook </span><code>demo.ipynb</code><span> to begin in the left panel.</span></p><video width="100%" controls  autoplay loop muted playsinline">
+</div><h2 id='🐍-sfppy-lite-🌐'><strong><span>🐍 SFPPy-Lite 🌐</span></strong></h2><blockquote><p><strong><span>SFPPy</span></strong><span>: A Python Framework for Food Contact Compliance &amp; Risk Assessment</span><br/><span>🍏⏩🍎 </span><strong><span>SFPPy-Lite</span></strong><span> runs </span><strong><span>entirely in your browser</span></strong><span> — no server, no install, fully operational!</span></p></blockquote><p>&nbsp;</p><p><a href='https://ovitrac.github.io/SFPPylite/lab/index.html?path=demo.ipynb'><img src="https://img.shields.io/badge/launch-demo-blueviolet?logo=jupyter&amp;style=for-the-badge" referrerpolicy="no-referrer" alt="🧪 Try it online!"></a></p><video width="100%" controls  autoplay loop muted playsinline">
   <source src="https://github.com/ovitrac/SFPPylite/raw/refs/heads/main/extra/videos/SFPPylite.mp4" type="video/mp4">
   Your browser does not support the video tag.
-</video><p>&nbsp;</p><hr style="height: 4px; background-color: #4CAF50; box-shadow: 2px 2px 4px gray; border: none;"><h3 id='status-fully-functional-demo'><span> Status: Fully Functional Demo</span></h3><div class="md-alert md-alert-warning warning"><p><span class='md-alert-text md-alert-text-warning'><svg viewBox="0 0 16 16" version="1.1" width="1em" height="1em" aria-hidden="true"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</span><br><span>The first-time import triggers </span><strong><span>live Python code compilation</span></strong><span> of 🌐</span><strong><span>SFPPyLite</span></strong><span> in your browser — ⏱️ this may take </span><strong><span>3–5 minutes</span></strong><span>.  </span></p><p><span>✅ Subsequent operations (simulation, plotting, exporting to PDF/XLSX) are almost instantaneous.</span><br/><span>✅ SFPPy </span><strong><span>Widgets</span></strong><span> are fully supported and run natively in-browser.</span><br/><span>🪧🌐SFPPylite is shipped with the full 🇪🇺 Annex 1 of Regulation (EU) 10/2011. The automatic retrieval of substances on PubChem is partially available.</span>
-<span>❌ </span><strong><span>ToxTree</span></strong><span> is not supported.</span></p><p>&nbsp;</p></div><hr style="height: 4px; background-color: #4CAF50; box-shadow: 2px 2px 4px gray; border: none;"><h3 id='🍏⏩🍎-access-the-full-sfppy-framework'><span>🍏⏩🍎 Access the Full SFPPy Framework</span></h3><p><a href="https://github.com/ovitrac/SFPPy" target="_blank" title="SFPPy – Python Framework for Food Contact Compliance">
+</video><p>&nbsp;</p><hr style="height: 4px; background-color: #4CAF50; box-shadow: 2px 2px 4px gray; border: none;"><h3 id='ـــــــــــــــﮩ٨ـstatus-moved-from-🚧-demo-to-🟢-ready-for-production'><span>ـــــــــــــــﮩ٨ـStatus: moved from 🚧 </span><em><span>Demo</span></em><span> to 🟢 </span><em><span>Ready for Production</span></em></h3><div class="md-alert md-alert-warning warning"><p><span class='md-alert-text md-alert-text-warning'><svg viewBox="0 0 16 16" version="1.1" width="1em" height="1em" aria-hidden="true"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</span><br></p><p><span>💡 </span><strong><span>Start Here</span></strong><span>: Launch the notebook </span><code>demo.ipynb</code><span> to begin (or watch the </span><a href='https://ovitrac.github.io/SFPPy/SFPPylite_demo.html'><span>video walkthrough</span></a><span>).  </span></p><p><span>✅ All components are now operational, including notebooks under 📂</span><strong><span>Notebooks/</span></strong><span>, as well as </span><strong><span>graphical interfaces</span></strong><span>, </span><strong><span>simulation</span></strong><span>, </span><strong><span>plotting</span></strong><span>, </span><strong><span>curve fitting</span></strong><span>, and </span><strong><span>export to PDF/XLSX</span></strong><span>.  </span></p><p><span>⏱️ </span><strong><span>SFPPyLite</span></strong><span> runs at approximately half the speed 🌗 of the desktop version. However, all notebooks execute in under one minute. This performance is sufficient for practical use, with the caveat that </span><strong><span>native in-browser execution</span></strong><span> (via Pyodide/WebAssembly) imposes some limitations.  </span></p><p><span>🪧🌐 The full 🇪🇺 </span><strong><span>Annex I of Regulation (EU) 10/2011</span></strong><span> is included and searchable.  </span></p><p><span>🚩 </span><strong><span>PubChem substance retrieval</span></strong><span> is </span><em><span>partially functional</span></em><span>: the module </span><code>private.pubchemspy</code><span> has been adapted for JupyterLite, but </span><strong><span>write operations may fail</span></strong><span> due to incompatibilities between </span><strong><span>Pyodide</span></strong><span> and </span><strong><span>IndexedDB</span></strong><span>, the browser’s internal filesystem.  </span></p><p><span>❌ </span><strong><span>ToxTree</span></strong><span> is not supported, as it cannot currently be compiled to </span><strong><span>WebAssembly</span></strong><span>.  </span></p><p>&nbsp;</p></div><hr style="height: 4px; background-color: #4CAF50; box-shadow: 2px 2px 4px gray; border: none;"><h3 id='💾-storage-in-sfppylite'><span>💾 Storage in SFPPylite</span></h3><div class="md-alert md-alert-note note"><p><span class='md-alert-text md-alert-text-note'><svg viewBox="0 0 16 16" version="1.1" width="1em" height="1em" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</span><br></p><p><span>🗃️ Files (notebooks, scripts, data, etc.) are </span><strong><span>persistently stored</span></strong><span> across sessions in your browser. </span><strong><span>Your data is safe</span></strong><span>, unless you&#39;re working in </span><strong><span>incognito/private mode</span></strong><span>. You can also </span><strong><span>drop your own files</span></strong><span> into the left panel or </span><strong><span>download existing ones</span></strong><span>.</span><br/><span>⚙️Press </span><kbd><span>CTRL+J</span></kbd><span> to access development tools in your browser and select Application to see the the JupyterLite Storage. 🗑️ It can be reinitialized there if needed.</span></p><p><img src="assets/Screenshot-20250327002643-1448x1062.png" alt="Screenshot-20250327002643-1448x1062" style="zoom: 33%;" /></p><p><span>🔔</span><strong><span>SFPPylite files</span></strong><span> included in the distribution (Python files, Json databases, notebooks) are not saved in the IndexDB database.  They are stored in the static app bundle (📂</span><strong><span>content/</span></strong><span> folder ) and mounted as 📂</span><strong><span>/</span></strong><span> in </span><strong><span>JupyterLite</span></strong><span>, backed by </span><strong><span>Emscripten&#39;s MEMFS or IDBFS</span></strong><span> (via </span><code>pyodide</code><span>).  </span></p><ol start='' ><li><p><strong><span>The prebuilt version is not protected</span></strong><span> — it is treated as just another file once the app is loaded.</span></p></li><li><p><strong><span>The original content is lost</span></strong><span> in the current session, and on refresh, </span><strong><span>the user version persists</span></strong><span> (persistent storage is enabled by default).</span></p></li><li><p><strong><span>Even built-in notebooks can be permanently replaced</span></strong><span>, unless the user clears their browser storage.</span></p></li><li><p><strong><span>Even if the app was updated</span></strong><span> with a new version of the file, the </span><strong><span>old user version takes precedence</span></strong><span>.</span></p></li></ol><p><span>❗⚠️ Remove the files you modified from the </span><strong><span>SFPPylite bundle</span></strong><span> (i.e., the overrides you did) if you want the benefit of regular updates. </span></p></div><p>&nbsp;</p><h3 id='🍏⏩🍎-access-the-full-sfppy-framework'><span>🍏⏩🍎 Access the Full SFPPy Framework</span></h3><p><a href="https://github.com/ovitrac/SFPPy" target="_blank" title="SFPPy – Python Framework for Food Contact Compliance">
 <span>  </span><img src="https://img.shields.io/badge/SFPPy-%F0%9F%8D%8F%E2%8F%A9%F0%9F%8D%8E_PARENT PROJECT-4CAF50?style=for-the-badge&logo=python" alt="SFPPy 🍏⏩🍎">
 </a></p><p>&nbsp;</p><hr style="height: 4px; background-color: #4CAF50; box-shadow: 2px 2px 4px gray; border: none;"><div style="border: 2px solid #4CAF50; border-radius: 8px; padding: 10px; background: linear-gradient(to right, #4CAF50, #FF4D4D); color: white; text-align: center; font-weight: bold;">
   <span style="font-size: 20px;">🍏⏩🍎 <strong>SFPPy for Food Contact Compliance and Risk Assessment</strong></span><br>
