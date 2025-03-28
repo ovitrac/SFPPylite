@@ -1,93 +1,79 @@
 {
   "appName": "SFPPylite",
-  "settingsOverrides": {
-    "@jupyterlab/notebook-extension:panel": {
-      "toolbar": [
-        {
-          "name": "download",
-          "label": "Download",
-          "args": {},
-          "command": "docmanager:download",
-          "icon": "ui-components:download",
-          "rank": 50
-        }
-      ]
-    },
-    "@jupyterlab/launcher-extension:launcher": {
-      "items": [
-        {
-          "command": "notebook:open",
-          "args": {
-            "path": "demo.ipynb"
-          },
-          "category": "SFPPy",
-          "label": "🚀 Start Here: Demo"
+  "@jupyterlab/launcher-extension:launcher": {
+    "items": [
+      {
+        "command": "notebook:open",
+        "args": {
+          "path": "demo.ipynb"
         },
-        {
-          "command": "notebook:open",
-          "args": {
-            "path": "notebooks/comply.ipynb"
-          },
-          "category": "SFPPy",
-          "label": "✅ Compliance"
+        "category": "SFPPy",
+        "label": "🚀 Start Here: Demo"
+      },
+      {
+        "command": "notebook:open",
+        "args": {
+          "path": "notebooks/comply.ipynb"
         },
-        {
-          "command": "notebook:open",
-          "args": {
-            "path": "notebooks/example1.ipynb"
-          },
-          "category": "SFPPy",
-          "label": "🔬 Example 1"
+        "category": "SFPPy",
+        "label": "✅ Compliance"
+      },
+      {
+        "command": "notebook:open",
+        "args": {
+          "path": "notebooks/example1.ipynb"
         },
-        {
-          "command": "notebook:open",
-          "args": {
-            "path": "notebooks/example2.ipynb"
-          },
-          "category": "SFPPy",
-          "label": "📦 Example 2"
+        "category": "SFPPy",
+        "label": "🔬 Example 1"
+      },
+      {
+        "command": "notebook:open",
+        "args": {
+          "path": "notebooks/example2.ipynb"
         },
-        {
-          "command": "notebook:open",
-          "args": {
-            "path": "notebooks/example3.ipynb"
-          },
-          "category": "SFPPy",
-          "label": "⛓ Example 3"
+        "category": "SFPPy",
+        "label": "📦 Example 2"
+      },
+      {
+        "command": "notebook:open",
+        "args": {
+          "path": "notebooks/example3.ipynb"
         },
-        {
-          "command": "notebook:open",
-          "args": {
-            "path": "notebooks/example4.ipynb"
-          },
-          "category": "SFPPy",
-          "label": "🔧 Example 4"
+        "category": "SFPPy",
+        "label": "⛓ Example 3"
+      },
+      {
+        "command": "notebook:open",
+        "args": {
+          "path": "notebooks/example4.ipynb"
         },
-        {
-          "command": "notebook:open",
-          "args": {
-            "path": "notebooks/gui.ipynb"
-          },
-          "category": "SFPPy",
-          "label": "🖼 GUI"
+        "category": "SFPPy",
+        "label": "🔧 Example 4"
+      },
+      {
+        "command": "notebook:open",
+        "args": {
+          "path": "notebooks/gui.ipynb"
         },
-        {
-          "command": "notebook:open",
-          "args": {
-            "path": "notebooks/index.ipynb"
-          },
-          "category": "SFPPy",
-          "label": "🧭 Index"
+        "category": "SFPPy",
+        "label": "🖼 GUI"
+      },
+      {
+        "command": "notebook:open",
+        "args": {
+          "path": "notebooks/index.ipynb"
         },
-        {
-          "command": "filebrowser:open-url",
-          "args": {
-            "url": "utils/reset.html"
-          },
-          "category": "SFPPy",
-          "label": "♻️ Reset Storage"
-        }
-      ]
-    }
+        "category": "SFPPy",
+        "label": "🧭 Index"
+      },
+      {
+        "command": "filebrowser:open-url",
+        "args": {
+          "url": "utils/reset.html"
+        },
+        "category": "SFPPy",
+        "label": "♻️ Reset Storage"
+      }
+    ]
   }
 }
