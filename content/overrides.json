@@ -1,5 +1,4 @@
 {
-  "appName": "SFPPylite",
   "@jupyterlab/launcher-extension:launcher": {
     "items": [
       {
