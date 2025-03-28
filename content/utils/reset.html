@@ -7,6 +7,24 @@
 </head>
 <body style="font-family: sans-serif; margin: 0; background-color: #f9f9f9;">
 
+<!-- WARNING -->
+<div id="js-warning" style="
+  margin: 30px 0;
+  padding: 1em;
+  background: #ffebee;
+  border-left: 5px solid #d32f2f;
+  font-size: 16px;
+  color: #b71c1c;
+  font-weight: bold;
+  line-height: 1.5;
+">
+  ⚠️ <strong>JavaScript is disabled or blocked.</strong><br>
+  This page will not function correctly if opened from inside JupyterLite or a restricted environment.<br><br>
+  👉 Please <a href="https://ovitrac.github.io/SFPPylite/files/utils/reset.html" target="_blank" style="color: #d32f2f; text-decoration: underline;">
+  open this reset tool in a new browser tab</a> for it to work properly.
+</div>
+
+    
 <!-- HEADER -->
 <div style="border-radius: 8px; padding: 12px; background: linear-gradient(to right, #4CAF50, #FF4D4D);
             color: white; font-size: 28px; font-weight: bold; display: flex; align-items: center; justify-content: center; position: relative;">
@@ -116,6 +134,15 @@
     }
   }
 </script>
+
+<script>
+  // Hide the warning if JS is running normally
+  document.addEventListener("DOMContentLoaded", function () {
+    const warn = document.getElementById("js-warning");
+    if (warn) warn.style.display = "none";
+  });
+</script>
+
 
 </body>
 </html>
