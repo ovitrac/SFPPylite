@@ -1,0 +1,76 @@
+{
+  "items": [
+    {
+      "command": "notebook:open",
+      "args": {
+        "path": "demo.ipynb"
+      },
+      "category": "SFPPy",
+      "label": "🚀 Start Here: Demo"
+    },
+    {
+      "command": "notebook:open",
+      "args": {
+        "path": "notebooks/comply.ipynb"
+      },
+      "category": "SFPPy",
+      "label": "✅ Compliance"
+    },
+    {
+      "command": "notebook:open",
+      "args": {
+        "path": "notebooks/example1.ipynb"
+      },
+      "category": "SFPPy",
+      "label": "🔬 Example 1"
+    },
+    {
+      "command": "notebook:open",
+      "args": {
+        "path": "notebooks/example2.ipynb"
+      },
+      "category": "SFPPy",
+      "label": "📦 Example 2"
+    },
+    {
+      "command": "notebook:open",
+      "args": {
+        "path": "notebooks/example3.ipynb"
+      },
+      "category": "SFPPy",
+      "label": "⛓ Example 3"
+    },
+    {
+      "command": "notebook:open",
+      "args": {
+        "path": "notebooks/example4.ipynb"
+      },
+      "category": "SFPPy",
+      "label": "🔧 Example 4"
+    },
+    {
+      "command": "notebook:open",
+      "args": {
+        "path": "notebooks/gui.ipynb"
+      },
+      "category": "SFPPy",
+      "label": "🖼 GUI"
+    },
+    {
+      "command": "notebook:open",
+      "args": {
+        "path": "notebooks/index.ipynb"
+      },
+      "category": "SFPPy",
+      "label": "🧭 Index"
+    },
+    {
+      "command": "filebrowser:open-url",
+      "args": {
+        "url": "utils/reset.html"
+      },
+      "category": "SFPPy",
+      "label": "♻️ Reset Storage"
+    }
+  ]
+}
