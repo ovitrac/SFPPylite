@@ -126,8 +126,6 @@ You can explore and use **SFPPy’s core functionalities** **instantly** — wit
 
 ---
 
----
-
 ### 🍏⏩🍎 `SFPPy` and `SFPPylite`: Built for AI. Ready for Simulation.
 
 🤖 +⚖️ *Can robots like **GPT** really evaluate food contact compliance using **SFPPy** or **SFPPylite***?* *Check out the intriguing answers from two GPT-powered experts [here](https://github.com/ovitrac/SFPPy/wiki/🤖-Ask-GPT-to-demonstrate-compliance-with-SFPPy)!*.
