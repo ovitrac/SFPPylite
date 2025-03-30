@@ -24,7 +24,7 @@
 #	- 1.40: fourth release, inline with SFPPylite
 #
 #
-# Author: INRAE\olivier.vitrac@agroparistech.fr
+# Author: INRAE\olivier.vitrac@gmail.com
 # Revision: 2025-03-27
 #
 version="1.40"
