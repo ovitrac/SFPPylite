@@ -3,8 +3,8 @@
   "jupyter-config-data": {
   "lite:settings": {
       "lite:faviconUrl": "./favicon.svg"
-    }
-    "appName": "SFPPylite",
+    },
+    "appName": "🌐SFPPylite",
     "appVersion": "1.40",
     "faviconUrl": "./files/favicon.ico",
     "contentsStorageName": "SFPPyLite Storage",
