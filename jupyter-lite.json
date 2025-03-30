@@ -3,6 +3,7 @@
   "jupyter-config-data": {
     "appName": "SFPPylite",
     "appVersion": "1.40",
+    "faviconUrl": "./files/utils/favicon.ico",
     "contentsStorageName": "SFPPyLite Storage",
     "settingsStorageName": "SFPPyLite Storage",
     "disabledExtensions": [
