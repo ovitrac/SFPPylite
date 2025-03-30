@@ -100,5 +100,22 @@
         ]
       }
     }
+  },
+  "pyodide": {
+    "packages": [
+      "numpy",
+      "scipy",
+      "pandas",
+      "matplotlib",
+      "ipywidgets",
+      "nbformat",
+      "openpyxl",
+      "ipyevents",
+      "ipympl",
+      "ipycanvas",
+      "ipyleaflet",
+      "plotly",
+      "bqplot"
+    ]
   }
 }
