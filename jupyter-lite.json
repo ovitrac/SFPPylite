@@ -2,11 +2,11 @@
   "jupyter-lite-schema-version": 0,
   "jupyter-config-data": {
   "lite:settings": {
-      "lite:faviconUrl": "./favicon.svg"
+      "lite:faviconUrl": "./files/utils/favicon.svg"
     },
     "appName": "🌐SFPPylite",
     "appVersion": "1.40",
-    "faviconUrl": "./files/favicon.ico",
+    "faviconUrl": "./files/utils/favicon.ico",
     "contentsStorageName": "SFPPyLite Storage",
     "settingsStorageName": "SFPPyLite Storage",
     "disabledExtensions": [
