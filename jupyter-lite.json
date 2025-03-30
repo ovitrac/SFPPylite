@@ -4,7 +4,7 @@
   "lite:settings": {
       "lite:faviconUrl": "./files/utils/favicon.svg"
     },
-    "appName": "🌐SFPPylite",
+    "appName": "🌐SFPPylite 🍏⏩🍎",
     "appVersion": "1.40",
     "faviconUrl": "./files/utils/favicon.ico",
     "contentsStorageName": "SFPPyLite Storage",
@@ -19,7 +19,7 @@
         "toolbar": [
           {
             "name": "download",
-            "label": "Download",
+            "label": "Download🍏⏩🍎",
             "args": {},
             "command": "docmanager:download",
             "icon": "ui-components:download",
