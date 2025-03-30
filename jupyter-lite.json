@@ -2,6 +2,9 @@
   "jupyter-lite-schema-version": 0,
   "jupyter-config-data": {
     "appName": "SFPPylite",
+    "appVersion": "1.40",
+    "contentsStorageName": "SFPPyLite Storage",
+    "settingsStorageName": "SFPPyLite Storage",
     "disabledExtensions": [
       "@jupyterlab/drawio-extension",
       "jupyterlab-kernel-spy",
