@@ -167,7 +167,7 @@ from patankar.private.pubchempy import get_compounds
 # European rules
 import patankar.private.EUFCMannex1 as complyEU # Annex 1 (we import all the module as complyEU)
 
-__all__ = ['CompoundIndex', 'create_substance_widget', 'dbannex1', 'dbdefault', 'floatNone', 'get_compounds', 'migrant', 'migrantToxtree', 'parse_molblock', 'parse_sdf', 'polarity_index']
+__all__ = ['CompoundIndex', 'create_substance_widget', 'dbannex1', 'dbfcn', 'dbdefault', 'floatNone', 'get_compounds', 'migrant', 'migrantToxtree', 'parse_molblock', 'parse_sdf', 'polarity_index']
 
 __project__ = "SFPPylite"
 __author__ = "Olivier Vitrac"
@@ -176,7 +176,7 @@ __credits__ = ["Olivier Vitrac"]
 __license__ = "MIT"
 __maintainer__ = "Olivier Vitrac"
 __email__ = "olivier.vitrac@agroparistech.fr"
-__version__ = "1.37"
+__version__ = "1.41"
 
 # DEBUG MODE
 # Issues with JupyterLite Pyodide FS layer (specifically IDBFS)
@@ -189,6 +189,12 @@ if complyEU.EuFCMannex1.isindexinitialized(): # <EuFCMannex1: 1194 records (Anne
     doSML = True # SML are available
 else:
     doSML = False # SML are not available (prevent circular references when the index of EuFCMannex1 is refreshed)
+
+if complyUS.USFDAfcn.isindexinitialized(): # <USFDAfcn: 1698 records (US FDA FCS)>
+    dbfcn = complyUS.USFDAfcn(pubchem=True)
+    doFCN = True # Food Contact Notification (FCN) available
+else:
+    doFCN = False
 
 # %% Private functions and constants (used by estimators)
 
@@ -217,6 +223,36 @@ def PubChemCacheCheck(cache_dir):
 # Enforcing rate limiting cap: https://www.ncbi.nlm.nih.gov/books/NBK25497/
 PubChem_MIN_DELAY = 1 / 3.0  # 1/3 second (333ms)
 PubChem_lastQueryTime = 0 # global variable
+
+# return unique list
+def unique(lst, stable=True, unwrap=True):
+    """
+    Return unique elements from `lst`, with optional order preservation and scalar unwrapping.
+
+    Parameters:
+        lst (list): Input list (elements may be unhashable).
+        stable (bool): Preserve order if True (default). If False, order is undefined.
+        unwrap (bool): If True (default), return scalar if result is singleton.
+
+    Returns:
+        list or scalar: Unique values, unwrapped if singleton and `unwrap` is True.
+    """
+    if stable:
+        u = []
+        for x in lst:
+            if x not in u:
+                u.append(x)
+    else:
+        # Attempt to use set if elements are hashable; fallback otherwise
+        try:
+            u = list(set(lst))
+        except TypeError:
+            u = []
+            for x in lst:
+                if x not in u:
+                    u.append(x)
+    return u[0] if unwrap and len(u) == 1 else u
+
 
 # robust float() function
 floatNone = lambda x: x if isinstance(x, (float, type(None))) else float(x)
@@ -1600,7 +1636,7 @@ class migrant:
                     if self.cid in dbannex1:
                         annex1record = dbannex1.bycid(self.cid,verbose=self.verbose)
                     elif self.CAS in dbannex1:
-                        annex1record = dbannex1.byCAS(self.CAS,verbose=self.verbose)
+                        annex1record = dbannex1.byCAS(self.CAS)
                     if annex1record is not None:
                         SML = annex1record["SML"]
                         SMLT = annex1record.get("SMLT")
@@ -1609,6 +1645,40 @@ class migrant:
                         self.annex1 = annex1record
                     else:
                         self.SML = None # we validate that we looked for an SML but we did not find it
+
+                # if dbfcn is available (note that FCN include mixtures)
+                if doFCN and annex1:
+                    fcnrecord = None
+                    if self.cid in dbfcn:
+                        fcnrecord = dbfcn.bycid(self.cid,verbose=self.verbose)
+                        if fcnrecord is not None:
+                            cascandidate = fcnrecord["CAS"]
+                            if cascandidate in dbfcn:
+                                fcnrecord = dbfcn.byCAS(cascandidate)
+                    elif self.CAS in dbfcn:
+                        fcnrecord = dbfcn.byCAS(self.CAS)
+                    if fcnrecord is not None:
+                        if isinstance(fcnrecord,list):
+                            self.FCNNo = [int(f["FCNNo"]) for f in fcnrecord]
+                            self.FCNcid = unique([f["cid"] for f in fcnrecord])
+                            self.FCNCAS = unique([f["CAS"] for f in fcnrecord])
+                            self.FCNnotificationDate = unique([f["NotificationDate"] for f in fcnrecord])
+                            self.FCNnotifier = unique([f["notifier"] for f in fcnrecord])
+                            self.FCNmanufacturer = unique([f["manufacturer"] for f in fcnrecord])
+                            self.FCNmixture = unique([f["mixture"] for f in fcnrecord])
+                            self.FCNnsubstances = len(fcnrecord)
+                        else:
+                            self.FCNNo = int(fcnrecord["FCNNo"])
+                            self.FCNcid = fcnrecord["cid"]
+                            self.FCNCAS = fcnrecord["CAS"]
+                            self.FCNnotificationDate = fcnrecord["NotificationDate"]
+                            self.FCNnotifier = fcnrecord["notifier"]
+                            self.FCNmanufacturer = fcnrecord["manufacturer"]
+                            self.FCNmixture = fcnrecord["mixture"]
+                            self.FCNnsubstances = len(fcnrecord.cid) if self.FCNmixture else 1
+                        self.FCN = fcnrecord
+                    else:
+                        self.FCNNo = None # we validate that we looked for a FCN No but we did not find it
 
                 # add PNG thumb and SDF structure files (without loading them)
                 # we prevent cache filling when it is necessary
@@ -1891,6 +1961,10 @@ class migrant:
     def worstcaseSMLgroup(self):
         """Returns the substance with the lowest molecular weight in the group"""
 
+    @property
+    def hasFCN(self):
+        """Returns True if the substance is a registered in the US FDA FCN inventory list"""
+        return hasattr(self, "FCNNo") and self.FCNNo is not None
 
     def __repr__(self):
         """Formatted string representation summarizing key attributes."""
@@ -1913,7 +1987,7 @@ class migrant:
         # Add SML and EU rules
         if self.hasSML:
             if self.hasannex1:
-                attributes["--- EC 10/2011"]="-"*15
+                attributes["---🇪🇺 EC 10/2011"]="-"*15
                 attributes["SML"] = str(self.SML)
                 attributes["SML"]+=f" [{self.SMLunit}]"
                 if self.annex1["SMLTGroupFCMsubstances"] is not None:
@@ -1925,9 +1999,19 @@ class migrant:
                 attributes["SML"] = str(self.SML)
                 if hasattr(self,"SMLunit"):
                     attributes["SML"]+=f" [{self.SMLunit}]"
+
+        if self.hasFCN:
+            attributes["---🇺🇸 US FCN list"]="-"*15
+            attributes["FCM No"] = str(self.FCNNo)
+            attributes["Notifier"] = self.FCNnotifier
+            attributes["Manufacturer"] = self.FCNmanufacturer
+            attributes["N. Date"] = self.FCNnotificationDate
+            if self.FCNmixture:
+                attributes["Mixture"] = f"part of a mixture of {self.FCNnsubstances} substances"
+
         # Add Toxtree attributes
         if isinstance(self,migrantToxtree) and self.compound not in (None,"",[]):
-            attributes["--- ToxTree"]="-"*15
+            attributes["---𖣂︎ ToxTree"]="-"*15
             attributes["Compound"] = self.ToxTree["IUPACTraditionalName"]
             attributes["Name"] = self.ToxTree["IUPACName"]
             attributes["Toxicology"] = self.CramerClass
