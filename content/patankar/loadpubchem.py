@@ -166,6 +166,8 @@ from patankar.private.pubchempy import get_compounds
 # --- SFPPy.Comply imports ---
 # European rules
 import patankar.private.EUFCMannex1 as complyEU # Annex 1 (we import all the module as complyEU)
+# US rules
+import patankar.private.USFDAfcn as complyUS # US FCN inventory list (idem)
 
 __all__ = ['CompoundIndex', 'create_substance_widget', 'dbannex1', 'dbfcn', 'dbdefault', 'floatNone', 'get_compounds', 'migrant', 'migrantToxtree', 'parse_molblock', 'parse_sdf', 'polarity_index']
 
