@@ -1,4 +1,4 @@
-# Private Modules for SFPPy Lite 🍏⏩🍎
+# Private Modules for SFPPy 🍏⏩🍎
 
 This directory contains internal modules that are used internally by the SFPPy library. These modules provide additional utilities and extended functionalities but are not intended for direct interaction by the user.
 
@@ -6,8 +6,11 @@ This directory contains internal modules that are used internally by the SFPPy l
 - `mstruct.py` 📦: Tools for handling structured data.
 - `pint/` 📏: Standard **Pint** library used for SI unit conversions in SFPPy.
 - `pubchempy.py` 🔬: Interface for retrieving chemical data from **PubChem**.
-- `EUFCMannex1.py` 🗄️⚖️: Robust database manager for Annex I of EU Regulation 10/2011
+- `EUFCMannex1.py` 🇪🇺🗄️⚖️: Robust database manager for Annex I of EU Regulation 10/2011
+- `USFDAfcn.py` 🇺🇸🗄️⚖️: Robust database manager for the US 🦅FDA Inventory of  Food Contact Substance (FCS) Notifications
 - `fcm-and-articles-regulation--annex-i---authorised-substances-export.csv` 📄: source file from 🌐 https://echa.europa.eu/plastic-material-food-contact
+- `FCN.csv`📄: source file from 🌐https://www.hfpappexternal.fda.gov/scripts/fdcc/index.cfm?set=FCN
+- 
 - `chemspipy/` ⚠️: Previously used for **ChemSpider** integration but now deprecated (requires API tokens).
 - `toxtree/` ☠️: Local installation folder of the private copy of Toxtree.
 
