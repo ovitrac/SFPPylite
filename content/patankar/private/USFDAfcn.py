@@ -1,3 +1,5 @@
+
+__all__ = ['USFDAfcn', 'clean_html', 'custom_wrap', 'fcnrecord', 'fcnrecord_ext', 'parse_food_contact_substance']
 """
 Module: USFDAfcn
 
@@ -219,7 +221,7 @@ class fcnrecord_ext(fcnrecord):
     For each CAS number (or each CAS in a mixture) the PubChem lookup is performed.
     The field "cid" is updated to be either a single PubChem CID or a list of CIDs.
     """
-    def __init__(self, rec, db=None):
+    def __init__(self, rec, db=None, verbosity=False):
         """
         Instantiate from a base fcnrecord.
         If a valid CAS is available, perform PubChem lookup via the 'migrant' function.
@@ -236,7 +238,8 @@ class fcnrecord_ext(fcnrecord):
                         m = migrant(cas, annex1=False)
                         cids.append(m.cid)
                     except Exception:
-                        print(f"Warning: PubChem lookup failed for CAS {cas} in record {self.get('record')}")
+                        if verbosity:
+                            print(f"Warning:: USFDAfcn.py: PubChem lookup failed for CAS {cas} in record {self.get('record')}")
                         cids.append(DEFAULT_PUBCHEM)
                 self.cid = cids
             else:
@@ -245,7 +248,8 @@ class fcnrecord_ext(fcnrecord):
                     m = migrant(cas, annex1=False)
                     self.cid = m.cid
                 except Exception:
-                    print(f"Warning: PubChem lookup failed for CAS {cas} in record {self.get('record')}")
+                    if verbosity:
+                        print(f"Warning:: USFDAfcn.py: PubChem lookup failed for CAS {cas} in record {self.get('record')}")
                     self.cid = DEFAULT_PUBCHEM
         else:
             self.cid = None
@@ -585,7 +589,7 @@ class USFDAfcn:
             return self._load_record(rec_id, order=rec_id)
         else:
             if verbose:
-                print(f"Warning: No US FDA FCS record found for PubChem cid {cid}.")
+                print(f"⚠️Warning: No 🇺🇸US FDA FCS record found for PubChem cid {cid}.")
             return None
 
     def __iter__(self):
@@ -607,7 +611,7 @@ class USFDAfcn:
     def __repr__(self):
         csv_filename = os.path.basename(self.csv_file)
         index_date = self.index.get("index_date", "unknown")
-        print(f"US FDA FCS database ({len(self.order)} records)")
+        print(f"🇺🇸US FDA FCS database ({len(self.order)} records)")
         print(f"Imported from CSV {csv_filename} and indexed on {index_date}")
         return str(self)
 

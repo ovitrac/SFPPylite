@@ -118,12 +118,12 @@ Note
 - The synonyms approach: Default matching is **exact** (lowercased). Fuzzy or partial matches require custom logic.
 
 
-@version: 1.37
+@version: 1.41
 @project: SFPPy - SafeFoodPackaging Portal in Python initiative
 @author: INRAE\\olivier.vitrac@agroparistech.fr
 @licence: MIT
 @Date: 2024-03-10
-@rev: 2025-03-20
+@rev: 2025-04-02
 
 Version History
 ---------------
@@ -131,7 +131,8 @@ Version History
 - 1.2: Production
 - 1.21: PubChem cap rate enforced (urgent request)
 - 1.32: migrant Toxtree
-- 1.37: Colab compliance, lite
+- 1.37: Colab compliance
+- 1.41: US FCN, GBGB9685
 
 """
 
@@ -168,8 +169,10 @@ from patankar.private.pubchempy import get_compounds
 import patankar.private.EUFCMannex1 as complyEU # Annex 1 (we import all the module as complyEU)
 # US rules
 import patankar.private.USFDAfcn as complyUS # US FCN inventory list (idem)
+# Chinese rules
+import patankar.private.GBappendixA as complyCN # Chinese Appendix A (GB 9685-2016)
 
-__all__ = ['CompoundIndex', 'create_substance_widget', 'dbannex1', 'dbfcn', 'dbdefault', 'floatNone', 'get_compounds', 'migrant', 'migrantToxtree', 'parse_molblock', 'parse_sdf', 'polarity_index']
+__all__ = ['CompoundIndex', 'create_substance_widget', 'dbannex1', 'dbfca', 'dbfcn', 'dbdefault', 'floatNone', 'get_compounds', 'migrant', 'migrantToxtree', 'parse_molblock', 'parse_sdf', 'polarity_index']
 
 __project__ = "SFPPylite"
 __author__ = "Olivier Vitrac"
@@ -197,6 +200,12 @@ if complyUS.USFDAfcn.isindexinitialized(): # <USFDAfcn: 1698 records (US FDA FCS
     doFCN = True # Food Contact Notification (FCN) available
 else:
     doFCN = False
+
+if complyCN.GBappendixA.isindexinitialized(): # GB 9685-2016 positive list (1293 records)
+    dbfca = complyCN.GBappendixA(pubchem=True)
+    doFCA = True
+else:
+    doFCA = False
 
 # %% Private functions and constants (used by estimators)
 
@@ -1632,7 +1641,10 @@ class migrant:
                 alpha = 1/0.65 if self.count_rings["aromatic"]>0 else 1.3
                 self.vdWvolume2 = 1/alpha * self.molarvolumeMiller * 10.0/6.02214076 # in A3
 
-                # if dbannex1 is available
+                # Add 🇪🇺 regulation data
+                # if doSML, i.e. dbannex1 is available
+                # since migrant is called by databases managers (EUFCMannex1, USFDAfcn, GPappendixA)
+                # annex1==True is also required to prevent infinite loops
                 if doSML and annex1:
                     annex1record = None
                     if self.cid in dbannex1:
@@ -1648,7 +1660,33 @@ class migrant:
                     else:
                         self.SML = None # we validate that we looked for an SML but we did not find it
 
-                # if dbfcn is available (note that FCN include mixtures)
+                # Add 🇨🇳 regulation data
+                # if doFCA, i.e. dbappendixA is available (note that FCA contain several materials)
+                # since migrant is called by databases managers (EUFCMannex1, USFDAfcn, GPappendixA)
+                # annex1==True is also required to prevent infinite loops
+                if doFCA and annex1:
+                    appendixArecord = None
+                    if self.cid in dbfca:
+                        appendixArecord = dbfca.bycid(self.cid,verbose=self.verbose)
+                    elif self.CAS in dbfca:
+                        appendixArecord = dbfca.byCAS(self.CAS)
+                    if appendixArecord is not None:
+                        self.FCANo = appendixArecord["FCA"]
+                        self.FCAgroups = appendixArecord["authorized in"]
+                        if "plastics" in self.FCAgroups: # primary focus of SFPPy
+                            self.FCApolymers = appendixArecord['plastics']["materials"]
+                            self.FCACP0max = appendixArecord['plastics']["CP0max"]
+                            self.FCASML = appendixArecord['plastics']["SML"]
+                            self.FCAQM = appendixArecord['plastics']["QM"]
+                            self.FCADL = appendixArecord['plastics']["DL"]
+                        self.FCA = appendixArecord
+                    else:
+                        self.FCANo = None # fall back FCANo is None (we look for it, we did not find it)
+
+                # Add 🇺🇸 regulation data
+                # if doFCN, dbfcn is available (note that FCN include mixtures)
+                # since migrant is called by databases managers (EUFCMannex1, USFDAfcn, GPappendixA)
+                # annex1==True is also required to prevent infinite loops
                 if doFCN and annex1:
                     fcnrecord = None
                     if self.cid in dbfcn:
@@ -1962,11 +2000,14 @@ class migrant:
     @property
     def worstcaseSMLgroup(self):
         """Returns the substance with the lowest molecular weight in the group"""
-
     @property
     def hasFCN(self):
         """Returns True if the substance is a registered in the US FDA FCN inventory list"""
         return hasattr(self, "FCNNo") and self.FCNNo is not None
+    @property
+    def hasFCA(self):
+        """Returns True if the substance is positively-listed in the Chinese GB 9685-2016 regulation"""
+        return hasattr(self, "FCA") and self.FCA is not None    
 
     def __repr__(self):
         """Formatted string representation summarizing key attributes."""
@@ -1999,9 +2040,9 @@ class migrant:
                 attributes["EC|FCM|REF"] = f"{self.annex1['EC']}|{self.annex1['FCM']}|{self.annex1['Ref']}"
             else:
                 attributes["SML"] = str(self.SML)
-                if hasattr(self,"SMLunit"):
-                    attributes["SML"]+=f" [{self.SMLunit}]"
+                if hasattr(self,"SMLunit"): attributes["SML"]+=f" [{self.SMLunit}]"
 
+        # Add US FCN rules
         if self.hasFCN:
             attributes["---🇺🇸 US FCN list"]="-"*15
             attributes["FCM No"] = str(self.FCNNo)
@@ -2011,14 +2052,26 @@ class migrant:
             if self.FCNmixture:
                 attributes["Mixture"] = f"part of a mixture of {self.FCNnsubstances} substances"
 
+        # Add CN FCA rules
+        if self.hasFCA:
+            attributes["---🇨🇳 CN GB9685-2016"]="-"*15
+            attributes["FCA No"] = str(self.FCANo)
+            attributes["authorized in"] = self.FCAgroups
+            if "plastics" in self.FCAgroups:
+                if self.FCApolymers: attributes["polymers"] = self.FCApolymers
+                if self.FCACP0max is not None: attributes["🇨🇳CP0 max"] = str(self.FCACP0max)+" [mg/kg]"
+                if self.FCASML is not None: attributes["🇨🇳SML"] = str(self.FCASML)+" [mg/kg]"
+                if self.FCAQM is not None: attributes["🇨🇳QM"] = str(self.FCAQM)+" [mg/kg]"
+                if self.FCADL is not None: attributes["🇨🇳DL"] = str(self.FCADL)+" [mg/kg]"
+
         # Add Toxtree attributes
         if isinstance(self,migrantToxtree) and self.compound not in (None,"",[]):
             attributes["---𖣂︎ ToxTree"]="-"*15
             attributes["Compound"] = self.ToxTree["IUPACTraditionalName"]
             attributes["Name"] = self.ToxTree["IUPACName"]
-            attributes["Toxicology"] = self.CramerClass
-            attributes["TTC"] = f"{self.TTC} {self.TTCunits}"
-            attributes["CF TTC"] = f"{self.CFTTC} {self.CFTTCunits}"
+            attributes["𖣂︎Toxicology"] = self.CramerClass
+            attributes["𖣂︎TTC"] = f"{self.TTC} {self.TTCunits}"
+            attributes["𖣂︎CF TTC"] = f"{self.CFTTC} {self.CFTTCunits}"
             attributes.update(self.showalerts) # Process alerts
 
         # Determine column width based on longest attribute name

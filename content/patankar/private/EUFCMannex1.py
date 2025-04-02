@@ -724,8 +724,8 @@ class EuFCMannex1:
     def __repr__(self):
         csv_filename = os.path.basename(self.csv_file)
         index_date = self.index.get("index_date", "unknown")
-        print(f"Annex 1 of EU regulation 10/2011 EC ({len(self.order)} records)")
-        print(f"imported from CSC {csv_filename} and indexed on {index_date}")
+        print(f"Annex 1 of 🇪🇺EU regulation 10/2011 EC ({len(self.order)} records)")
+        print(f"Imported from CSV {csv_filename} and indexed on {index_date}")
         return str(self)
 
     def __str__(self):
@@ -735,4 +735,36 @@ class EuFCMannex1:
 # Example usage (for debugging / standalone tests)
 # -------------------------------------------------------------------
 if __name__ == "__main__":
-    pass
+    dbannex1 = EuFCMannex1(pubchem=True) # we promote the whole database
+    rec = dbannex1.bycid(6581)
+    repr(rec)
+
+    print(repr(dbannex1))
+    print(str(dbannex1))
+    first_record = dbannex1[1]
+    print(first_record)
+
+    # Search methods examples:
+    rec_by_cas = dbannex1.byCAS("102-39-6")
+    rec_by_name = dbannex1.byname("(1,3-phenylenedioxy)diacetic acid")
+
+    # Search by PubChem cid:
+    rec_by_cid = dbannex1.bycid(113194)  # if valid
+    rec_by_cid_missing = dbannex1.bycid(1023456)  # will warn and return None
+
+    # Search by SML range:
+    sml_records = dbannex1.bySML(0.01, 1.0)
+
+    # Callable access:
+    rec = dbannex1(113194)         # by cid (if exists) or by record number
+    rec_list = dbannex1(1023456, "102-39-6")
+
+    # Iterate over records:
+    for rec in dbannex1:
+        print(rec.get("cid"))
+
+    # Test membership:
+    if 10 in dbannex1:
+        print("Record 10 exists.")
+    if 113194 in dbannex1:
+        print("PubChem cid 113194 exists.")
