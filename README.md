@@ -1,5 +1,5 @@
 # **🐍 SFPPy-Lite 🌐**
-<div aligb="center">
+<div align="center">
 
 | ![Generative Simulation](extra/assets/logo.png) | This project is part of the <br />[Generative Simulation](https://github.com/ovitrac/generativeSimulation) demonstrators | Say it.<br />Simulate it with AI. |
 | ---------------------------------------------- | ------------------------------------------------------------ | --------------------------------- |
