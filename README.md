@@ -10,15 +10,18 @@
 
 > 🍏⏩🍎 **SFPPy**: A Python Framework for Food Contact Compliance & Risk Assessment  
 
-### 🚀 SFPPyLite is Now Ready for Production!
+### 🚀 SFPPyLite
 
-**No installation. Runs entirely in your browser. Try it now:**
+**No installation. Runs entirely in your browser. Try it now✨:**
 
-> 🟢 **Status update**: moved from 🚧 *Demo* to **Ready for Production**  
->  ✅ Full support for simulation, plotting, curve fitting, PDF/XLSX/CSV export  
->  🌍 EU Regulation Annex I included  
->  📦 Works directly in-browser—no installation required  
->  🔄 Always up to date with the latest sources
+> 🟢 Status update: **Production-ready** with full support for SFPPy notebooks  
+> ✅ Complete support for simulation, plotting, curve fitting, and export to PDF/XLSX/CSV  
+> 🌍 Integrated databases: EU Regulation Annex I, US FDA FCN lists, Chinese positive lists — over 2400 substances included   
+> 📦 Runs seamlessly in-browser — no setup needed, fully compatible with modern tablets  
+> 🗃️ Files persist in your browser between sessions — drag & drop your own files anytime   
+> 🔄 Automatically stays up to date with the latest data and features 
+
+
 
 <a href="https://ovitrac.github.io/SFPPylite/lab/index.html?path=demo.ipynb" target="_blank">
   <img src="https://img.shields.io/badge/SFPPylite-LAUNCH%20in%20your%20browser-blueviolet?logo=jupyter&style=for-the-badge" alt="🧪 Try it online!"></a><a href="https://ovitrac.github.io/SFPPylite/files/" target="_blank"><img src="https://img.shields.io/badge/SFPPylite-Find%20a%20Notebook-violet?logo=jupyter&style=for-the-badge" alt="🔎📒📘📕📗 Find a Notebook first"></a>
@@ -29,7 +32,7 @@
 
 ### 🚀 What is SFPPy-Lite?
 
-🌐 **SFPPy-Lite** is a **lightweight, browser-based preview** of the full SFPPy framework.
+🌐 **SFPPy-Lite** is a **lightweight (22 MB), browser-based preview** of the full **SFPPy framework**.
  It is built on [**JupyterLite**](https://jupyterlite.readthedocs.io/), and runs Python entirely in the browser using [**Pyodide**](https://pyodide.org/) (WebAssembly-based).
 
 You can explore and use **SFPPy’s core functionalities** **instantly** — with **no installation required** and **nothing to configure**.
@@ -58,7 +61,7 @@ You can explore and use **SFPPy’s core functionalities** **instantly** — wit
 >
 > ⏱️ **SFPPyLite** runs at approximately half the speed 🌗 of the desktop version. However, all notebooks execute in under one minute. This performance is sufficient for practical use, with the caveat that **native in-browser execution** (via Pyodide/WebAssembly) imposes some limitations.  
 >
-> 🪧🌐 The full 🇪🇺 **Annex I of Regulation (EU) 10/2011** is included and searchable.  
+> 🪧🌐  🇪🇺 **Annex I of Regulation (EU) 10/2011**, 🇺🇸 **US FDA Food Contact Notification list** and 🇨🇳 **Appendices A1-A7 of Standard GB 9685-2016** are included and searchable.  
 >
 > 🚩 **PubChem substance retrieval** is *partially functional*: the module `private.pubchemspy` has been adapted for JupyterLite, but **write operations may fail** due to incompatibilities between **Pyodide** and **IndexedDB**, the browser’s internal filesystem.  
 >
@@ -78,23 +81,25 @@ You can explore and use **SFPPy’s core functionalities** **instantly** — wit
 
 *All usage options are free of charge.*
 
-|                                  Feature / Capability | 💫💻 **SFPPy (Desktop)**                            | 🌐 **SFPPyLite (Browser)**                          | ☁️ **SFPPy in Google Colab**              |
-| ----------------------------------------------------: | ------------------------------------------------- | -------------------------------------------------- | ---------------------------------------- |
-| **AI-powered assistance (*e.g.* for interpretation)** | ❌ Not available or use **Jupyter Lab** extensions | ❌ Not available or use external extensions         | ✅ Available (via Gemini)                 |
-|                             **Installation required** | Yes (Python + dependencies)                       | ❌ No installation (runs in-browser)                | ❌ No installation (via bootstrap script) |
-|                          **Notebook execution speed** | Full native performance                           | ⏱️ ~2× slower (WebAssembly limits)                  | ✅ Fast (depends on Google backend)       |
-|              **Simulation resolution / memory usage** | High (limited by system resources)                | Reduced for complex models (browser memory limits) | High (usually)                           |
-|             **Graphical plotting (SVG, PNG, Retina)** | ✅ Full support                                    | ✅ Full support                                     | ✅ Full support                           |
-|                  **Curve fitting and modeling tools** | ✅ Available                                       | ✅ Available                                        | ✅ Available                              |
-|                   **Export formats (PDF, XLSX, CSV)** | ✅ Full support                                    | ✅ Full support                                     | ✅ Full support                           |
-|                 **Annex I (Regulation (EU) 10/2011)** | ✅ Integrated and queryable                        | ✅ Integrated and queryable                         | ✅ Available (with correct files)         |
-|                       **PubChem substance retrieval** | ✅ Fully functional                                | ⚠️ Partial (read-only, limited write support)       | ✅ Full access                            |
-|                               **ToxTree integration** | ✅ Supported                                       | ❌ Not supported (WebAssembly incompatible)         | ✅ Supported                              |
-|       **Self-archiving and reporting (PDF + .ipynb)** | ✅ Automatic or manual                             | ❌ Not supported                                    | ✅ Manual (download/export)               |
-|           **Session persistence / multi-tab support** | Depends on setup                                  | ✅ Fully supported (via IndexedDB)                  | ❌ Not persistent between sessions        |
-|                                     **Offline usage** | ✅ Once installed                                  | ✅ After initial load (cached in browser)           | ❌ Requires internet                      |
-|                       **Custom file upload/download** | ✅ OS-level                                        | ✅ Browser-based (drag & drop or panel)             | ✅ Upload/download via Colab UI           |
-|                              **🛠️ Updating Mechanism** | 🔁 Manual updates via Git or package manager       | 🔄 Always updated to latest sources (on load)       | 🔄 Bootstrapped from latest version       |
+|                                    Feature / Capability | 💫💻 **SFPPy (Desktop)**                            | 🌐 **SFPPyLite (Browser)**                          | ☁️ **SFPPy in Google Colab**              |
+| ------------------------------------------------------: | ------------------------------------------------- | -------------------------------------------------- | ---------------------------------------- |
+|   **AI-powered assistance (*e.g.* for interpretation)** | ❌ Not available or use **Jupyter Lab** extensions | ❌ Not available or use external extensions         | ✅ Available (via Gemini)                 |
+|                               **Installation required** | Yes (Python + dependencies)                       | ❌ No installation (runs in-browser)                | ❌ No installation (via bootstrap script) |
+|                            **Notebook execution speed** | Full native performance                           | ⏱️ ~2× slower (WebAssembly limits)                  | ✅ Fast (depends on Google backend)       |
+|                **Simulation resolution / memory usage** | High (limited by system resources)                | Reduced for complex models (browser memory limits) | High (usually)                           |
+|               **Graphical plotting (SVG, PNG, Retina)** | ✅ Full support                                    | ✅ Full support                                     | ✅ Full support                           |
+|                    **Curve fitting and modeling tools** | ✅ Available                                       | ✅ Available                                        | ✅ Available                              |
+|                     **Export formats (PDF, XLSX, CSV)** | ✅ Full support                                    | ✅ Full support                                     | ✅ Full support                           |
+|                   **Annex I (Regulation (EU) 10/2011)** | ✅ Integrated and queryable                        | ✅ Integrated and queryable                         | ✅ Integrated and queryable               |
+|                              **US FDA FCN list (2025)** | ✅ Integrated and queryable                        | ✅ Integrated and queryable                         | ✅ Integrated and queryable               |
+| **Appendices A1-A7 (Chinese standard GB GB 9685-2016)** | ✅ Integrated and queryable                        | ✅ Integrated and queryable                         | ✅ Integrated and queryable               |
+|                         **PubChem substance retrieval** | ✅ Fully functional                                | ⚠️ Partial (read-only, limited write support)       | ✅ Full access                            |
+|                                 **ToxTree integration** | ✅ Supported                                       | ❌ Not supported (WebAssembly incompatible)         | ✅ Supported                              |
+|         **Self-archiving and reporting (PDF + .ipynb)** | ✅ Automatic or manual                             | ❌ Not supported                                    | ✅ Manual (download/export)               |
+|             **Session persistence / multi-tab support** | Depends on setup                                  | ✅ Fully supported (via IndexedDB)                  | ❌ Not persistent between sessions        |
+|                                       **Offline usage** | ✅ Once installed                                  | ✅ After initial load (cached in browser)           | ❌ Requires internet                      |
+|                         **Custom file upload/download** | ✅ OS-level                                        | ✅ Browser-based (drag & drop or panel)             | ✅ Upload/download via Colab UI           |
+|                                **🛠️ Updating Mechanism** | 🔁 Manual updates via Git or package manager       | 🔄 Always updated to latest sources (on load)       | 🔄 Bootstrapped from latest version       |
 
 
 
@@ -106,8 +111,8 @@ You can explore and use **SFPPy’s core functionalities** **instantly** — wit
 
 - ✅ Firefox 90+
 - ✅ Chrome / Chromium 89+
-- ✅ Safari Tech Preview (partial support)
-- ❌ Mobile browsers: not fully supported yet
+- ✅ Safari  (Mac OS, IOS)
+- ❓ ❌ Other Mobile browsers: not fully supported (to be tested case-by-case)
 
 ---
 
