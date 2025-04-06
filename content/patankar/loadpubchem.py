@@ -235,6 +235,59 @@ def PubChemCacheCheck(cache_dir):
 PubChem_MIN_DELAY = 1 / 3.0  # 1/3 second (333ms)
 PubChem_lastQueryTime = 0 # global variable
 
+# utility to generate JSON compliant files (required for Pyodide)
+def safe_json_dump(obj, path, indent=4, **kwargs):
+    """
+    Safely write a Python object to a JSON file, replacing all non-standard
+    float values (NaN, Infinity, -Infinity) with `None` to ensure strict
+    JSON compliance.
+
+    This is especially useful when preparing cache files to be used in
+    strict JSON environments such as JupyterLite (Pyodide), where non-standard
+    JSON values are not tolerated.
+
+    Parameters
+    ----------
+    obj : dict or list
+        The Python object to be serialized to JSON.
+    path : str
+        The file path where the JSON file should be saved.
+    indent : int, optional
+        Number of spaces for indentation in the output file. Default is 4.
+    **kwargs : dict
+        Additional keyword arguments passed to `json.dump`.
+
+    Notes
+    -----
+    This function recursively traverses the input object and replaces:
+      - float('nan') ➝ None
+      - float('inf') ➝ None
+      - float('-inf') ➝ None
+
+    These substitutions are necessary because such values are allowed
+    by `json.dump()` in standard Python, but are invalid in strict JSON parsers
+    (e.g. in web-based or embedded environments).
+
+    Examples
+    --------
+    >>> data = {"value": float('nan')}
+    >>> safe_json_dump(data, 'out.json')
+    # Output file will contain: {"value": null}
+    """
+
+    def sanitize(value):
+        if isinstance(value, float) and (math.isnan(value) or math.isinf(value)):
+            return None
+        elif isinstance(value, dict):
+            return {k: sanitize(v) for k, v in value.items()}
+        elif isinstance(value, list):
+            return [sanitize(x) for x in value]
+        else:
+            return value
+
+    with open(path, 'w') as f:
+        json.dump(sanitize(obj), f, indent=indent, **kwargs)
+
 # return unique list
 def unique(lst, stable=True, unwrap=True):
     """
@@ -2148,12 +2201,12 @@ class migrant:
 
         # Add Toxtree attributes
         if isinstance(self,migrantToxtree) and self.compound not in (None,"",[]):
-            attributes["---𖣂︎ ToxTree"]="-"*15
+            attributes["---𖣂🧪︎ ToxTree"]="-"*15
             attributes["Compound"] = self.ToxTree["IUPACTraditionalName"]
             attributes["Name"] = self.ToxTree["IUPACName"]
-            attributes["𖣂Toxicology"] = self.CramerClass
-            attributes["𖣂TTC"] = f"{self.TTC} {self.TTCunits}"
-            attributes["𖣂CF TTC"] = f"{self.CFTTC} {self.CFTTCunits}"
+            attributes["Toxicology"] = self.CramerClass
+            attributes["TTC"] = f"{self.TTC} {self.TTCunits}"
+            attributes["CF TTC"] = f"{self.CFTTC} {self.CFTTCunits}"
             attributes.update(self.showalerts) # Process alerts
 
         # Determine column width based on longest attribute name
@@ -2800,6 +2853,7 @@ class migrantToxtree(migrant):
         return cleaned_data
 
     def _run_toxtree(self, engine):
+        """run ToxTree engine, return cached data if they exist"""
         if engine not in self.TOXTREE_ENGINES:
             raise ValueError(f"Unknown Toxtree engine: {engine}")
 
@@ -2930,6 +2984,75 @@ class migrantToxtree(migrant):
                 alert_text = ''.join([' ' + char if char.isupper() and i > 0 else char for i, char in enumerate(key)])
                 attributes[f"⚠️ Alert {alert_index}"] = alert_text.strip()  # Remove leading space
         return attributes
+
+    # global fix for non-compliant JSON files created by Pandas
+    @classmethod
+    def regenerateJSONfromCSV(cls, engine=["default", "skin"], cache_folder='cache.ToxTree'):
+        """
+        Regenerate compliant JSON cache files from existing Toxtree CSV outputs.
+
+        This method scans the specified cache folder for all files matching the
+        pattern '*.ENGINE.csv' (where ENGINE can be a string or list of strings),
+        parses them with pandas, and rewrites the corresponding JSON files using
+        `safe_json_dump()` to ensure JSON compliance (e.g. replacing NaNs).
+
+        Existing JSON files will be overwritten.
+
+        Parameters
+        ----------
+        engine : str or list of str, optional
+            The engine(s) to process. Defaults to ['default', 'skin'].
+        cache_folder : str, optional
+            Subdirectory (relative to `_PATANKAR_FOLDER`) containing Toxtree
+            cache files. Default is 'cache.ToxTree'.
+
+        Notes
+        -----
+        - Files that do not exist or are malformed are skipped.
+        - Conversion uses the same logic as `_run_toxtree()` but skips Toxtree execution.
+        - A summary of successes and failures is printed at the end.
+        """
+        if isinstance(engine, str):
+            engine = [engine]
+
+        total_converted = 0
+        failed_files = []
+        full_folder = os.path.join(_PATANKAR_FOLDER, cache_folder)
+
+        for eng in engine:
+            pattern = os.path.join(full_folder, f'*.{eng}.csv')
+            csv_files = glob.glob(pattern)
+
+            for csv_file in csv_files:
+                try:
+                    # Derive CID from filename
+                    cid = os.path.basename(csv_file).split(f".{eng}.csv")[0]
+                    json_file = os.path.join(full_folder, f'{cid}.{eng}.json')
+
+                    # Load and clean CSV
+                    df = pd.read_csv(csv_file)
+                    if df.empty:
+                        cleaned_data = {}
+                    else:
+                        data = df.to_dict(orient='records')[0]
+                        cleaned_data = cls._clean_field_names(cls, data)
+
+                    # Save as compliant JSON
+                    safe_json_dump(cleaned_data, json_file, indent=4)
+
+                    print(f"[✓] Converted: {os.path.basename(csv_file)} → {os.path.basename(json_file)}")
+                    total_converted += 1
+
+                except Exception as e:
+                    print(f"[✗] Skipped {os.path.basename(csv_file)}: {e}")
+                    failed_files.append((csv_file, str(e)))
+
+        print(f"\nTotal JSON files regenerated: {total_converted}")
+        if failed_files:
+            print(f"\nThe following {len(failed_files)} file(s) could not be processed:")
+            for path, reason in failed_files:
+                print(f" - {os.path.basename(path)}: {reason}")
+
 
 
 # %% debug
