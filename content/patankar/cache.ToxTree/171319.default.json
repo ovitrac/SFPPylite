@@ -1,5 +1,5 @@
 {
-    "Cramerflags": NaN,
+    "Cramerflags": null,
     "CramerRules": "High (Class III)",
     "AtomDefStereoCount": 4,
     "AtomUdefStereoCount": 0,
@@ -36,7 +36,7 @@
     "Smiles": "C([H])([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C(=O)O[C@]([H])(C([H])([H])O[H])[C@]1([H])[C@@]([H])([C@]([H])(C([H])([H])O1)OC(=O)C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])[H])OC(=O)C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])C([H])([H])[H]",
     "TotalCharge": 0,
     "XlogP3Aa": 21.1,
-    "CdkRemark": NaN,
+    "CdkRemark": null,
     "CdkTitle": 171319,
     "ToxtreeTreeCramerCramertreeresult": "1N,2N,3N,5N,6N,7Y,8N,10N,11N,12N,22N,33N"
 }

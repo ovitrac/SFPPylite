@@ -5,7 +5,7 @@
     "AlertForSn2Identified": "NO",
     "AlertForSnarIdentified": "NO",
     "AlertForSchiffBaseFormationIdentified": "NO",
-    "Cramerflags": NaN,
+    "Cramerflags": null,
     "NoSkinSensitisationReactivityDomainsAlertsIdentified": "YES",
     "AtomDefStereoCount": 0,
     "AtomUdefStereoCount": 0,
@@ -40,6 +40,6 @@
     "OpeneyeIsoSmiles": "[O-][Si](=O)O[Si](=O)[O-].[F-].[Na+].[Mg+2]",
     "Smiles": "[F-].[Mg+2].[Na+].O=[Si]([O-])O[Si](=O)[O-]",
     "TotalCharge": 0,
-    "CdkRemark": NaN,
+    "CdkRemark": null,
     "CdkTitle": 165360057
 }

@@ -5,7 +5,7 @@
     "AlertForSn2Identified": "NO",
     "AlertForSnarIdentified": "NO",
     "AlertForSchiffBaseFormationIdentified": "NO",
-    "Cramerflags": NaN,
+    "Cramerflags": null,
     "NoSkinSensitisationReactivityDomainsAlertsIdentified": "NO",
     "AtomDefStereoCount": 15,
     "AtomUdefStereoCount": 0,
@@ -42,6 +42,6 @@
     "Smiles": "C([H])([H])([H])C1=C([H])N([C@@]2([H])C([H])([H])[C@@]([H])([C@@]([H])(C([H])([H])OP(=O)(O[H])O[C@@]3([H])C([H])([H])[C@]([H])(N4C([H])=NC5=C4N=C(N([H])[H])N([H])C5=O)O[C@]3([H])C([H])([H])OP(=O)(O[H])O[H])O2)OP(=O)(O[H])OC([H])([H])[C@]6([H])[C@]([H])(C([H])([H])[C@]([H])(N7C([H])=C([H])C(=NC7=O)N([H])[H])O6)OP(=O)(O[H])OC([H])([H])[C@]8([H])[C@]([H])(C([H])([H])[C@]([H])(N9C([H])=NC%10=C9N=C(N([H])[H])N([H])C%10=O)O8)OP(=O)(O[H])OC([H])([H])[C@]%11([H])[C@]([H])(C([H])([H])[C@]([H])(N%12C([H])=NC%13=C%12N=C(N([H])[H])N([H])C%13=O)O%11)O[H])C(=O)N([H])C1=O",
     "TotalCharge": 0,
     "XlogP3Aa": -12.1,
-    "CdkRemark": NaN,
+    "CdkRemark": null,
     "CdkTitle": 135566141
 }

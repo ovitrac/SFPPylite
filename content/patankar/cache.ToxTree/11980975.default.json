@@ -1,5 +1,5 @@
 {
-    "Cramerflags": NaN,
+    "Cramerflags": null,
     "CramerRules": "High (Class III)",
     "AtomDefStereoCount": 0,
     "AtomUdefStereoCount": 0,
@@ -35,7 +35,7 @@
     "OpeneyeIsoSmiles": "C1=CC=C(C=C1)C2=C3C=CC4=C(C=CN=C4C3=NC=C2)C5=CC=CC=C5.C1=CC=C(C=C1)C2=C3C=CC4=C(C=CN=C4C3=NC=C2)C5=CC=CC=C5.C1=CC=C(C=C1)C2=C3C=CC4=C(C=CN=C4C3=NC=C2)C5=CC=CC=C5.[Cl-].[Cl-].[Ru+2]",
     "Smiles": "C1([H])=C([H])C([H])=C(C([H])=C1[H])C2=C3C([H])=C([H])C4=C(C3=NC([H])=C2[H])N=C([H])C([H])=C4C5=C([H])C([H])=C([H])C([H])=C5[H].C1([H])=C([H])C([H])=C(C([H])=C1[H])C2=C3C([H])=C([H])C4=C(C3=NC([H])=C2[H])N=C([H])C([H])=C4C5=C([H])C([H])=C([H])C([H])=C5[H].C1([H])=C([H])C([H])=C(C([H])=C1[H])C2=C3C([H])=C([H])C4=C(C3=NC([H])=C2[H])N=C([H])C([H])=C4C5=C([H])C([H])=C([H])C([H])=C5[H].[Cl-].[Cl-].[Ru+2]",
     "TotalCharge": 0,
-    "CdkRemark": NaN,
+    "CdkRemark": null,
     "CdkTitle": 11980975,
     "ToxtreeTreeCramerCramertreeresult": "1N,2N,3Y,4N"
 }

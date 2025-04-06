@@ -5,7 +5,7 @@
     "AlertForSn2Identified": "NO",
     "AlertForSnarIdentified": "NO",
     "AlertForSchiffBaseFormationIdentified": "NO",
-    "Cramerflags": NaN,
+    "Cramerflags": null,
     "NoSkinSensitisationReactivityDomainsAlertsIdentified": "NO",
     "AtomDefStereoCount": 0,
     "AtomUdefStereoCount": 1,
@@ -41,6 +41,6 @@
     "OpeneyeIsoSmiles": "CC1=NN(C(=O)C1N=NC2=CC=CC=C2C(=O)[O-])C3=CC(=CC=C3)S(=O)(=O)[O-].[Sr+2]",
     "Smiles": "C([H])([H])([H])C1=NN(C2=C([H])C([H])=C([H])C(=C2[H])S(=O)(=O)[O-])C(=O)C1([H])/N=N/C3=C(C([H])=C([H])C([H])=C3[H])C(=O)[O-].[Sr+2]",
     "TotalCharge": 0,
-    "CdkRemark": NaN,
+    "CdkRemark": null,
     "CdkTitle": 13007014
 }

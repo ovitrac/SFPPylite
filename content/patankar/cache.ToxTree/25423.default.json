@@ -1,5 +1,5 @@
 {
-    "Cramerflags": NaN,
+    "Cramerflags": null,
     "CramerRules": "High (Class III)",
     "AtomDefStereoCount": 0,
     "AtomUdefStereoCount": 0,
@@ -30,7 +30,7 @@
     "Smiles": "ClN([H])[H]",
     "TotalCharge": 0,
     "XlogP3Aa": 0.1,
-    "CdkRemark": NaN,
+    "CdkRemark": null,
     "CdkTitle": 25423,
     "ToxtreeTreeCramerCramertreeresult": "1N,2N,3Y,4N"
 }

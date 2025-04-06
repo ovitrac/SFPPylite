@@ -5,7 +5,7 @@
     "AlertForSn2Identified": "NO",
     "AlertForSnarIdentified": "NO",
     "AlertForSchiffBaseFormationIdentified": "NO",
-    "Cramerflags": NaN,
+    "Cramerflags": null,
     "NoSkinSensitisationReactivityDomainsAlertsIdentified": "YES",
     "AtomDefStereoCount": 0,
     "AtomUdefStereoCount": 0,
@@ -41,6 +41,6 @@
     "ReferenceStandardization": "Bypass - this structure was created from CID 146019320",
     "Smiles": "[Al+3].[Al+3].[Al+3].[Al+3].[Al+3].[Al+3].[Al+3].[Al+3].[Al+3].[Al+3].[Al+3].[Al+3].[Na+].[Na+].[Na+].[Na+].[Na+].[Na+].[Na+].[Na+].[Na+].[Na+].[Na+].[Na+].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].O([H])[H].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[Si+4].[Si+4].[Si+4].[Si+4].[Si+4].[Si+4].[Si+4].[Si+4].[Si+4].[Si+4].[Si+4].[Si+4]",
     "TotalCharge": 44,
-    "CdkRemark": NaN,
+    "CdkRemark": null,
     "CdkTitle": 146019320
 }

@@ -1,5 +1,5 @@
 {
-    "Cramerflags": NaN,
+    "Cramerflags": null,
     "CramerRules": "High (Class III)",
     "AtomDefStereoCount": 0,
     "AtomUdefStereoCount": 0,
@@ -34,7 +34,7 @@
     "OpeneyeIsoSmiles": "[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[F-].[F-].[Mg+2].[Mg+2].[Mg+2].[Al+3].[Si+4].[Si+4].[Si+4].[K+]",
     "Smiles": "[Al+3].[F-].[F-].[K+].[Mg+2].[Mg+2].[Mg+2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[Si+4].[Si+4].[Si+4]",
     "TotalCharge": 0,
-    "CdkRemark": NaN,
+    "CdkRemark": null,
     "CdkTitle": 138756677,
     "ToxtreeTreeCramerCramertreeresult": "1N,2N,3Y,4N"
 }

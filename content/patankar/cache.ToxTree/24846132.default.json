@@ -1,5 +1,5 @@
 {
-    "Cramerflags": NaN,
+    "Cramerflags": null,
     "CramerRules": "Low (Class I)",
     "AtomDefStereoCount": 0,
     "AtomUdefStereoCount": 20,
@@ -36,7 +36,7 @@
     "Smiles": "C([H])([H])([H])C1([H])C([H])(C([H])(C([H])(C([H])(C([H])([H])O[H])O1)OC2([H])C([H])(C([H])(C([H])(C([H])(C([H])([H])OC3([H])C([H])(C([H])(C([H])(C([H])(C([H])([H])O[H])O3)OC([H])([H])[H])O[H])O[H])O2)OC4([H])C([H])(C([H])(C([H])(C([H])(C([H])([H])O[H])O4)OC([H])([H])[H])O[H])OC([H])([H])C([H])([H])O[H])O[H])O[H])O[H])O[H]",
     "TotalCharge": 0,
     "XlogP3Aa": -7.7,
-    "CdkRemark": NaN,
+    "CdkRemark": null,
     "CdkTitle": 24846132,
     "ToxtreeTreeCramerCramertreeresult": "1N,2N,3N,5Y"
 }

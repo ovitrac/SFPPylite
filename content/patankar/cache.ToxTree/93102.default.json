@@ -1,5 +1,5 @@
 {
-    "Cramerflags": NaN,
+    "Cramerflags": null,
     "CramerRules": "High (Class III)",
     "AtomDefStereoCount": 0,
     "AtomUdefStereoCount": 0,
@@ -36,7 +36,7 @@
     "Smiles": "C([H])([H])([H])C1=C([H])C([H])=C(C([H])=C1N=C=O)N2C(=O)N(C3=C([H])C([H])=C(C([H])([H])[H])C(=C3[H])N=C=O)C2=O",
     "TotalCharge": 0,
     "XlogP3Aa": 5,
-    "CdkRemark": NaN,
+    "CdkRemark": null,
     "CdkTitle": 93102,
     "ToxtreeTreeCramerCramertreeresult": "1N,2N,3N,5N,6N,7Y,8N,10N,11Y,33N"
 }

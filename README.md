@@ -32,7 +32,7 @@
 
 ### 🚀 What is SFPPy-Lite?
 
-🌐 **SFPPy-Lite** is a **lightweight (32 MB), browser-based preview** of the full **SFPPy framework**.
+🌐 **SFPPy-Lite** is a **lightweight (30 MB), browser-based preview** of the full **SFPPy framework**.
  It is built on [**JupyterLite**](https://jupyterlite.readthedocs.io/), and runs Python entirely in the browser using [**Pyodide**](https://pyodide.org/) (WebAssembly-based).
 
 You can explore and use **SFPPy’s core functionalities** **instantly** — with **no installation required** and **nothing to configure**.

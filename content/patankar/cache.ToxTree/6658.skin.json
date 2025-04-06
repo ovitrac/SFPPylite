@@ -5,7 +5,7 @@
     "AlertForSn2Identified": "NO",
     "AlertForSnarIdentified": "NO",
     "AlertForSchiffBaseFormationIdentified": "NO",
-    "Cramerflags": NaN,
+    "Cramerflags": null,
     "NoSkinSensitisationReactivityDomainsAlertsIdentified": "NO",
     "AtomDefStereoCount": 0,
     "AtomUdefStereoCount": 0,
@@ -41,6 +41,6 @@
     "Smiles": "C([H])([H])=C(C([H])([H])[H])C(=O)OC([H])([H])[H]",
     "TotalCharge": 0,
     "XlogP3": 1.4,
-    "CdkRemark": NaN,
+    "CdkRemark": null,
     "CdkTitle": 6658
 }

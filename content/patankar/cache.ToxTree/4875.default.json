@@ -1,5 +1,5 @@
 {
-    "Cramerflags": NaN,
+    "Cramerflags": null,
     "CramerRules": "High (Class III)",
     "AtomDefStereoCount": 0,
     "AtomUdefStereoCount": 0,
@@ -36,7 +36,7 @@
     "ReferenceStandardization": "Bypass - this structure was created from CID 4875",
     "Smiles": "[I-].[K+]",
     "TotalCharge": 0,
-    "CdkRemark": NaN,
+    "CdkRemark": null,
     "CdkTitle": 4875,
     "ToxtreeTreeCramerCramertreeresult": "1N,2N,3Y,4N"
 }

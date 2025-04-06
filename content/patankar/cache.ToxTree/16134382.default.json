@@ -1,5 +1,5 @@
 {
-    "Cramerflags": NaN,
+    "Cramerflags": null,
     "CramerRules": "High (Class III)",
     "AtomDefStereoCount": 0,
     "AtomUdefStereoCount": 0,
@@ -36,7 +36,7 @@
     "Smiles": "C1([H])=C([H])C([H])=C(C([H])=C1[H])C(=C(C#N)C(=O)OC([H])([H])C(C([H])([H])OC(=O)C(=C(C2=C([H])C([H])=C([H])C([H])=C2[H])C3=C([H])C([H])=C([H])C([H])=C3[H])C#N)(C([H])([H])OC(=O)C(=C(C4=C([H])C([H])=C([H])C([H])=C4[H])C5=C([H])C([H])=C([H])C([H])=C5[H])C#N)C([H])([H])OC(=O)C(=C(C6=C([H])C([H])=C([H])C([H])=C6[H])C7=C([H])C([H])=C([H])C([H])=C7[H])C#N)C8=C([H])C([H])=C([H])C([H])=C8[H]",
     "TotalCharge": 0,
     "XlogP3Aa": 15.5,
-    "CdkRemark": NaN,
+    "CdkRemark": null,
     "CdkTitle": 16134382,
     "ToxtreeTreeCramerCramertreeresult": "1N,2Y"
 }

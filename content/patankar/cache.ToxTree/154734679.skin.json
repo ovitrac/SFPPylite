@@ -5,7 +5,7 @@
     "AlertForSn2Identified": "NO",
     "AlertForSnarIdentified": "NO",
     "AlertForSchiffBaseFormationIdentified": "NO",
-    "Cramerflags": NaN,
+    "Cramerflags": null,
     "NoSkinSensitisationReactivityDomainsAlertsIdentified": "YES",
     "AtomDefStereoCount": 0,
     "AtomUdefStereoCount": 0,
@@ -40,6 +40,6 @@
     "OpeneyeIsoSmiles": "[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ni+2].[W].[W]",
     "Smiles": "[Ni+2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[O-2].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[Ti+4].[W].[W]",
     "TotalCharge": -12,
-    "CdkRemark": NaN,
+    "CdkRemark": null,
     "CdkTitle": 154734679
 }
