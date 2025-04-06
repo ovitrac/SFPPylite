@@ -16,7 +16,7 @@
 
 > 🟢 Status update: **Production-ready** with full support for SFPPy notebooks  
 > ✅ Complete support for simulation, plotting, curve fitting, and export to PDF/XLSX/CSV  
-> 🌍 Integrated databases: EU Regulation Annex I, US FDA FCN lists, Chinese positive lists — over 2400 substances included   
+> 🌍 Integrated databases: EU Regulation Annex I, US FDA FCN lists, Chinese positive lists — ~1300 substances included with toxicological assessment   
 > 📦 Runs seamlessly in-browser — no setup needed, fully compatible with modern tablets  
 > 🗃️ Files persist in your browser between sessions — drag & drop your own files anytime   
 > 🔄 Automatically stays up to date with the latest data and features 
@@ -32,7 +32,7 @@
 
 ### 🚀 What is SFPPy-Lite?
 
-🌐 **SFPPy-Lite** is a **lightweight (22 MB), browser-based preview** of the full **SFPPy framework**.
+🌐 **SFPPy-Lite** is a **lightweight (32 MB), browser-based preview** of the full **SFPPy framework**.
  It is built on [**JupyterLite**](https://jupyterlite.readthedocs.io/), and runs Python entirely in the browser using [**Pyodide**](https://pyodide.org/) (WebAssembly-based).
 
 You can explore and use **SFPPy’s core functionalities** **instantly** — with **no installation required** and **nothing to configure**.
@@ -81,25 +81,26 @@ You can explore and use **SFPPy’s core functionalities** **instantly** — wit
 
 *All usage options are free of charge.*
 
-|                                    Feature / Capability | 💫💻 **SFPPy (Desktop)**                            | 🌐 **SFPPyLite (Browser)**                          | ☁️ **SFPPy in Google Colab**              |
-| ------------------------------------------------------: | ------------------------------------------------- | -------------------------------------------------- | ---------------------------------------- |
-|   **AI-powered assistance (*e.g.* for interpretation)** | ❌ Not available or use **Jupyter Lab** extensions | ❌ Not available or use external extensions         | ✅ Available (via Gemini)                 |
-|                               **Installation required** | Yes (Python + dependencies)                       | ❌ No installation (runs in-browser)                | ❌ No installation (via bootstrap script) |
-|                            **Notebook execution speed** | Full native performance                           | ⏱️ ~2× slower (WebAssembly limits)                  | ✅ Fast (depends on Google backend)       |
-|                **Simulation resolution / memory usage** | High (limited by system resources)                | Reduced for complex models (browser memory limits) | High (usually)                           |
-|               **Graphical plotting (SVG, PNG, Retina)** | ✅ Full support                                    | ✅ Full support                                     | ✅ Full support                           |
-|                    **Curve fitting and modeling tools** | ✅ Available                                       | ✅ Available                                        | ✅ Available                              |
-|                     **Export formats (PDF, XLSX, CSV)** | ✅ Full support                                    | ✅ Full support                                     | ✅ Full support                           |
-|                   **Annex I (Regulation (EU) 10/2011)** | ✅ Integrated and queryable                        | ✅ Integrated and queryable                         | ✅ Integrated and queryable               |
-|                              **US FDA FCN list (2025)** | ✅ Integrated and queryable                        | ✅ Integrated and queryable                         | ✅ Integrated and queryable               |
-| **Appendices A1-A7 (Chinese standard GB GB 9685-2016)** | ✅ Integrated and queryable                        | ✅ Integrated and queryable                         | ✅ Integrated and queryable               |
-|                         **PubChem substance retrieval** | ✅ Fully functional                                | ⚠️ Partial (read-only, limited write support)       | ✅ Full access                            |
-|                                 **ToxTree integration** | ✅ Supported                                       | ❌ Not supported (WebAssembly incompatible)         | ✅ Supported                              |
-|         **Self-archiving and reporting (PDF + .ipynb)** | ✅ Automatic or manual                             | ❌ Not supported                                    | ✅ Manual (download/export)               |
-|             **Session persistence / multi-tab support** | Depends on setup                                  | ✅ Fully supported (via IndexedDB)                  | ❌ Not persistent between sessions        |
-|                                       **Offline usage** | ✅ Once installed                                  | ✅ After initial load (cached in browser)           | ❌ Requires internet                      |
-|                         **Custom file upload/download** | ✅ OS-level                                        | ✅ Browser-based (drag & drop or panel)             | ✅ Upload/download via Colab UI           |
-|                                **🛠️ Updating Mechanism** | 🔁 Manual updates via Git or package manager       | 🔄 Always updated to latest sources (on load)       | 🔄 Bootstrapped from latest version       |
+|                                    Feature / Capability | 💫💻 **SFPPy (Desktop)**                            | 🌐 **SFPPyLite (Browser)**                             | ☁️ **SFPPy in Google Colab**              |
+| ------------------------------------------------------: | ------------------------------------------------- | ----------------------------------------------------- | ---------------------------------------- |
+|   **AI-powered assistance (*e.g.* for interpretation)** | ❌ Not available or use **Jupyter Lab** extensions | ❌ Not available or use external extensions            | ✅ Available (via Gemini)                 |
+|                               **Installation required** | Yes (Python + dependencies)                       | ❌ No installation (runs in-browser)                   | ❌ No installation (via bootstrap script) |
+|                            **Notebook execution speed** | Full native performance                           | ⏱️ ~2× slower (WebAssembly limits)                     | ✅ Fast (depends on Google backend)       |
+|                **Simulation resolution / memory usage** | High (limited by system resources)                | Reduced for complex models (browser memory limits)    | High (usually)                           |
+|               **Graphical plotting (SVG, PNG, Retina)** | ✅ Full support                                    | ✅ Full support                                        | ✅ Full support                           |
+|                    **Curve fitting and modeling tools** | ✅ Available                                       | ✅ Available                                           | ✅ Available                              |
+|                     **Export formats (PDF, XLSX, CSV)** | ✅ Full support                                    | ✅ Full support                                        | ✅ Full support                           |
+|                   **Annex I (Regulation (EU) 10/2011)** | ✅ Integrated and queryable                        | ✅ Integrated and queryable                            | ✅ Integrated and queryable               |
+|                              **US FDA FCN list (2025)** | ✅ Integrated and queryable                        | ✅ Integrated and queryable                            | ✅ Integrated and queryable               |
+| **Appendices A1-A7 (Chinese standard GB GB 9685-2016)** | ✅ Integrated and queryable                        | ✅ Integrated and queryable                            | ✅ Integrated and queryable               |
+|                         **PubChem substance retrieval** | ✅ Fully functional                                | ⚠️ Partial (read-only, limited write support)          | ✅ Full access                            |
+|                            **Toxicological assessment** | ✅ Fully functional                                | ⚠️ Cramer class and alerts for shipped substances only | ✅ Fully functional                       |
+|                                 **ToxTree integration** | ✅ Supported                                       | ❌ Not supported (WebAssembly incompatible)            | ✅ Supported                              |
+|         **Self-archiving and reporting (PDF + .ipynb)** | ✅ Automatic or manual                             | ❌ Not supported                                       | ✅ Manual (download/export)               |
+|             **Session persistence / multi-tab support** | Depends on setup                                  | ✅ Fully supported (via IndexedDB)                     | ❌ Not persistent between sessions        |
+|                                       **Offline usage** | ✅ Once installed                                  | ✅ After initial load (cached in browser)              | ❌ Requires internet                      |
+|                         **Custom file upload/download** | ✅ OS-level                                        | ✅ Browser-based (drag & drop or panel)                | ✅ Upload/download via Colab UI           |
+|                                **🛠️ Updating Mechanism** | 🔁 Manual updates via Git or package manager       | 🔄 Always updated to latest sources (on load)          | 🔄 Bootstrapped from latest version       |
 
 
 

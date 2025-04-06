@@ -133,7 +133,7 @@ if 'migrant' not in dir():
 from patankar.useroverride import useroverride # useroverride is already an instance (not a class)
 
 
-__all__ = ['AdhesiveAcrylate', 'AdhesiveEVA', 'AdhesiveNaturalRubber', 'AdhesivePU', 'AdhesivePVAC', 'AdhesiveSyntheticRubber', 'AdhesiveVAE', 'Cardboard', 'HDPE', 'HIPS', 'LDPE', 'LLDPE', 'PA6', 'PA66', 'PBT', 'PEN', 'PMMA', 'PP', 'PPrubber', 'PS', 'PVAc', 'Paper', 'R', 'RT0K', 'SBS', 'SI', 'SIbase', 'T0K', 'air', 'check_units', 'create_multi_layer_widget', 'create_polymer_dropdown', 'fixSIbase', 'format_scientific_latex', 'gPET', 'help_layer', 'iRT0K', 'layer', 'layerLink', 'list_layer_subclasses', 'list_materials', 'material', 'mesh', 'migrant', 'oPP', 'plasticizedPVC', 'qSI', 'rHIPS', 'rPET', 'rPS', 'resolve_material', 'rigidPVC', 'toSI', 'wPET']
+__all__ = ['AdhesiveAcrylate', 'AdhesiveEVA', 'AdhesiveNaturalRubber', 'AdhesivePU', 'AdhesivePVAC', 'AdhesiveSyntheticRubber', 'AdhesiveVAE', 'Cardboard', 'HDPE', 'HIPS', 'LDPE', 'LLDPE', 'PA6', 'PA66', 'PBT', 'PEN', 'PMMA', 'PP', 'PPrubber', 'PS', 'PVAc', 'Paper', 'R', 'RT0K', 'SBS', 'SI', 'SIbase', 'T0K', 'air', 'check_units', 'create_multi_layer_widget', 'create_polymer_dropdown', 'fixSIbase', 'format_scientific_latex', 'gPET', 'help_layer', 'iRT0K', 'layer', 'layerLink', 'list_layer_subclasses', 'list_materials', 'material', 'mesh', 'migrant', 'oPP', 'plasticizedPVC', 'qSI', 'rHIPS', 'rPET', 'rPS', 'resolve_material', 'rigidPVC', 'toSI', 'useroverride', 'wPET']
 
 __project__ = "SFPPy"
 __author__ = "Olivier Vitrac"
