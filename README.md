@@ -1,14 +1,19 @@
 # **🐍 SFPPy-Lite 🌐**
 <div align="center">
 
-| ![Generative Simulation](extra/assets/logo.png) | This project is part of the <br />[Generative Simulation](https://github.com/ovitrac/generativeSimulation) demonstrators | Say it.<br />Simulate it with AI. |
-| ---------------------------------------------- | ------------------------------------------------------------ | --------------------------------- |
+| ![Generative Simulation](extra/assets/logo.png) | This project is part of the <br />[Generative Simulation](https://github.com/ovitrac/generativeSimulation) demonstrators | Say it.<br />Simulate it with AI. | <img src="extra/assets/SFPPy.svg" alt="SFPPy GPT" width="90px" /> |
+| ----------------------------------------------- | ------------------------------------------------------------ | --------------------------------- | -----------------------------------------------------------: |
 
 </div>
 
 ---
 
-> 🍏⏩🍎 **SFPPy**: A Python Framework for Food Contact Compliance & Risk Assessment  
+> 🍏⏩🍎 **SFPPy**: *A Python Framework for Food Contact Compliance & Risk Assessment*  
+>
+> | <img src="extra/assets/SFPPy_social.png" alt="SFPPy – Scientific Framework for Food Packaging" width="320"/> | [![ChatGPT SFPPy & SFPPylite](https://img.shields.io/badge/ChatGPT-SFPPy_&_SFPPylite-orange?logo=openai)](https://chatgpt.com/g/g-6780fa0b1180819198ea1d962dd4064c-sfppy) <br/> 🔥A custom AI assistant 🤖 extensively trained on **SFPPy** 🏋🏻. It helps you explore and use the framework: from the **principles of migration modeling** ⚙️ to **first simulations** 📈, **regulatory compliance** ✅, **interpretation** 📊, and reporting**📝. |
+> | :----------------------------------------------------------: | :----------------------------------------------------------- |
+
+
 
 ### 🚀 SFPPyLite
 
