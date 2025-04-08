@@ -463,6 +463,9 @@ def create_header_footer(what="head", title="SFPPy - Notebook Index 📑",height
         return (HTML(header),HTML(footer),HTML(separator))
     raise ValueError(f'{what} is not recognized, use "head", "foot" , both' or 'all')
 
+# %% additional elements
+separator2 = HTML('<hr style="border: none; height: 4px; width: 60%; margin: 2em auto; background-color: #4CAF50; border-radius: 2px;">');
+
 # %% Big Separator with hide/show buttons
 def bigseparator(tag="section"):
     """ shows a big separator with hide/show buttons"""
