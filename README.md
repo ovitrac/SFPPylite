@@ -9,9 +9,9 @@
 ---
 
 <div align="center">
-<img src="extra/assets/SFPPy_latte04.jpg" alt="SFPPylite" height="149px" />
-<img src="extra/assets/SFPPy_latte05.jpg" alt="SFPPy Latte" height="149px" /><img src="extra/videos/BPAdance2.gif" alt="BPA Dance"  height="149px" />
-<img src="extra/assets/SFPPydancing.jpg" alt="SFPPy: AI can help demonstrate safety" height="149px" />
+<img src="extra/assets/SFPPy_latte04.jpg" alt="SFPPylite" height="148px" />
+<img src="extra/assets/SFPPy_latte05.jpg" alt="SFPPy Latte" height="148px" /><img src="extra/videos/BPAdance2.gif" alt="BPA Dance"  height="148px" />
+<img src="extra/assets/SFPPydancing.jpg" alt="SFPPy: AI can help demonstrate safety" height="148px" />
 </div>
 
 
