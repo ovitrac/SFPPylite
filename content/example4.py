@@ -43,11 +43,23 @@ This script demonstrates **an advanced approach for parameter estimation** in fo
 @author: INRAE\\olivier.vitrac@agroparistech.fr
 @licence: MIT
 """
+# %% Output Folder & layout
+# -------------------------
+# Define the output directory to store results.
+import os
+outputfolder = os.path.join(os.getcwd(), "tmp")  # Full path
+os.makedirs(outputfolder, exist_ok=True)  # Create folder if missing
+# 👤 User Overrides to set units for plotting
+from patankar.useroverride import useroverride # type useroverride <enter>
+useroverride.update(
+    tunit = "days",    # time units (can be any value s,min,days,weeks,months,years)
+    lunit = "µm",      # length units (can be any value, nm, µm or um, mm,cm or even in)
+    Cunit = "mg/kg",  # set concentration units instead of a.u.
+    )
 
 # %% Import Dependencies
 from patankar.layer import layer, layerLink
 from patankar.food import foodlayer
-
 # %% Define a Monolayer Material (P)
 P = layer(
     l=(100, "um"),
@@ -127,4 +139,7 @@ print(f"Fitted D = {D.values} [m²/s] vs. Original D = {Dreference} [m²/s]")
 print(f"Fitted k = {k.values} [a.u.] vs. Original k = {kreference} [a.u.]")
 
 # Plot optimized results
-R.comparison.plotCF()
+comparison_fig = R.comparison.plotCF()
+
+printconfig = {"filename":"Ex4finalfit","destinationfolder": outputfolder, "overwrite": True}
+comparison_fig.print(**printconfig)

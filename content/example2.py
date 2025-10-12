@@ -44,15 +44,20 @@ from patankar.migration import senspatankar as solver # Mass transfer solver
 from patankar.migration import CFSimulationContainer as store # Store results
 from patankar.migration import print_figure # Printing functions
 from patankar.layer import _toSI            # Convert units to SI
-
+from patankar.useroverride import useroverride # type useroverride <enter> to see implemented overrides
 import matplotlib.pyplot as plt
 
-# %% Output Folder
-# ----------------
+# %% Output Folder & layout
+# -------------------------
 # Define the output directory to store results
 outputfolder = os.path.join(os.getcwd(), "tmp")
 os.makedirs(outputfolder, exist_ok=True)  # Create folder if missing
-
+# 👤 User Overrides to set units for plotting
+useroverride.update(
+    tunit = "days",    # time units (can be any value s,min,days,weeks,months,years)
+    lunit = "µm",      # length units (can be any value, nm, µm or um, mm,cm or even in)
+    Cunit = "mg/kg",  # set concentration units instead of a.u.
+    )
 # %% Define Contact Conditions
 # ----------------------------
 # Store numbers with their units in a tuple

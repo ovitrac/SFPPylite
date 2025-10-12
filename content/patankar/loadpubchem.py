@@ -118,7 +118,7 @@ Note
 - The synonyms approach: Default matching is **exact** (lowercased). Fuzzy or partial matches require custom logic.
 
 
-@version: 1.41
+@version: 1.50
 @project: SFPPy - SafeFoodPackaging Portal in Python initiative
 @author: INRAE\\olivier.vitrac@agroparistech.fr
 @licence: MIT
@@ -133,33 +133,28 @@ Version History
 - 1.32: migrant Toxtree
 - 1.37: Colab compliance
 - 1.41: US FCN, GBGB9685
+- 1.50: release with message.print()
 
 """
 
 
-import os, io, sys, time
+import os,io, shutil
 import subprocess
+import requests
 import json
 import re
 import glob
 import pandas as pd
 import numpy as np
+import math
 from datetime import datetime
 import time
-from PIL import Image, ImageChops
-PIL_AVAILABLE = True # True on LITE
 
-# Detection if is SFPPY (lite) running in a browser via Jupyterlite
-_LITE_ = sys.platform == 'emscripten' or "pyodide" in sys.modules
-
-if not _LITE_:
-    import requests # not available in Jupyterlite
-else:
-    from pyodide.http import open_url # for SDF (GET method)
-    from urllib.error import HTTPError
-
-# urlopen working in LITE
-from patankar.private.lite_urlopen import urlopen # universal urlopen for Pyodide single-thread environment
+try:
+    from PIL import Image, ImageChops
+    PIL_AVAILABLE = True
+except ImportError:
+    PIL_AVAILABLE = False
 
 # private version of pubchempy
 from patankar.private.pubchempy import get_compounds
@@ -172,9 +167,10 @@ import patankar.private.USFDAfcn as complyUS # US FCN inventory list (idem)
 # Chinese rules
 import patankar.private.GBappendixA as complyCN # Chinese Appendix A (GB 9685-2016)
 
-__all__ = ['CompoundIndex', 'create_substance_widget', 'dbannex1', 'dbfca', 'dbfcn', 'dbdefault', 'floatNone', 'get_compounds', 'migrant', 'migrantToxtree', 'parse_molblock', 'parse_sdf', 'polarity_index']
 
-__project__ = "SFPPylite"
+__all__ = ['CompoundIndex', 'create_substance_widget', 'dbannex1', 'dbfca', 'dbfcn', 'floatNone', 'get_compounds', 'get_default_index', 'get_java_version', 'is_java_available', 'migrant', 'migrantToxtree', 'parse_molblock', 'parse_sdf', 'polarity_index', 'safe_json_dump', 'unique']
+
+__project__ = "SFPPy"
 __author__ = "Olivier Vitrac"
 __copyright__ = "Copyright 2022"
 __credits__ = ["Olivier Vitrac"]
@@ -182,10 +178,6 @@ __license__ = "MIT"
 __maintainer__ = "Olivier Vitrac"
 __email__ = "olivier.vitrac@agroparistech.fr"
 __version__ = "1.41"
-
-# DEBUG MODE
-# Issues with JupyterLite Pyodide FS layer (specifically IDBFS)
-_DEBUG_ = False
 
 
 # %% SFFy.Comply databases version 2025
@@ -206,34 +198,26 @@ if complyCN.GBappendixA.isindexinitialized(): # GB 9685-2016 positive list (1293
     doFCA = True
 else:
     doFCA = False
-
 # %% Private functions and constants (used by estimators)
 
 # full path of patankar/ used cache.PubChem, cache.Toxtree, private/toxtree/
-if _LITE_:
-    _PATANKAR_FOLDER = "/drive/patankar"
-else:
-    _PATANKAR_FOLDER = os.path.dirname(__file__)
-    
-
-# Safe CacheCheck for _LITE_
-def PubChemCacheCheck(cache_dir):
-    """Cache Check Optimized for LITE"""
-    if os.path.exists(cache_dir):
-        if os.path.isdir(cache_dir):
-            return  # Already a directory — OK
-        elif os.path.isfile(cache_dir):
-            if _LITE_:
-                os.remove(cache_dir)  # Remove file to create directory
-            else:
-                raise FileExistsError(f"{cache_dir} exists as a file. Fix it.")
-        else:
-            raise OSError(f"Path exists but is not a file or directory: {path}")
-    os.makedirs(cache_dir, exist_ok=True)
+_PATANKAR_FOLDER = os.path.dirname(__file__)
 
 # Enforcing rate limiting cap: https://www.ncbi.nlm.nih.gov/books/NBK25497/
 PubChem_MIN_DELAY = 1 / 3.0  # 1/3 second (333ms)
 PubChem_lastQueryTime = 0 # global variable
+
+def is_java_available():
+    """Returns True if java is installed"""
+    return shutil.which("java") is not None
+
+def get_java_version():
+    """Returns the java version"""
+    try:
+        result = subprocess.run(["java", "-version"], capture_output=True, text=True)
+        return result.stderr.splitlines()[0]  # Java prints version to stderr
+    except FileNotFoundError:
+        return None
 
 # utility to generate JSON compliant files (required for Pyodide)
 def safe_json_dump(obj, path, indent=4, **kwargs):
@@ -325,9 +309,10 @@ floatNone = lambda x: x if isinstance(x, (float, type(None))) else float(x)
 def polarity_index(logP=None, V=None, name=None,
                    Vw=19.588376948550433,  # migrant("water").molarvolumeMiller
                    Vo=150.26143432234372,  # migrant("octanol").molarvolumeMiller
-                   A=0.18161296829146106,
-                   B=-3.412678660396018,
-                   C=14.813767205916765):
+                   A=0.07485019080020634, #0.18161296829146106,
+                   B=-2.268683501033584,  #-3.412678660396018,
+                   C=13.079540672499757   #14.813767205916765
+                   ):
     """
     Computes the polarity index (P') from a given logP value and molar volume V.
     This is done using a quadratic model fitted to experimental data:
@@ -381,8 +366,8 @@ def polarity_index(logP=None, V=None, name=None,
     """
 
     # Define valid logP range based on quadratic model limits
-    Emin = C - B**2 / (4*A)  # ≈ -2.78 (theoretical minimum lnKow=E)
-    Emax = C                 # ≈ 14.81 (theoretical maximum logP)
+    Emin = C - B**2 / (4*A)  # ≈ -4.111 #-2.78 (theoretical minimum lnKow=E)
+    Emax = C                 # ≈ 13.079 #14.81 (theoretical maximum logP)
     Pmax = 10.2  # Saturation value for highly polar solvents
 
     # Fetch logP and V if `name` is given
@@ -390,7 +375,7 @@ def polarity_index(logP=None, V=None, name=None,
         if name is None:
             #raise ValueError("Provide either (logP, V) pair or a valid solvent name.")
             return None
-        #from patankar.loadpubchem import migrant
+        # from patankar.loadpubchem import migrant (not needed anymore since it moved to loadpubchem)
         tmp = migrant(name)
         logP, V = tmp.logP, tmp.molarvolumeMiller
 
@@ -405,10 +390,22 @@ def polarity_index(logP=None, V=None, name=None,
     if logP.shape != V.shape:
         raise ValueError("logP and V must have the same shape or V must be a scalar.")
 
-    def compute_P(logP_value, V_value):
-        """Computes P' for a single logP and V value after input validation."""
-        S = - (1/Vw - 1/Vo) * V_value
-        E = logP_value * 2.302585092994046 - S  # Convert logP to natural log (ln)
+    def compute_P(logP_value, V_value, rcritical=3.0):
+        """Compute P' for a single (logP, V) with compressibility correction.
+           n(r) = max(0, r/rcritical - 1) applied to r = V_i / V_j.
+        """
+        # ratios r_{i,j}
+        rw = V_value / Vw
+        ro = V_value / Vo
+
+        # compressibility correction n(r)
+        def n_of(r):
+            return r / rcritical - 1.0 if r >= rcritical else 0.0
+
+        # entropic/size-correction term (FH-consistent)
+        # S = - (1/Vw - 1/Vo) * V_value
+        # E = logP_value * 2.302585092994046 - S  # Convert logP to natural log (ln)
+        E = logP_value * 2.302585092994046 + (rw - ro) - (n_of(rw) - n_of(ro))
 
         # Handle extreme values
         if E < Emin:
@@ -859,8 +856,7 @@ class CompoundIndex:
         :param index_file: local JSON file holding synonyms → [cids] index
         """
         self.cache_dir = os.path.join(_PATANKAR_FOLDER,cache_dir)
-
-        PubChemCacheCheck(self.cache_dir)
+        os.makedirs(self.cache_dir, exist_ok=True)
 
         self.index_file = os.path.join(self.cache_dir, index_file)
         # Regex to identify CAS-like strings, e.g. "1234-56-7"
@@ -911,33 +907,17 @@ class CompoundIndex:
             # Possibly regenerate the *.simple.json
             simple_dict = self._generate_simple_dict(full_data, synonyms_set)
             simple_path = os.path.join(self.cache_dir, f"cid{cid}.simple.json")
-            if _DEBUG_: input("Ready to regenerate the input")
-            if _LITE_:
-                PubChemCacheCheck(self.cache_dir)
-                datatowrite = json.dump(simple_dict)
-                with open(simple_path, "w", encoding="utf-8") as fw:
-                    fw.write(datatowrite)
-            else:            
-                with open(simple_path, "w", encoding="utf-8") as fw:
-                    json.dump(simple_dict, fw, indent=2)
-            if _DEBUG_: input("Input regenerated")
-            
+            with open(simple_path, "w", encoding="utf-8") as fw:
+                json.dump(simple_dict, fw, indent=2)
+
             # Add synonyms to the index
             for syn in simple_dict.get("synonyms", []):
                 self._add_synonym_to_index(syn, cid)
 
         # Save updated index
-        if _DEBUG_: input("Ready to save the updated index")
-        if _LITE_:
-            PubChemCacheCheck(self.cache_dir)
-            datatowrite = json.dump(self.index)
-            with open(self.index_file, "w", encoding="utf-8") as f:
-                f.write(datatowrite)
-        else:
-            with open(self.index_file, "w", encoding="utf-8") as f:
-                json.dump(self.index, f, indent=2)
-        if _DEBUG_: input("Updated index Saved")
-                
+        with open(self.index_file, "w", encoding="utf-8") as f:
+            json.dump(self.index, f, indent=2)
+
     def _add_synonym_to_index(self, synonym, cid):
         """
         Helper to map a single synonym→cid in self.index.
@@ -1146,20 +1126,9 @@ class CompoundIndex:
             # Save the "full" record
             full_name = f"cid{cid}.full.json"
             full_path = os.path.join(self.cache_dir, full_name)
-            if _DEBUG_: input("1A")
-            if _LITE_:
-                PubChemCacheCheck(self.cache_dir)
-                datatowrite = json.dumps(best_dict)  # or indent=2 if needed
-                if _DEBUG_:
-                    print("DEBUG: Writing to", full_path)
-                    print("DEBUG: Is directory?", os.path.isdir(self.cache_dir))
-                    print("DEBUG: Listing parent:", os.listdir(os.path.dirname(self.cache_dir)))
-                with open(full_path, "w", encoding="utf-8") as fw:
-                    fw.write(datatowrite)
-            else:            
-                with open(full_path, "w", encoding="utf-8") as fw:
-                    json.dump(best_dict, fw, indent=2)
-            if _DEBUG_: input("1B")
+            with open(full_path, "w", encoding="utf-8") as fw:
+                json.dump(best_dict, fw, indent=2)
+
             # Now prepare the synonyms set from that new record
             synonyms_set = self._gather_synonyms(best_dict)
             # Generate the "simple" record
@@ -1168,34 +1137,18 @@ class CompoundIndex:
             # Save the "simple" record
             simple_name = f"cid{cid}.simple.json"
             simple_path = os.path.join(self.cache_dir, simple_name)
-            if _DEBUG_: input("2A")
-            if _LITE_:
-                PubChemCacheCheck(self.cache_dir)
-                datatowrite = json.dumps(simple_dict)  # or indent=2 if needed
-                with open(full_path, "w", encoding="utf-8") as fw:
-                    fw.write(datatowrite)
-            else:
-                with open(simple_path, "w", encoding="utf-8") as fw:
-                    json.dump(simple_dict, fw, indent=2)
-            if _DEBUG_: input("2B")
-            
+            with open(simple_path, "w", encoding="utf-8") as fw:
+                json.dump(simple_dict, fw, indent=2)
+
             # Update the index with synonyms
             for syn in simple_dict.get("synonyms", []):
                 self._add_synonym_to_index(syn, cid)
             # Also index the raw query itself
             self._add_synonym_to_index(query, cid)
 
-            if _DEBUG_: input("3A")
-            if _LITE_:
-                PubChemCacheCheck(self.cache_dir)
-                datatowrite = json.dumps(self.index)  # or indent=2 if needed
-                with open(self.index, "w", encoding="utf-8") as fw:
-                    fw.write(datatowrite)
-            else:
-                with open(self.index_file, "w", encoding="utf-8") as f:
-                    json.dump(self.index, f, indent=2)
-            if _DEBUG_: input("3B")
-                
+            with open(self.index_file, "w", encoding="utf-8") as f:
+                json.dump(self.index, f, indent=2)
+
             # Return a single-row DataFrame
             if output_format == "full":
                 return pd.DataFrame([best_dict])
@@ -1233,6 +1186,7 @@ def get_default_index():
     if dbdefault is None:
         dbdefault = CompoundIndex(cache_dir="cache.PubChem", index_file="pubchem_index.json")
     return dbdefault
+
 
 # Model extensions to be tested with PropertyModelSelector()
 """
@@ -1460,7 +1414,7 @@ class migrant:
                               "porosity":0       # of amorphous phase (1-crystallinity)(1-porosity)
                               }, # do not use None
 
-                 db = None, # cache.PubChem database
+                 db = None, # should be None to prevent execution at import
 
                  raiseerror=True, # raise an error if the susbtance is not found
 
@@ -1866,48 +1820,26 @@ class migrant:
 
     def _download_SDF(self):
         """Downloads and caches the SDF structure file from PubChem."""
-        if self.structure_file and os.path.isfile(self.structure_file) and not self.no_cache:
-            return
         os.makedirs(self._cache_SDF_dir, exist_ok=True)
-        if self.structure_file:
+        if self.structure_file and (not os.path.isfile(self.structure_file) or self.no_cache):
             sdf_url = f"{self.PUBCHEM_ROOT_URL}/CID/{self.cid}/SDF"
-            if _LITE_:  # Running in Pyodide/JupyterLite – use browser API                
-                file_obj = open_url(sdf_url)  # browser api
-                data = file_obj.read()        # read text content from StringIO
-                data = data.encode()          # ensure bytes for writing
-            else:
-                response = requests.get(sdf_url, timeout=2)
-                data = response.content if response.status_code == 200 else None
-            if data is not None:
+            response = requests.get(sdf_url, timeout=2)
+            if response.status_code == 200:
                 with open(self.structure_file, 'wb') as f:
-                    f.write(data)
+                    f.write(response.content)
             else:
                 raise ValueError(f"Failed to download SDF file for CID {self.cid}.")
 
     def _download_PNG(self):
         """Downloads and caches the PNG thumb file from PubChem."""
-        if self.image_file and os.path.isfile(self.image_file) and not self.no_cache:
-            return
         os.makedirs(self._cache_PNG_dir, exist_ok=True)
-        if self.image_file:
+        if self.image_file and (not os.path.isfile(self.image_file) or self.no_cache):
             png_url = f"{self.PUBCHEM_ROOT_URL}/CID/{self.cid}/PNG?image_size={self.IMAGE_SIZE[0]}x{self.IMAGE_SIZE[1]}"
-            if _LITE_:
-                try:
-                    response = urlopen(png_url)  # works in both CPython and JupyterLite
-                    content = response.read()
-                    with open(self.image_file, "wb") as f:
-                        f.write(content)
-                    self._crop_image()
-                except HTTPError as e:
-                    raise ValueError(f"Failed to download PNG for CID {self.cid}. HTTP status: {e.code}")
-            else:
-                response = requests.get(png_url, timeout=1)
-                if response.status_code == 200:
-                    with open(self.image_file, 'wb') as f:
-                        f.write(response.content)
-                    self._crop_image()
-                else:
-                    raise ValueError(f"Failed to download PNG for CID {self.cid}.")
+            response = requests.get(png_url, timeout=1)
+            if response.status_code == 200:
+                with open(self.image_file, 'wb') as f:
+                    f.write(response.content)
+                self._crop_image()
 
     def _crop_image(self):
         """Crops white background from the PNG image."""
@@ -1949,10 +1881,7 @@ class migrant:
             if os.path.isfile(self.image_file):
                 return Image.open(self.image_file)
             else:
-                if _LITE_:
-                    print(f"The raster image of {self.compound} is not available yet")
-                else:
-                    print(f"The expected file {self.image_file} does not exist")
+                print(f"the expected file {self.image_file} does not exist")
 
     # rawimage property
     @property
@@ -1964,10 +1893,7 @@ class migrant:
                     image_bytes = f.read()
                 return image_bytes
             else:
-                if _LITE_:
-                    print(f"The raster image of {self.compound} is not available yet")
-                else:
-                    print(f"The expected file {self.image_file} does not exist")
+                print(f"the expected file {self.image_file} does not exist")
 
     # structure
     @property
@@ -2872,6 +2798,8 @@ class migrantToxtree(migrant):
 
         # use Toxtree otherwise (it needs to be installed)
         if not os.path.isfile(csv_file) or self.no_cache:
+            if not is_java_available():
+                raise RuntimeError("Java must be installed to run ToxTree")
             if not os.path.isfile(self.jar_path):
                 raise FileNotFoundError(
                     f"The Toxtree executable '{self.jar_path}' cannot be found.\n"
@@ -2904,18 +2832,9 @@ class migrantToxtree(migrant):
         # refresh/generate CACHED JSON from CSV
         df = pd.read_csv(csv_file)
         cleaned_data = self._clean_field_names(df.to_dict(orient='records')[0]) if not df.empty else {}
-        if _DEBUG_: input("Ready to clean cache data")
-        if _LITE_:
-            PubChemCacheCheck(self.cache_dir)
-            datatowrite = json.dump(cleaned_data)
-            with open(json_file, 'w') as f:
-                f.write(datatowrite)
-        else:
-            with open(json_file, 'w') as f:
-                json.dump(cleaned_data, f, indent=4)
+        safe_json_dump(cleaned_data, json_file, indent=4)
         return cleaned_data
-        if _DEBUG_: input("Cache data cleaned")
-        
+
 
     def class_roman_to_int(self,text):
         """Converts 'Class X' (where X is I, II, III, IV, V) into an integer (1-5), case insensitive."""
@@ -3060,4 +2979,63 @@ class migrantToxtree(migrant):
 # Usage example:
 # ==========================
 if __name__ == "__main__":
-    pass
+    m = migrant("BHT")
+    print(repr(m))
+    m = migrant("Irganox 1076")
+    m = migrant("Irgafos 168")
+    m = migrant("toluene")
+
+
+    # debug
+    [print(migrant(m)) for m in ["toluene", "anisole", "limonene", "BHT", "DEHP", "Irganox 1076", "Irgafos 168","Lindane"]]
+
+    m = migrant("Cyclohexylbenzene")
+    #m = migrant("phenylcyclohexane")
+    migrantToxtree("acetone")
+    m = migrant("di(2-ethylhexyl) phthalate")
+    repr(m)
+    m=migrant("bisphenol A")
+    m.count_rings
+    m.volume_3d
+    m=migrant("water")
+    m.polarityindex
+    # examples
+    db = CompoundIndex()
+    df_simple = db.find("limonene", output_format="simple")
+    df_simple = db.find("aspirin", output_format="simple")
+    df_simple = db.find("irganox 1076", output_format="simple")
+    df_simple = db.find("anisole", output_format="simple")
+    print("Simple result:\n", df_simple)
+
+    df_full = db.find("anisole", output_format="full")
+    print("Full result:\n", df_full)
+
+    # for migration modeling
+    m = migrant(name='anisole')
+    print(m)
+    m = migrant(name='limonene')
+    print(m)
+    m = migrant(name='irganox 1076')
+    print(m)
+    m = migrant(name='irgafos 168')
+    print(m)
+    m = migrant("toluene")
+    print(m)
+    # Piringer D value (several models can be implemented in module property.py)
+    Dval = m.Deval(polymer="PET",T=20)
+    print(Dval)
+
+    # MigranToxtree tests
+    substance = migrantToxtree("irganox 1010")
+    c = substance.cramer
+    c2 = substance.cramer2
+    c3 = substance.cramer3
+    print("Cramer Class:", c)
+    print("Cramer2 Class:", c2)
+    print("Cramer3 Class:", c3)
+
+    # suggest an alternative D model
+    from patankar.layer import gPET, LDPE, PP, rigidPVC
+    material = gPET()+LDPE()+PP()+rigidPVC()
+    m.suggest_alt_Dmodel(material,3)
+    m.suggest_alt_Dmodel(material,1)

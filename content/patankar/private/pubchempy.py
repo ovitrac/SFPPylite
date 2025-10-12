@@ -7,34 +7,52 @@ Python interface for the PubChem PUG REST service.
 https://github.com/mcs07/PubChemPy
 """
 
-import os, sys, time, json, js, io, logging, warnings
+from __future__ import print_function
+from __future__ import unicode_literals
+from __future__ import division
+
 import functools
+import json
+import logging
+import os
+import sys
+import time
+import warnings
 #import binascii # not used fixed by Olivier Vitrac
 
-from urllib.parse import quote, urlencode
-from urllib.error import HTTPError
-from itertools import zip_longest
-from patankar.private.lite_urlopen import urlopen # universal urlopen for Pyodide single-thread environment
+try:
+    from urllib.error import HTTPError
+    from urllib.parse import quote, urlencode
+    from urllib.request import urlopen
+except ImportError:
+    from urllib import urlencode
+    from urllib2 import quote, urlopen, HTTPError
+
+try:
+    from itertools import zip_longest
+except ImportError:
+    from itertools import izip_longest as zip_longest
+
 
 
 __all__ = ['Assay', 'Atom', 'BadRequestError', 'Bond', 'BondType', 'Compound', 'CompoundIdType', 'CoordinateType', 'MethodNotAllowedError', 'NotFoundError', 'ProjectCategory', 'PubChemHTTPError', 'PubChemPyDeprecationWarning', 'PubChemPyError', 'ResponseParseError', 'ServerError', 'Substance', 'TimeoutError', 'UnimplementedError', 'compounds_to_frame', 'deprecated', 'download', 'get', 'get_aids', 'get_all_sources', 'get_assays', 'get_cids', 'get_compounds', 'get_json', 'get_properties', 'get_sdf', 'get_sids', 'get_substances', 'get_synonyms', 'memoized_property', 'request', 'substances_to_frame']
 
 
-__author__ = 'Matt Swain (fixes and SFPPy port: Olivier Vitrac)'
+__author__ = 'Matt Swain (small fixes: Olivier Vitrac)'
 __email__ = 'm.swain@me.com, olivier.vitrac@agroparistech.fr'
 __version__ = '1.0.4'
 __license__ = 'MIT'
-
 
 API_BASE = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug'
 
 log = logging.getLogger('pubchempy')
 log.addHandler(logging.NullHandler())
 
+
 if sys.version_info[0] == 3:
     text_types = str, bytes
 else:
-    text_types = basestring # Python 2 only (normal you seen an error in Python 3) - Olivier Vitrac
+    text_types = basestring # Python 2 only (normal you see an error in Python 3) - Olivier Vitrac
 
 
 class CompoundIdType(object):
@@ -817,12 +835,16 @@ class Compound(object):
     @property
     def canonical_smiles(self):
         """Canonical SMILES, with no stereochemistry information."""
-        return _parse_prop({'label': 'SMILES', 'name': 'Canonical'}, self.record['props'])
+        # before July 2025
+        #return _parse_prop({'label': 'SMILES', 'name': 'Canonical'}, self.record['props'])
+        return _parse_prop({'label': 'SMILES', 'name': 'Absolute'}, self.record['props'])
 
     @property
     def isomeric_smiles(self):
         """Isomeric SMILES."""
-        return _parse_prop({'label': 'SMILES', 'name': 'Isomeric'}, self.record['props'])
+        # before July 2025
+        #return _parse_prop({'label': 'SMILES', 'name': 'Isomeric'}, self.record['props'])
+        return _parse_prop({'label': 'SMILES', 'name': 'Connectivity'}, self.record['props'])
 
     @property
     def inchi(self):
@@ -1337,4 +1359,30 @@ class ServerError(PubChemHTTPError):
 
 
 if __name__ == '__main__':
-    pass
+    print(__version__)
+
+    #from private.pubchempy import get_compounds
+    import re
+
+    # Simple example
+
+    cas_pattern = re.compile(r'^\d{1,7}-\d{2}-\d$')
+    matches = get_compounds('anisole', 'name')
+    nmatches = len(matches)
+    if nmatches>0:
+        synonyms = matches[0].synonyms
+        cas_list = [syn.strip() for syn in synonyms if cas_pattern.match(syn.strip())]
+        record = {
+         'CID': matches[0].cid,
+        'name': matches[0].iupac_name,
+    'synonyms': synonyms,
+         'CAS': cas_list,
+           'M': matches[0].molecular_weight,
+     'formula': matches[0].molecular_formula,
+      'SMILES': matches[0].canonical_smiles,
+       'InChi': matches[0].inchi,
+    'InChiKey': matches[0].inchikey,
+        'logP': matches[0].xlogp,
+       # 'raw' : matches[0], # we store all info as raw
+       'date' : "add here the date of the record"
+       }

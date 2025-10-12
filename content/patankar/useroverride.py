@@ -663,4 +663,7 @@ useroverride.nmesh = 600   # total number of FV volumes in the assembly (the res
 #useroverride.inject()
 
 if __name__ == '__main__':
-    pass
+    useroverride.plotconfig(tscale=(1,'s'))
+    print(useroverride.plotconfig)            # should print full validated dict
+    print(useroverride._plotconfig)           # should match
+    print(useroverride.plotconfig.tscale)     # should match _plotconfig["tscale"]
