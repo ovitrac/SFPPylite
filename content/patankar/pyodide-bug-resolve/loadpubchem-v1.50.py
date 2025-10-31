@@ -1,79 +1,3 @@
-# ==== Pyodide-safe prelude (no third-party HTTP clients) ====
-import sys, os, io, json, time
-from urllib.request import urlopen, Request
-from urllib.error import HTTPError, URLError
-
-_LITE_ = (sys.platform == "emscripten") or ("pyodide" in sys.modules)
-
-# Prefer Pyodide's open_url when available (works well with CORS/fetch),
-# but gracefully fall back to urllib in both Pyodide and CPython.
-try:
-    if _LITE_:
-        from pyodide.http import open_url as _pyodide_open_url
-    else:
-        _pyodide_open_url = None
-except Exception:
-    _pyodide_open_url = None
-
-def _http_get_bytes(url: str, timeout: float | None = None, headers: dict | None = None) -> tuple[int, bytes]:
-    """Return (status_code, content_bytes) using only stdlib/pyodide; no requests."""
-    if headers is None:
-        headers = {}
-    # Some PubChem endpoints require a UA in browser contexts.
-    headers.setdefault("User-Agent", "SFPPylite/1.0 (+pyodide)")
-    try:
-        if _pyodide_open_url is not None:
-            # pyodide.http.open_url returns a file-like object
-            # It may yield str; in that case we encode to bytes.
-            f = _pyodide_open_url(url)
-            data = f.read()
-            if isinstance(data, str):
-                data = data.encode("utf-8", errors="replace")
-            return 200, data
-        # Fallback: urllib everywhere (supported in Pyodide via fetch)
-        req = Request(url, headers=headers)
-        with urlopen(req, timeout=timeout) as resp:
-            code = getattr(resp, "status", 200) or 200
-            data = resp.read()
-            return code, data
-    except HTTPError as e:
-        try:
-            data = e.read()
-        except Exception:
-            data = b""
-        return e.code or 500, data
-    except URLError:
-        return 0, b""
-
-def _http_get_text(url: str, timeout: float | None = None, headers: dict | None = None, encoding: str = "utf-8") -> tuple[int, str]:
-    code, b = _http_get_bytes(url, timeout=timeout, headers=headers)
-    try:
-        return code, b.decode(encoding, errors="replace")
-    except Exception:
-        # last resort
-        try:
-            return code, b.decode("utf-8", errors="replace")
-        except Exception:
-            return code, ""
-
-# ---- Minimal "requests" shim to keep existing code paths working ----
-class _ResponseShim:
-    __slots__ = ("status_code", "content", "text")
-    def __init__(self, status_code: int, content: bytes, text: str | None = None):
-        self.status_code = status_code
-        self.content = content
-        self.text = text if text is not None else content.decode("utf-8", errors="replace")
-
-class _RequestsShim:
-    @staticmethod
-    def get(url: str, timeout: float | None = None, headers: dict | None = None) -> _ResponseShim:
-        code, content = _http_get_bytes(url, timeout=timeout, headers=headers)
-        return _ResponseShim(code, content)
-
-# Expose a symbol named "requests" without importing the third-party package
-requests = _RequestsShim()
-# ================================================================
-
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
@@ -216,7 +140,7 @@ Version History
 
 import os,io, shutil
 import subprocess
-
+import requests
 import json
 import re
 import glob
